@@ -51,7 +51,7 @@ const practiceData: MediaItem[] = [
   },
   {
     id: 7,
-    title: "This artwork tells the story of a whale’s life cycle, from birth to death, as it transforms into a core of pure energy.",
+    title: "This artwork tells the story of a whale's life cycle, from birth to death, as it transforms into a core of pure energy.",
     image: "https://res.cloudinary.com/dnigow6jb/image/upload/v1772674275/%E6%9B%9D%E5%85%89%E5%BA%A6_1_rllvh0.png",
     type: "image",
   },
@@ -464,7 +464,8 @@ function VideoModal({
 }
 
 export function VisualPractice() {
-  const { ref, isInView } = useInView({ threshold: 0.2 });
+  // ✅ 修复1: 降低阈值从 0.2 到 0.05，移动端更容易触发
+  const { ref, isInView } = useInView({ threshold: 0.05 });
   const [selectedVideo, setSelectedVideo] = useState<MediaItem | null>(null);
 
   return (
@@ -473,12 +474,8 @@ export function VisualPractice() {
       ref={ref}
       className="min-h-screen px-6 py-32 bg-[#fafafa]"
     >
-      <motion.div
-        className="max-w-7xl mx-auto"
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+      {/* ✅ 修复2: 移除 motion.div 和 opacity 动画，改用普通 div */}
+      <div className="max-w-7xl mx-auto">
         <motion.div
           className="mb-20 text-[#a8c5d8] tracking-widest uppercase text-sm"
           initial={{ opacity: 0 }}
@@ -499,7 +496,7 @@ export function VisualPractice() {
             />
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* YouTube Video Modal */}
       {selectedVideo && (
