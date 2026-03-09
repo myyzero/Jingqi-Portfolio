@@ -24,5 +24,5 @@ export default defineConfig({
   // If deploying to GitHub Pages at https://<USERNAME>.github.io/<REPO>/
   // Uncomment and set the base to your repo name: base: '/your-repo-name/'
   // If deploying to a custom domain or https://<USERNAME>.github.io/, use: base: '/'
-  base: './',
+  base: '/',
 })
