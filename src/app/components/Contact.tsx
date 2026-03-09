@@ -1,8 +1,12 @@
+import React from "react";
 import { motion } from "motion/react";
 import { useInView } from "./hooks/useInView";
+import type { Language } from "../../../content";
+import { getContactContent } from "../../../content";
 
-export function Contact() {
+export function Contact({ language }: { language: Language }) {
   const { ref, isInView } = useInView({ threshold: 0.3 });
+  const content = getContactContent(language);
 
   return (
     <section
@@ -22,7 +26,7 @@ export function Contact() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          Contact
+          {content.heading}
         </motion.div>
 
         <motion.div
@@ -33,10 +37,10 @@ export function Contact() {
         >
           <div className="pt-8">
             <a
-              href="mailto:jingqi.gu@example.com"
+              href={`mailto:${content.email}`}
               className="text-[#6b6b6b] hover:text-[#a8c5d8] transition-colors duration-300 text-lg tracking-wide"
             >
-              jingqi.gu.24@gmail.com
+              {content.email}
             </a>
           </div>
         </motion.div>
@@ -48,7 +52,7 @@ export function Contact() {
           transition={{ delay: 0.6, duration: 0.8 }}
         >
           <p className="text-xs text-[#6b6b6b] tracking-wider">
-            © 2026 Jingqi Gu
+            {content.footer}
           </p>
         </motion.div>
       </motion.div>

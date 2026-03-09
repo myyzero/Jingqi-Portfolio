@@ -1,9 +1,17 @@
 import { motion } from "motion/react";
 import { useEffect, useState, useRef } from "react";
+import type { Language } from "../../../content";
+import { getLandingContent } from "../../../content";
 
-export function Landing() {
+interface LandingProps {
+  language: Language;
+  onLanguageChange: (language: Language) => void;
+}
+
+export function Landing({ language, onLanguageChange }: LandingProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const content = getLandingContent(language);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -114,7 +122,7 @@ export function Landing() {
             fontWeight: 700,
           }}
         >
-          Jingqi Gu
+          {content.name}
         </motion.h1>
 
         <motion.p
@@ -127,8 +135,37 @@ export function Landing() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
         >
-          Interaction Designer | Technical Artist | Creative Technologist
+          {content.subtitle}
         </motion.p>
+
+        <motion.div
+          className="mt-6 flex items-center justify-center gap-2 text-xs tracking-widest uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1, duration: 0.8 }}
+        >
+          <button
+            onClick={() => onLanguageChange("en")}
+            className={
+              language === "en"
+                ? "text-[#1a1a1a]"
+                : "text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors duration-300"
+            }
+          >
+            EN
+          </button>
+          <span className="text-[#6b6b6b]">|</span>
+          <button
+            onClick={() => onLanguageChange("zh")}
+            className={
+              language === "zh"
+                ? "text-[#1a1a1a]"
+                : "text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors duration-300"
+            }
+          >
+            中文
+          </button>
+        </motion.div>
 
         <motion.div
           className="mt-16 flex items-center justify-center gap-2"
@@ -149,7 +186,7 @@ export function Landing() {
             }}
           />
           <span className="text-sm text-[#6b6b6b] tracking-wide">
-            Scroll to explore
+            {content.scrollLabel}
           </span>
         </motion.div>
       </motion.div>

@@ -1,7 +1,13 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
+import type { Language } from "../../../content";
 
-export function Navigation() {
+interface NavigationProps {
+  language: Language;
+  onLanguageChange: (language: Language) => void;
+}
+
+export function Navigation({ language, onLanguageChange }: NavigationProps) {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("landing");
 
@@ -55,7 +61,7 @@ export function Navigation() {
           ◆
         </button>
 
-        <div className="flex gap-8">
+        <div className="flex items-center gap-8">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -69,6 +75,29 @@ export function Navigation() {
               {item.label}
             </button>
           ))}
+          <div className="flex items-center gap-2 text-xs tracking-widest uppercase">
+            <button
+              onClick={() => onLanguageChange("en")}
+              className={
+                language === "en"
+                  ? "text-[#1a1a1a]"
+                  : "text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors duration-300"
+              }
+            >
+              EN
+            </button>
+            <span className="text-[#6b6b6b]">|</span>
+            <button
+              onClick={() => onLanguageChange("zh")}
+              className={
+                language === "zh"
+                  ? "text-[#1a1a1a]"
+                  : "text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors duration-300"
+              }
+            >
+              中文
+            </button>
+          </div>
         </div>
       </div>
     </motion.nav>
