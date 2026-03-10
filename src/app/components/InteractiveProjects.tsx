@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { useInView } from "./hooks/useInView";
-import { useState } from "react";
+import React, { useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import {
   type Project,
@@ -84,7 +84,7 @@ function ProjectDetail({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="max-w-5xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 py-12">
         <button
           onClick={onClose}
           className="mb-8 text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors text-sm tracking-wider uppercase"
@@ -96,67 +96,178 @@ function ProjectDetail({
           {project.name}
         </h2>
 
-        {/* Image Gallery */}
-        <div className="mb-8">
-          <div className="relative bg-[#fafafa] mb-4 group">
-            <div className={project.id === "mixing-happiness" || project.id === "emotional-trap" ? "w-full" : "aspect-[16/9] w-full"}>
-              <ImageWithFallback
-                src={project.images[currentImageIndex]}
-                alt={`${project.name} - Image ${currentImageIndex + 1}`}
-                className="w-full h-full object-contain"
-              />
-            </div>
-            
-            {/* Navigation Arrows - Transparent */}
-            {project.images.length > 1 && (
-              <>
-                <button
-                  onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? project.images.length - 1 : prev - 1))}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
-                  aria-label="Previous image"
-                >
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setCurrentImageIndex((prev) => (prev === project.images.length - 1 ? 0 : prev + 1))}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
-                  aria-label="Next image"
-                >
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </>
-            )}
-            
-            {/* Image Counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/50 text-white text-sm rounded-full">
-              {currentImageIndex + 1} / {project.images.length}
-            </div>
-          </div>
-          
-          {/* Thumbnail Gallery */}
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            {project.images.map((img, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`flex-shrink-0 w-24 aspect-video overflow-hidden border-2 transition-all ${
-                  currentImageIndex === index
-                    ? "border-[#a8c5d8]"
-                    : "border-transparent opacity-60 hover:opacity-100"
-                }`}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 mb-12">
+          <div className="lg:col-span-3">
+            {/* Image Gallery */}
+            <div className="relative bg-[#fafafa] mb-4 group">
+              <div
+                className={
+                  project.id === "mixing-happiness" ||
+                  project.id === "emotional-trap"
+                    ? "w-full"
+                    : "aspect-[16/10] w-full"
+                }
               >
                 <ImageWithFallback
-                  src={img}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  src={project.images[currentImageIndex]}
+                  alt={`${project.name} - Image ${currentImageIndex + 1}`}
+                  className="w-full h-full object-contain"
                 />
-              </button>
-            ))}
+              </div>
+
+              {/* Navigation Arrows - Transparent */}
+              {project.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() =>
+                      setCurrentImageIndex((prev) =>
+                        prev === 0 ? project.images.length - 1 : prev - 1,
+                      )
+                    }
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    aria-label="Previous image"
+                  >
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() =>
+                      setCurrentImageIndex((prev) =>
+                        prev === project.images.length - 1 ? 0 : prev + 1,
+                      )
+                    }
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    aria-label="Next image"
+                  >
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </button>
+                </>
+              )}
+
+              {/* Image Counter */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/50 text-white text-sm rounded-full">
+                {currentImageIndex + 1} / {project.images.length}
+              </div>
+            </div>
+
+            {/* Thumbnail Gallery */}
+            <div className="flex gap-2 overflow-x-auto pb-2">
+              {project.images.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`flex-shrink-0 w-24 aspect-video overflow-hidden border-2 transition-all ${
+                    currentImageIndex === index
+                      ? "border-[#a8c5d8]"
+                      : "border-transparent opacity-60 hover:opacity-100"
+                  }`}
+                >
+                  <ImageWithFallback
+                    src={img}
+                    alt={`Thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
           </div>
+
+          <div className="lg:col-span-2">
+            {/* Project Info */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div>
+                <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
+                  Type
+                </h3>
+                <p className="text-[#1a1a1a]">{project.type}</p>
+              </div>
+              <div>
+                <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
+                  Role
+                </h3>
+                <p className="text-[#1a1a1a]">{project.role}</p>
+              </div>
+              {project.tools && (
+                <div>
+                  <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
+                    Tools
+                  </h3>
+                  <p className="text-[#1a1a1a]">{project.tools}</p>
+                </div>
+              )}
+              {project.details && (
+                <div>
+                  <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
+                    Details
+                  </h3>
+                  <p className="text-[#1a1a1a]">{project.details}</p>
+                </div>
+              )}
+              {project.website && (
+                <div>
+                  <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
+                    Website
+                  </h3>
+                  <a
+                    href={project.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#a8c5d8] hover:underline text-sm break-all"
+                  >
+                    View Project Website （作品网站）
+                  </a>
+                </div>
+              )}
+              {project.moreDetails && (
+                <div>
+                  <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
+                    More Details
+                  </h3>
+                  <a
+                    href={project.moreDetails}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#a8c5d8] hover:underline text-sm"
+                  >
+                    View the complete Portfolio of this project (查看完整作品集)
+                  </a>
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+
+        <div className="mb-12">
+          <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-4">
+            Summary
+          </h3>
+          <p className="text-[#1a1a1a] leading-relaxed text-lg whitespace-pre-line">
+            {project.summary}
+          </p>
         </div>
 
         {/* Video */}
@@ -176,79 +287,6 @@ function ProjectDetail({
             </div>
           </div>
         )}
-
-        {/* Project Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div>
-            <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-              Type
-            </h3>
-            <p className="text-[#1a1a1a]">{project.type}</p>
-          </div>
-          <div>
-            <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-              Role
-            </h3>
-            <p className="text-[#1a1a1a]">{project.role}</p>
-          </div>
-          {project.tools && (
-            <div>
-              <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                Tools
-              </h3>
-              <p className="text-[#1a1a1a]">{project.tools}</p>
-            </div>
-          )}
-          {project.details && (
-            <div>
-              <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                Details
-              </h3>
-              <p className="text-[#1a1a1a]">
-                {project.details}
-              </p>
-            </div>
-          )}
-          {project.website && (
-            <div>
-              <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                Website
-              </h3>
-              <a
-                href={project.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#a8c5d8] hover:underline text-sm break-all"
-              >
-                View Project Website （作品网站）
-              </a>
-            </div>
-          )}
-          {project.moreDetails && (
-            <div>
-              <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                More Details
-              </h3>
-              <a
-                href={project.moreDetails}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#a8c5d8] hover:underline text-sm"
-              >
-                View the complete Portfolio of this project (查看完整作品集)
-              </a>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-4">
-            Summary
-          </h3>
-          <p className="text-[#1a1a1a] leading-relaxed text-lg whitespace-pre-line">
-            {project.summary}
-          </p>
-        </div>
       </div>
     </motion.div>
   );
