@@ -250,5 +250,13 @@ export const visualPracticeEn: MediaItemContent[] = [
     videoUrl: "https://youtu.be/N8GMI1KpAhw",
     type: "youtube",
   },
+  {
+    id: 38,
+    title: "Character Animation Clips, made with Maya and Cinema 4D",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1773441300/ani_8_qvogbi.jpg",
+    videoUrl: "https://youtu.be/1Hq6qUwmjIk",
+    type: "youtube",
+  },
 ];
 

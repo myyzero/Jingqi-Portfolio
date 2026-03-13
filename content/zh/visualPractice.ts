@@ -241,5 +241,13 @@ export const visualPracticeZh: MediaItemContent[] = [
       "//player.bilibili.com/player.html?bvid=BV1MdPDzQE7m&page=1",
     type: "youtube",
   },
+  {
+    id: 38,
+    title: "Character Animation Clips, made with Maya and Cinema 4D",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1773441300/ani_8_qvogbi.jpg",
+    videoUrl: "https://pub-3f7c602e953f4339a45704b35dffefb6.r2.dev/AnimationClips.mp4",
+    type: "youtube",
+  },
 ];
 
