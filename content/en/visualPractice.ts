@@ -239,11 +239,43 @@ export const visualPracticeEn: MediaItemContent[] = [
   },
   {
     id: 36,
+    title:
+      "Imaginative Creation",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1774003617/%E8%81%94%E6%83%B3%E5%88%9B%E4%BD%9C_ugysom.jpg",
+    type: "image",
+  },
+  {
+    id: 37,
+    title:
+      "Deformation",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1774003617/%E4%BF%AE%E6%94%B9%E6%B8%90%E5%8F%98_20122120_%E9%A1%BE%E6%86%AC%E7%90%A6_wbe8rt.jpg",
+    type: "image",
+  },
+  {
+    id: 38,
+    title:
+      "Repetitive composition",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1774003617/%E7%89%B9%E5%BC%82%E6%9E%84%E6%88%90_20122120_%E9%A1%BE%E6%86%AC%E7%90%A6_hknu1v.jpg",
+    type: "image",
+  },
+  {
+    id: 39,
+    title:
+      "Icon Design",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1774003617/%E9%87%8D%E5%A4%8D_1_vqywyz.jpg",
+    type: "image",
+  },
+  {
+    id: 40,
     title: "Others",
     type: "category",
   },
   {
-    id: 37,
+    id: 41,
     title: "Montage",
     image:
       "https://res.cloudinary.com/dnigow6jb/image/upload/v1772676897/%E5%9B%BE%E5%B1%82_7_l4rq4r.png",
@@ -251,7 +283,7 @@ export const visualPracticeEn: MediaItemContent[] = [
     type: "youtube",
   },
   {
-    id: 38,
+    id: 42,
     title: "Character Animation Clips, made with Maya and Cinema 4D",
     image:
       "https://res.cloudinary.com/dnigow6jb/image/upload/v1773441300/ani_8_qvogbi.jpg",

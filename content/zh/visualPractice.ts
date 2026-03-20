@@ -229,11 +229,43 @@ export const visualPracticeZh: MediaItemContent[] = [
   },
   {
     id: 36,
+    title:
+      "联想创作",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1774003617/%E8%81%94%E6%83%B3%E5%88%9B%E4%BD%9C_ugysom.jpg",
+    type: "image",
+  },
+  {
+    id: 37,
+    title:
+      "形变设计",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1774003617/%E4%BF%AE%E6%94%B9%E6%B8%90%E5%8F%98_20122120_%E9%A1%BE%E6%86%AC%E7%90%A6_wbe8rt.jpg",
+    type: "image",
+  },
+  {
+    id: 38,
+    title:
+      "重复构图",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1774003617/%E7%89%B9%E5%BC%82%E6%9E%84%E6%88%90_20122120_%E9%A1%BE%E6%86%AC%E7%90%A6_hknu1v.jpg",
+    type: "image",
+  },
+  {
+    id: 39,
+    title:
+      "图表设计",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1774003617/%E9%87%8D%E5%A4%8D_1_vqywyz.jpg",
+    type: "image",
+  },
+  {
+    id: 40,
     title: "其他",
     type: "category",
   },
   {
-    id: 37,
+    id: 41,
     title: "混剪",
     image:
       "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_7_l4rq4r.png",
@@ -242,8 +274,8 @@ export const visualPracticeZh: MediaItemContent[] = [
     type: "youtube",
   },
   {
-    id: 38,
-    title: "Character Animation Clips, made with Maya and Cinema 4D",
+    id: 42,
+    title: "三维角色动画，使用 Maya 和 Cinema 4D 制作",
     image:
       "https://res.cloudinary.com/dnigow6jb/image/upload/v1773441300/ani_8_qvogbi.jpg",
     videoUrl: "https://pub-3f7c602e953f4339a45704b35dffefb6.r2.dev/AnimationClips.mp4",
