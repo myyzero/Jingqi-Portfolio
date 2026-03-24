@@ -242,6 +242,8 @@ export function VisualPractice({ language }: { language: Language }) {
     null,
   );
   const practiceData = getVisualPracticeContent(language);
+  const sectionTitle =
+    language === "zh" ? "视觉与技术实践" : "Visual & Technical Practice";
 
   return (
     <section
@@ -257,7 +259,7 @@ export function VisualPractice({ language }: { language: Language }) {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          Visual & Technical Practice
+          {sectionTitle}
         </motion.div>
 
         {/* All items in a single grid - 4 columns on desktop, 2 on mobile */}

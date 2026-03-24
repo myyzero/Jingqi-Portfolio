@@ -70,12 +70,42 @@ function ProjectCard({
 
 function ProjectDetail({
   project,
+  language,
   onClose,
 }: {
   project: Project;
+  language: Language;
   onClose: () => void;
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const labels =
+    language === "zh"
+      ? {
+          back: "返回项目列表",
+          type: "项目类型",
+          role: "我的职责",
+          tools: "使用工具",
+          details: "项目说明",
+          website: "项目网站",
+          websiteCta: "查看项目网站",
+          moreDetails: "更多详情",
+          moreDetailsCta: "查看完整作品集",
+          summary: "项目概述",
+          video: "项目视频",
+        }
+      : {
+          back: "Back to Projects",
+          type: "Type",
+          role: "My Role",
+          tools: "Tools",
+          details: "Details",
+          website: "Website",
+          websiteCta: "View Project Website",
+          moreDetails: "More Details",
+          moreDetailsCta: "View the complete Portfolio of this project",
+          summary: "Summary",
+          video: "Video",
+        };
 
   return (
     <motion.div
@@ -89,7 +119,7 @@ function ProjectDetail({
           onClick={onClose}
           className="mb-8 text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors text-sm tracking-wider uppercase"
         >
-          ← Back to Projects
+          ← {labels.back}
         </button>
 
         <h2 className="text-4xl text-[#1a1a1a] mb-4">
@@ -200,20 +230,20 @@ function ProjectDetail({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div>
                 <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                  Type
+                  {labels.type}
                 </h3>
                 <p className="text-[#1a1a1a]">{project.type}</p>
               </div>
               <div>
                 <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                  My Role
+                  {labels.role}
                 </h3>
                 <p className="text-[#1a1a1a]">{project.role}</p>
               </div>
               {project.tools && (
                 <div>
                   <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                    Tools
+                    {labels.tools}
                   </h3>
                   <p className="text-[#1a1a1a]">{project.tools}</p>
                 </div>
@@ -221,7 +251,7 @@ function ProjectDetail({
               {project.details && (
                 <div>
                   <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                    Details
+                    {labels.details}
                   </h3>
                   <p className="text-[#1a1a1a]">{project.details}</p>
                 </div>
@@ -229,7 +259,7 @@ function ProjectDetail({
               {project.website && (
                 <div>
                   <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                    Website
+                    {labels.website}
                   </h3>
                   <a
                     href={project.website}
@@ -237,14 +267,14 @@ function ProjectDetail({
                     rel="noopener noreferrer"
                     className="text-[#397fdf] hover:underline text-sm break-all"
                   >
-                    View Project Website （作品网站）
+                    {labels.websiteCta}
                   </a>
                 </div>
               )}
               {project.moreDetails && (
                 <div>
                   <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                    More Details
+                    {labels.moreDetails}
                   </h3>
                   <a
                     href={project.moreDetails}
@@ -252,7 +282,7 @@ function ProjectDetail({
                     rel="noopener noreferrer"
                     className="text-[#397fdf] hover:underline text-sm"
                   >
-                    View the complete Portfolio of this project (查看完整作品集)
+                    {labels.moreDetailsCta}
                   </a>
                 </div>
               )}
@@ -263,7 +293,7 @@ function ProjectDetail({
 
         <div className="mb-12">
           <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-4">
-            Summary
+            {labels.summary}
           </h3>
           <p className="text-[#1a1a1a] leading-relaxed text-lg whitespace-pre-line">
             {project.summary}
@@ -274,7 +304,7 @@ function ProjectDetail({
         {project.videoUrl && (
           <div className="mb-8">
             <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-4">
-              Video
+              {labels.video}
             </h3>
             <div className="aspect-video bg-[#1a1a1a]">
               <iframe
@@ -299,6 +329,19 @@ export function InteractiveProjects({ language }: { language: Language }) {
   const { interactiveInstallation, immersiveGaming } =
     getProjectContent(language);
 
+  const sectionLabels =
+    language === "zh"
+      ? {
+          heading: "交互项目",
+          installation: "交互装置 | 可穿戴设计",
+          immersive: "沉浸式体验设计 | 游戏",
+        }
+      : {
+          heading: "Interactive Projects",
+          installation: "Interactive Installation | Wearable Design",
+          immersive: "Immersive Experience Design | Gaming",
+        };
+
   return (
     <>
       <section
@@ -318,13 +361,13 @@ export function InteractiveProjects({ language }: { language: Language }) {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            Interactive Projects
+            {sectionLabels.heading}
           </motion.div>
 
           {/* Interactive Installation */}
           <div className="mb-24">
             <h3 className="text-2xl text-[#1a1a1a] mb-8">
-              Interactive Installation | Wearable Design
+              {sectionLabels.installation}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {interactiveInstallation.map((project) => (
@@ -340,7 +383,7 @@ export function InteractiveProjects({ language }: { language: Language }) {
           {/* Immersive Experience Design and Gaming */}
           <div className="mb-24">
             <h3 className="text-2xl text-[#1a1a1a] mb-8">
-              Immersive Experience Design | Gaming
+              {sectionLabels.immersive}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {immersiveGaming.map((project) => (
@@ -358,6 +401,7 @@ export function InteractiveProjects({ language }: { language: Language }) {
       {selectedProject && (
         <ProjectDetail
           project={selectedProject}
+          language={language}
           onClose={() => setSelectedProject(null)}
         />
       )}

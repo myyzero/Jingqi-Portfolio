@@ -40,12 +40,20 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
     }
   };
 
-  const navItems = [
-    { id: "about-me", label: "About Me" },
-    { id: "interactive-projects", label: "Interactive Projects" },
-    { id: "visual-practice", label: "Visual & Technical Practice" },
-    { id: "contact", label: "Contact" },
-  ];
+  const navItems =
+    language === "zh"
+      ? [
+          { id: "about-me", label: "关于我" },
+          { id: "interactive-projects", label: "交互项目" },
+          { id: "visual-practice", label: "视觉与技术实践" },
+          { id: "contact", label: "联系" },
+        ]
+      : [
+          { id: "about-me", label: "About Me" },
+          { id: "interactive-projects", label: "Interactive Projects" },
+          { id: "visual-practice", label: "Visual & Technical Practice" },
+          { id: "contact", label: "Contact" },
+        ];
 
   return (
     <motion.nav

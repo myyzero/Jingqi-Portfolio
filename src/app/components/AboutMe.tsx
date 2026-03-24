@@ -7,6 +7,7 @@ export function AboutMe({ language }: { language: Language }) {
   const { ref, isInView } = useInView({ threshold: 0.2 });
   const content = getAboutMeContent(language);
   const skillLines = content.skillsText.split("\n");
+  const skillLabelSeparator = language === "zh" ? "" : ":";
 
   return (
     <section id="about-me" ref={ref} className="px-6 py-24 bg-white">
@@ -57,7 +58,8 @@ export function AboutMe({ language }: { language: Language }) {
                 return (
                   <p key={line} className="leading-relaxed">
                     <span className="text-sm md:text-base text-[#4f4f4f] font-normal">
-                      {label}:
+                      {label}
+                      {skillLabelSeparator}
                     </span>
                     <span
                       className="text-[#6b6b6b] tracking-wide"

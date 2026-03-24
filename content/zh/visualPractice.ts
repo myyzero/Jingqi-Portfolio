@@ -8,7 +8,7 @@ export const visualPracticeZh: MediaItemContent[] = [
   },
   {
     id: 2,
-    title: "XPRESSO tag",
+    title: "Cinema 4D 中的 XPRESSO tag 练习",
     image:
       "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20250223231326_dyqewb.png",
     type: "image",
@@ -33,7 +33,7 @@ export const visualPracticeZh: MediaItemContent[] = [
   },
   {
     id: 6,
-    title: "万物生",
+    title: "《万物生》三维动画",
     image:
       "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_1_bzg7mm.png",
     type: "image",
@@ -123,13 +123,14 @@ export const visualPracticeZh: MediaItemContent[] = [
   },
   {
     id: 20,
-    title: "工作流：Rhino → Processing → ComfyUI",
+    title: "Rhino建模",
     image:
       "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/RhinoModel_nl1b8j.jpg",
     type: "image",
   },
   {
     id: 21,
+    title: "Processing动效设计",
     image:
       "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20250416181635_r2iaqw.jpg",
     type: "image",
@@ -142,6 +143,7 @@ export const visualPracticeZh: MediaItemContent[] = [
   },
   {
     id: 23,
+    title: "ComfyUI风格化图像生成",
     image:
       "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20250416172145_ta5ano.jpg",
     type: "image",
@@ -199,7 +201,7 @@ export const visualPracticeZh: MediaItemContent[] = [
   },
   {
     id: 32,
-    title: "角色动画设计",
+    title: "《羽流茶道》三维角色动画",
     image:
       "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_7_rmyjo9.png",
     type: "image",
