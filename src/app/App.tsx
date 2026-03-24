@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Landing } from "./components/Landing";
+import { AboutMe } from "./components/AboutMe";
 import { InteractiveProjects } from "./components/InteractiveProjects";
 import { VisualPractice } from "./components/VisualPractice";
 import { Contact } from "./components/Contact";
@@ -8,6 +9,7 @@ import type { Language } from "../../content";
 
 const NavigationComponent = Navigation as any;
 const LandingComponent = Landing as any;
+const AboutMeComponent = AboutMe as any;
 const InteractiveProjectsComponent = InteractiveProjects as any;
 const VisualPracticeComponent = VisualPractice as any;
 const ContactComponent = Contact as any;
@@ -52,6 +54,7 @@ export default function App() {
         language={language}
         onLanguageChange={setLanguage}
       />
+      <AboutMeComponent language={language} />
       <InteractiveProjectsComponent language={language} />
       <VisualPracticeComponent language={language} />
       <ContactComponent language={language} />

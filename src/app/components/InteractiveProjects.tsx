@@ -206,7 +206,7 @@ function ProjectDetail({
               </div>
               <div>
                 <h3 className="text-sm text-[#a8c5d8] tracking-wider uppercase mb-2">
-                  Role
+                  My Role
                 </h3>
                 <p className="text-[#1a1a1a]">{project.role}</p>
               </div>
@@ -235,7 +235,7 @@ function ProjectDetail({
                     href={project.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#a8c5d8] hover:underline text-sm break-all"
+                    className="text-[#397fdf] hover:underline text-sm break-all"
                   >
                     View Project Website （作品网站）
                   </a>
@@ -250,7 +250,7 @@ function ProjectDetail({
                     href={project.moreDetails}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#a8c5d8] hover:underline text-sm"
+                    className="text-[#397fdf] hover:underline text-sm"
                   >
                     View the complete Portfolio of this project (查看完整作品集)
                   </a>

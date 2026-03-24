@@ -14,7 +14,7 @@ export const visualPracticeEn: MediaItemContent[] = [
   },
   {
     id: 2,
-    title: "XPRESSO Tag",
+    title: "Practice of XPRESSO Tag in Cinema 4D",
     image:
       "https://res.cloudinary.com/dnigow6jb/image/upload/v1772629437/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20250223231326_qb8lrl.jpg",
     type: "image",

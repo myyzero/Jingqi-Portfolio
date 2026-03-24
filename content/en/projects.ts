@@ -20,7 +20,7 @@ export const interactiveInstallation: Project[] = [
     summary:
       "An interactive installation featuring artefacts from the Grant and Petrie Museum, transforming traditionally untouchable objects into an immersive experience that can be felt, moved, and heard through the integration of 3D printing, sensing, and digital media technologies.",
     role: "Animation System, 2D/3D asset, UI/UX Design",
-    type: "Team Project",
+    type: "Team Project with 8 members",
     tools: "Unity, Maya, C4D, Adobe CS",
     details: "Designed for Grant and Petrie Museum",
     website:
@@ -52,7 +52,7 @@ export const interactiveInstallation: Project[] = [
     summary:
       'A research-based wearable design which explores how sensory conditioning desensitises people to external stimuli, helping individuals reconnect with overlooked sensory dimensions.\n\nIt captures environmental sound and colour in real time, using a linear regression model to predict pleasure levels of disciplined groups. When wearers input their own level, the device responds visually and haptically, revealing their "sensory discipline" and creating an immersive, reflective experience.\n\nEach input refines the model, improving prediction accuracy and reopening the boundary between external reality and inner perception—turning the body into a medium of communication.\n\nMore than a wearable, Seeing the Unseen invites us to reconsider sensory thresholds in urban life and reflect on how deeply we perceive its details.',
     role: "Hardware system, data analysis, colour and sound research",
-    type: "Team Project",
+    type: "Team Project with 3 members",
     tools: "Arduino, Raspberry Pi",
     details: "Exhibited in Bartlett Fifteen Show",
     website:
@@ -80,7 +80,7 @@ export const interactiveInstallation: Project[] = [
     summary:
       "An interactive interface developed for Yonglian Museum to review the history and rapid development of Yonglian Village, exploring ways to let people of all age feel more engaged when visiting the museum.",
     role: "Unity Developer, UI/UX Design",
-    type: "Commercial Project",
+    type: "Commercial Project with 3 members",
     tools: "Unity, Photoshop",
     details: "Designed for Yonglian Museum in China",
     previewImage:
@@ -100,7 +100,7 @@ export const immersiveGaming: Project[] = [
     summary:
       "An immersive interactive experience set in a traditional Chinese painting converted from 2D to 3D, where players navigate ancient temples and solve environmental puzzles under different weather conditions. This project was developed in Unreal Engine to explore cultural narratives through digital media.",
     role: "Technical Artist, Interaction Design",
-    type: "Team Project",
+    type: "Team Project with 2 members",
     tools: "UE, Maya, Adobe CS",
     details: "Designed for Museum",
     moreDetails:
@@ -127,7 +127,7 @@ export const immersiveGaming: Project[] = [
     summary:
       "A 2D side-scrolling RPG about Aqua, a sea spirit who ventures into a polluted underwater cave to save her mutated whale shark companion and restore balance to the ocean.",
     role: "2D Animation system, Narrative and Level Design",
-    type: "Team Project",
+    type: "Team Project with 6 members",
     tools: "Unity, Midjourney, Adobe CS",
     previewImage:
       "https://res.cloudinary.com/dnigow6jb/image/upload/v1772587042/%E5%9B%BE%E7%89%871_xcgsiz.png",

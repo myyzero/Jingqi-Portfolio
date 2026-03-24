@@ -16,7 +16,7 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
       setScrolled(window.scrollY > 100);
 
       // Determine active section
-      const sections = ["landing", "interactive-projects", "visual-practice", "contact"];
+      const sections = ["landing", "about-me", "interactive-projects", "visual-practice", "contact"];
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -41,6 +41,7 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
   };
 
   const navItems = [
+    { id: "about-me", label: "About Me" },
     { id: "interactive-projects", label: "Interactive Projects" },
     { id: "visual-practice", label: "Visual & Technical Practice" },
     { id: "contact", label: "Contact" },

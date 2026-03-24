@@ -4,6 +4,8 @@ import { landingContentEn } from "./en/landing";
 import { landingContentZh } from "./zh/landing";
 import { aboutContentEn } from "./en/about";
 import { aboutContentZh } from "./zh/about";
+import { aboutMeContentEn } from "./en/aboutMe";
+import { aboutMeContentZh } from "./zh/aboutMe";
 import { contactContentEn } from "./en/contact";
 import { contactContentZh } from "./zh/contact";
 import { visualPracticeEn } from "./en/visualPractice";
@@ -14,6 +16,7 @@ export type Language = "en" | "zh";
 export type { Project } from "./en/projects";
 export type { LandingContent } from "./en/landing";
 export type { AboutContent } from "./en/about";
+export type { AboutMeContent } from "./en/aboutMe";
 export type { ContactContent } from "./en/contact";
 export type { MediaItemContent } from "./en/visualPractice";
 
@@ -37,6 +40,10 @@ export function getLandingContent(language: Language) {
 
 export function getAboutContent(language: Language) {
   return language === "zh" ? aboutContentZh : aboutContentEn;
+}
+
+export function getAboutMeContent(language: Language) {
+  return language === "zh" ? aboutMeContentZh : aboutMeContentEn;
 }
 
 export function getContactContent(language: Language) {

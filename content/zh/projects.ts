@@ -7,7 +7,7 @@ export const interactiveInstallation: Project[] = [
     summary:
       "一个以 Grant 和 Petrie 博物馆藏品为基础的交互装置，通过 3D 打印、传感与数字媒体技术，将原本“不可触碰”的文物转化为可以被触摸、移动和聆听的沉浸式体验，让观众以更具身体感知的方式重新认识馆藏。",
     role: "动画系统、2D/3D 资产制作与整合、UI/UX 设计",
-    type: "团队项目",
+    type: "8人团队项目",
     tools: "Unity, Maya, C4D, Adobe CS",
     details: "为 Grant 和 Petrie 博物馆创作",
     website:
@@ -40,7 +40,7 @@ export const interactiveInstallation: Project[] = [
     summary:
       "一个基于研究的可穿戴设计，讨论感官驯化如何让人对外界刺激逐渐“失敏”，并尝试帮助人们重新连接那些被忽略的感知维度。\n\n装置实时采集环境声与色彩，利用线性回归模型预测被试群体对周围环境的愉悦程度。当佩戴者输入自己的感受评价时，设备会以视觉与触觉反馈回应，显现出他们的被城市规训程度大小，同时引发人们的思考。\n\n每一次输入都会反向修正模型，提高预测的准确度，重新打开外在现实与内在感知之间的边界——让身体重新成为沟通的媒介。\n\n这不仅是一个可穿戴装置，更是一次对城市生活中感官阈值的重新审视，引发我们进行反思：自己究竟对环境的感知有多敏锐？",
     role: "硬件系统、数据分析、声音与色彩研究、交互设计",
-    type: "团队项目，研究生毕设作品",
+    type: "3人团队项目，研究生毕设作品",
     tools: "Arduino, Raspberry Pi",
     details: "展出于 Bartlett Fifteen Show",
     website:
@@ -69,7 +69,7 @@ export const interactiveInstallation: Project[] = [
     summary:
       "为永联村史馆开发的一套交互式界面，用于回顾永联村的发展历程与高速变化，探索如何让不同年龄段的参观者在博物馆中获得更具参与感的体验。",
     role: "Unity 开发、UI/UX 设计",
-    type: "商业项目",
+    type: "3人团队项目",
     tools: "Unity, Photoshop",
     details: "为永联村史馆设计与开发",
     previewImage:
@@ -89,7 +89,7 @@ export const immersiveGaming: Project[] = [
     summary:
       "一个以传统中国山水画为原型、从 2D 转换为 3D 空间的沉浸式互动体验。玩家可以在山峦与庙宇间穿行，在不同天气条件下解开环境谜题。本项目基于虚幻引擎开发，探索如何通过数字媒体讲述和延展文化叙事。",
     role: "技术美术，交互设计",
-    type: "团队项目，本科毕设作品",
+    type: "2人团队项目，本科毕设作品",
     tools: "UE, Maya, Adobe CS",
     details: "为中国传统山水画创作的互动体验，促进人们对于绘画的理解与欣赏，打造沉浸式博物馆体验",
     moreDetails:
@@ -117,7 +117,7 @@ export const immersiveGaming: Project[] = [
     summary:
       "一款 2D 横版 RPG游戏，讲述海之精灵 Aqua 潜入被污染的海底洞穴，拯救已变异的鲸鲨伙伴，并试图恢复海洋生态平衡的故事。",
     role: "2D 动画系统，叙事与关卡设计",
-    type: "团队项目",
+    type: "6人团队项目",
     tools: "Unity, Midjourney, Adobe CS",
     moreDetails:
       "https://pub-bea146db2f744e7a8ade7c6af6a38bae.r2.dev/Aqua's%20Will_%E4%BD%9C%E5%93%81%E9%9B%86.pdf",
