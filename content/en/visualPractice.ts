@@ -239,6 +239,11 @@ export const visualPracticeEn: MediaItemContent[] = [
   },
   {
     id: 36,
+    title: "2D Design Practice",
+    type: "category",
+  },
+  {
+    id: 37,
     title:
       "Imaginative Creation",
     image:
@@ -246,7 +251,7 @@ export const visualPracticeEn: MediaItemContent[] = [
     type: "image",
   },
   {
-    id: 37,
+    id: 38,
     title:
       "Deformation",
     image:
@@ -254,7 +259,7 @@ export const visualPracticeEn: MediaItemContent[] = [
     type: "image",
   },
   {
-    id: 38,
+    id: 39,
     title:
       "Repetitive composition",
     image:
@@ -262,7 +267,7 @@ export const visualPracticeEn: MediaItemContent[] = [
     type: "image",
   },
   {
-    id: 39,
+    id: 40,
     title:
       "Icon Design",
     image:
@@ -270,12 +275,64 @@ export const visualPracticeEn: MediaItemContent[] = [
     type: "image",
   },
   {
-    id: 40,
+    id: 41,
+    title: "Stylized brushes",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1775044460/%E7%AC%AC%E5%85%AD%E5%91%A8%E4%BD%9C%E4%B8%9A_20122120_%E9%A1%BE%E6%86%AC%E7%90%A6_fk6vey.jpg",
+    type: "image",
+  },
+  {
+    id: 42,
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1775044460/%E7%AC%AC%E5%85%AD%E5%91%A8%E8%AF%BE%E5%A0%82_20122120_%E9%A1%BE%E6%86%AC%E7%90%A6_wt1irl.jpg",
+    type: "image",
+  },
+  {
+    id: 43,
+    title: "Hand-drawn style painting",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1775057770/edit3_fa2i3f.png",
+    type: "image",
+  },
+  {
+    id: 44,
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1775057756/edit2_bqxddw.png",
+    type: "image",
+  },
+  {
+    id: 45,
+    title: "Logo Design",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1775057722/edit4_hhk4oa.png",
+    type: "image",
+  },
+  {
+    id: 46,
+    title: "Poster Design",
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1775057722/edit5_tjqdkh.png",
+    type: "image",
+  },
+  {
+    id: 47,
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1775057728/edit_aref7j.png",
+    type: "image",
+  },
+  {
+    id: 48,
+    image:
+      "https://res.cloudinary.com/dnigow6jb/image/upload/v1775057742/ScreenShot_2026-03-04_143549_576.jpg_rracsf.png",
+    type: "image",
+  },
+  {
+    id: 49,
     title: "Others",
     type: "category",
   },
   {
-    id: 41,
+    id: 50,
     title: "Montage",
     image:
       "https://res.cloudinary.com/dnigow6jb/image/upload/v1772676897/%E5%9B%BE%E5%B1%82_7_l4rq4r.png",
@@ -283,7 +340,7 @@ export const visualPracticeEn: MediaItemContent[] = [
     type: "youtube",
   },
   {
-    id: 42,
+    id: 51,
     title: "Character Animation Clips, made with Maya and Cinema 4D",
     image:
       "https://res.cloudinary.com/dnigow6jb/image/upload/v1773441300/ani_8_qvogbi.jpg",
