@@ -1,13 +1,21 @@
 import type { Project } from "../en/projects";
+import { popupMuseumAnimationVideos } from "../shared/popupMuseumAnimationVideos";
+import { popupMuseumEnvCarouselSlides } from "../shared/popupMuseumEnvCarousel";
+import { getPopupMuseumShaderSections } from "../shared/popupMuseumShaderSections";
+import { popupMuseumUiUxMedia } from "../shared/popupMuseumUiUxMedia";
+import { getPopupMuseumToolDevelopment } from "../shared/popupMuseumToolDevelopment";
+import { popupMuseumIntegrationImages } from "../shared/popupMuseumIntegrationImages";
+import { popupMuseumResultImages } from "../shared/popupMuseumResultImages";
 
 export const interactiveInstallation: Project[] = [
   {
     id: "popup-museum",
     name: "数字博物馆（2026）",
+    keyword: "博物馆交互装置",
     summary:
-      "一个以 Grant 和 Petrie 博物馆藏品为基础的交互装置，通过 3D 打印、传感与数字媒体技术，将原本“不可触碰”的文物转化为可以被触摸、移动和聆听的沉浸式体验，让观众以更具身体感知的方式重新认识馆藏。",
-    role: "动画系统、2D/3D 资产制作与整合、UI/UX 设计",
-    type: "8人团队项目",
+      "一个以 Grant 和 Petrie 博物馆藏品为基础的交互装置。通过 3D 打印复制品、物理传感与实时数字媒体，将原本“只能看不能碰”的文物转化为可被触摸、移动与聆听的体验。我主导动画系统，并负责 2D/3D 资产与 Unity 端的 UI/UX。",
+    role: "动画师",
+    type: "团队项目",
     tools: "Unity, Maya, C4D, Adobe CS",
     details: "为 Grant 和 Petrie 博物馆创作",
     website:
@@ -33,14 +41,117 @@ export const interactiveInstallation: Project[] = [
     ],
     videoUrl:
       "//player.bilibili.com/player.html?bvid=BV1H5P9z7EhZ&page=1",
+    detail: {
+      problem: [
+        "博物馆藏品通常被玻璃隔绝，触觉参与有限，尤其难以满足期待互动媒体的年轻观众。",
+        "项目希望在不动用真品的前提下，用复制品与数字层创造身体主导的临时展陈体验。",
+      ],
+      insight: [
+        "观众对可触摸的文物复制品与游戏化、风格化动画介绍反应更强烈。",
+        "统一的三渲二、故事驱动视觉语言让文物显得生动而亲切。",
+      ],
+      approachItems: [
+        {
+          title: "可触摸文物",
+          text: [
+            "通过 3D 打印与高精度扫描制作文物复制品。",
+            "让观众触摸表面纹理与形态，加深对文物的理解。",
+          ],
+        },
+        {
+          title: "硬件应用",
+          text: [
+            "在复制品中集成 CodeCell C3 传感器。",
+            "使物理动作实时映射到数字文物。",
+            "提升互动性、可玩性与探索感。",
+          ],
+        },
+        {
+          title: "数字叙事",
+          text: [
+            "在 Maya 与 Unity 中搭建数字环境。",
+            "结合动画、视效、UI 与多媒体内容。",
+            "以易懂且吸引人的方式呈现文物信息，激发好奇与自主探索。",
+          ],
+        },
+      ],
+      process: {
+        research:
+          "研究 Grant and Petrie 馆藏主题、快闪展观众动线，以及传感器、打印尺度与现场 Unity 部署等技术约束；制作前用团队流程图梳理全管线。",
+        tasks:
+          "交互数字系统开发，包括：\n\n· 3D 建模与环境设计\n· 动画设计\n· 自定义 Shader 开发\n· UI/UX 设计\n· 工具开发",
+        howItems: [
+          {
+            title: "3D 建模与环境设计",
+            text: "建立从 Maya、Cinema 4D 到 Unity 的资产流程，支持自定义 Shader 与动画整合。",
+            stepImages: [
+              "https://res.cloudinary.com/dnigow6jb/image/upload/v1772745373/ScreenShot_2026-03-05_211513_697_qmv6ib.jpg",
+              "https://res.cloudinary.com/dnigow6jb/image/upload/v1772745373/ScreenShot_2026-03-05_211513_697_qmv6ib.jpg",
+              "https://res.cloudinary.com/dnigow6jb/image/upload/v1772745373/ScreenShot_2026-03-05_211513_697_qmv6ib.jpg",
+              "https://res.cloudinary.com/dnigow6jb/image/upload/v1772745373/ScreenShot_2026-03-05_211513_697_qmv6ib.jpg",
+              "https://res.cloudinary.com/dnigow6jb/image/upload/v1772745373/ScreenShot_2026-03-05_211513_697_qmv6ib.jpg",
+            ],
+            carouselSlides: popupMuseumEnvCarouselSlides,
+          },
+          {
+            title: "动画设计",
+            text: "用 Animation Controller 与 Animation Clip 制作文物出现与过渡动画，开发循环环境动画与 UI 微动效，提升体验。",
+            animationCategories: [
+              {
+                title: "文物动画",
+                layout: "circles",
+                videos: [...popupMuseumAnimationVideos.dissolve],
+              },
+              {
+                title: "溶解与翻转动画",
+                layout: "rectangles",
+                videos: [...popupMuseumAnimationVideos.artefact],
+              },
+              {
+                title: "场景循环动画",
+                layout: "grid",
+                videos: [...popupMuseumAnimationVideos.diorama],
+              },
+            ],
+          },
+          {
+            title: "自定义 Shader 开发",
+            text: "",
+            shaderSections: getPopupMuseumShaderSections("zh"),
+          },
+          {
+            title: "UI/UX 设计",
+            text: "",
+            uiUxMedia: popupMuseumUiUxMedia,
+          },
+          {
+            title: "工具开发",
+            text: "",
+            toolDevelopment: getPopupMuseumToolDevelopment("zh"),
+          },
+        ],
+        output: "",
+        integrationImages: [...popupMuseumIntegrationImages],
+      },
+      resultImpact:
+        "于 UCL Illuminated 2026 与 Grant and Petrie 博物馆合作展出，引起策展人后续关注。作品提供多感官替代方案，证明数字动画系统可在同一物理装置中扩展至多件文物。",
+      resultGalleryImages: [...popupMuseumResultImages],
+      processImages: {
+        research:
+          "https://res.cloudinary.com/dnigow6jb/image/upload/v1773193895/PM_Flowchart_hwnbcu.png",
+        output:
+          "https://res.cloudinary.com/dnigow6jb/image/upload/v1773193894/PM_Diorama_kuwuq6.png",
+      },
+    },
   },
   {
     id: "seeing-unseen",
     name: "见所未见（2025）",
+    keyword: "可穿戴设备",
     summary:
       "一个基于研究的可穿戴设计，讨论感官驯化如何让人对外界刺激逐渐“失敏”，并尝试帮助人们重新连接那些被忽略的感知维度。\n\n装置实时采集环境声与色彩，利用线性回归模型预测被试群体对周围环境的愉悦程度。当佩戴者输入自己的感受评价时，设备会以视觉与触觉反馈回应，显现出他们的被城市规训程度大小，同时引发人们的思考。\n\n每一次输入都会反向修正模型，提高预测的准确度，重新打开外在现实与内在感知之间的边界——让身体重新成为沟通的媒介。\n\n这不仅是一个可穿戴装置，更是一次对城市生活中感官阈值的重新审视，引发我们进行反思：自己究竟对环境的感知有多敏锐？",
     role: "硬件系统、数据分析、声音与色彩研究、交互设计",
-    type: "3人团队项目，研究生毕设作品",
+    type: "团队项目",
     tools: "Arduino, Raspberry Pi",
     details: "展出于 Bartlett Fifteen Show",
     website:
@@ -66,10 +177,11 @@ export const interactiveInstallation: Project[] = [
   {
     id: "interactive-archive",
     name: "交互式博物馆档案系统（2023）",
+    keyword: "博物馆交互界面",
     summary:
       "为永联村史馆开发的一套交互式界面，用于回顾永联村的发展历程与高速变化，探索如何让不同年龄段的参观者在博物馆中获得更具参与感的体验。",
     role: "Unity 开发、UI/UX 设计",
-    type: "3人团队项目",
+    type: "商业项目",
     tools: "Unity, Photoshop",
     details: "为永联村史馆设计与开发",
     previewImage:
@@ -86,10 +198,11 @@ export const immersiveGaming: Project[] = [
   {
     id: "dragon-mountain",
     name: "绘旅（2024）",
+    keyword: "数字体验设计",
     summary:
       "一个以传统中国山水画为原型、从 2D 转换为 3D 空间的沉浸式互动体验。玩家可以在山峦与庙宇间穿行，在不同天气条件下解开环境谜题。本项目基于虚幻引擎开发，探索如何通过数字媒体讲述和延展文化叙事。",
     role: "技术美术，交互设计",
-    type: "2人团队项目，本科毕设作品",
+    type: "团队项目",
     tools: "UE, Maya, Adobe CS",
     details: "为中国传统山水画创作的互动体验，促进人们对于绘画的理解与欣赏，打造沉浸式博物馆体验",
     moreDetails:
@@ -114,10 +227,11 @@ export const immersiveGaming: Project[] = [
   {
     id: "aquas-will",
     name: "Aqua 的意志（2023）",
+    keyword: "2D RPG 游戏",
     summary:
       "一款 2D 横版 RPG游戏，讲述海之精灵 Aqua 潜入被污染的海底洞穴，拯救已变异的鲸鲨伙伴，并试图恢复海洋生态平衡的故事。",
     role: "2D 动画系统，叙事与关卡设计",
-    type: "6人团队项目",
+    type: "团队项目",
     tools: "Unity, Midjourney, Adobe CS",
     moreDetails:
       "https://pub-bea146db2f744e7a8ade7c6af6a38bae.r2.dev/Aqua's%20Will_%E4%BD%9C%E5%93%81%E9%9B%86.pdf",
@@ -139,6 +253,7 @@ export const immersiveGaming: Project[] = [
   {
     id: "mixing-happiness",
     name: "回溯（2023）",
+    keyword: "品牌快闪体验",
     summary:
       "围绕大白兔品牌快闪活动设计的一组互动体验概念。参与者可以用大白兔奶糖亲手捏制属于自己的“小兔子”形象，并通过扭蛋机分享与品牌相关的童年记忆；这些记忆被收集后展示在投影空间中，将个体的怀旧体验转化为群体共享的情感场，强化人与品牌之间的情感连接。",
     role: "品牌体验设计",
@@ -161,6 +276,7 @@ export const immersiveGaming: Project[] = [
   {
     id: "emotional-trap",
     name: "情绪陷阱（2024）",
+    keyword: "交互概念设计",
     summary:
       "一个围绕“负面情绪的可视化与转化”展开的交互设计项目。项目设想了一台“情绪转化机”，将被压抑的情绪物化为实体，并想象它们被转化为巧克力糖果的过程。通过把抽象的感受变成可触碰、可互动的对象，引发人们深思：我们应当如何面对并释放负面情绪？",
     role: "交互设计",
@@ -181,3 +297,76 @@ export const immersiveGaming: Project[] = [
   },
 ];
 
+export const animationFilm: Project[] = [
+  {
+    id: "life-begets-life",
+    name: "万物生",
+    keyword: "三维动画",
+    summary: "TODO：替换为真实的项目概述（2–3 句话）。",
+    role: "TODO：替换为你的职责",
+    type: "TODO：个人 / 团队 / 商业",
+    tools: "TODO：使用的工具",
+    details: "TODO：可选的简短背景说明",
+    previewImage:
+      "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_1_bzg7mm.png",
+    images: [
+      "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_1_bzg7mm.png",
+    ],
+    videoUrl: "TODO：Bilibili 或 .mp4 链接（可选）",
+    moreDetails: "TODO：PDF 链接（可选）",
+  },
+  {
+    id: "yuliu-tea-ceremony",
+    name: "羽流茶道",
+    keyword: "三维角色动画",
+    summary: "TODO：替换为真实的项目概述（2–3 句话）。",
+    role: "TODO：替换为你的职责",
+    type: "TODO：个人 / 团队 / 商业",
+    tools: "TODO：使用的工具",
+    details: "TODO：可选的简短背景说明",
+    previewImage:
+      "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_7_rmyjo9.png",
+    images: [
+      "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_7_rmyjo9.png",
+    ],
+    videoUrl: "TODO：Bilibili 或 .mp4 链接（可选）",
+    moreDetails: "TODO：PDF 链接（可选）",
+  },
+  {
+    id: "montage",
+    name: "混剪",
+    keyword: "影像混剪",
+    summary: "TODO：替换为真实的项目概述（2–3 句话）。",
+    role: "TODO：替换为你的职责",
+    type: "TODO：个人 / 团队 / 商业",
+    tools: "TODO：使用的工具",
+    details: "TODO：可选的简短背景说明",
+    previewImage:
+      "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_7_l4rq4r.png",
+    images: [
+      "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_7_l4rq4r.png",
+    ],
+    videoUrl: "TODO：Bilibili 或 .mp4 链接（可选）",
+    moreDetails: "TODO：PDF 链接（可选）",
+  },
+];
+
+export const futureDesign: Project[] = [
+  {
+    id: "future-design-project",
+    name: "未来设计项目",
+    keyword: "未来建筑设计",
+    summary: "TODO：替换为真实的项目概述（2–3 句话）。",
+    role: "TODO：替换为你的职责",
+    type: "TODO：个人 / 团队 / 商业",
+    tools: "TODO：使用的工具",
+    details: "TODO：可选的简短背景说明",
+    previewImage:
+      "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/RhinoModel_nl1b8j.jpg",
+    images: [
+      "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/RhinoModel_nl1b8j.jpg",
+    ],
+    videoUrl: "TODO：Bilibili 或 .mp4 链接（可选）",
+    moreDetails: "TODO：PDF 链接（可选）",
+  },
+];

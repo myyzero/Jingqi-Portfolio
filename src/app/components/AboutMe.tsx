@@ -10,7 +10,7 @@ export function AboutMe({ language }: { language: Language }) {
   const skillLabelSeparator = language === "zh" ? "" : ":";
 
   return (
-    <section id="about-me" ref={ref} className="px-6 py-24 bg-white">
+    <section id="about-me" ref={ref} className="px-6 py-24 bg-[#F3F3F5]">
       <motion.div
         className="max-w-7xl mx-auto"
         initial={{ opacity: 0 }}
@@ -18,7 +18,7 @@ export function AboutMe({ language }: { language: Language }) {
         transition={{ duration: 0.8 }}
       >
         <motion.div
-          className="mb-8 text-[#a8c5d8] tracking-widest uppercase text-sm"
+          className="mb-8 text-[#CBD9E6] tracking-widest uppercase text-sm"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}

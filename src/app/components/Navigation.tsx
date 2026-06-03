@@ -16,7 +16,7 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
       setScrolled(window.scrollY > 100);
 
       // Determine active section
-      const sections = ["landing", "about-me", "interactive-projects", "visual-practice", "contact"];
+      const sections = ["landing", "about-me", "works", "contact"];
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -31,7 +31,7 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [language]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -44,14 +44,12 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
     language === "zh"
       ? [
           { id: "about-me", label: "关于我" },
-          { id: "interactive-projects", label: "交互项目" },
-          { id: "visual-practice", label: "视觉与技术实践" },
+          { id: "works", label: "作品" },
           { id: "contact", label: "联系" },
         ]
       : [
           { id: "about-me", label: "About Me" },
-          { id: "interactive-projects", label: "Interactive Projects" },
-          { id: "visual-practice", label: "Visual & Technical Practice" },
+          { id: "works", label: "Works" },
           { id: "contact", label: "Contact" },
         ];
 

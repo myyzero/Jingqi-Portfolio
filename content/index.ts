@@ -13,7 +13,16 @@ import { visualPracticeZh } from "./zh/visualPractice";
 
 export type Language = "en" | "zh";
 
-export type { Project } from "./en/projects";
+export type {
+  Project,
+  ProjectDetailContent,
+  DetailBullet,
+  AnimationCategory,
+  CarouselSlide,
+} from "./en/projects";
+export type { ShaderMediaItem, ShaderSection } from "./shared/popupMuseumShaderSections";
+export type { UiUxMediaPair } from "./shared/popupMuseumUiUxMedia";
+export type { ToolDevelopmentRow } from "./shared/popupMuseumToolDevelopment";
 export type { LandingContent } from "./en/landing";
 export type { AboutContent } from "./en/about";
 export type { AboutMeContent } from "./en/aboutMe";
@@ -32,6 +41,24 @@ export function getProjectContent(language: Language) {
     interactiveInstallation: enProjects.interactiveInstallation,
     immersiveGaming: enProjects.immersiveGaming,
   };
+}
+
+export function getAllWorksContent(language: Language) {
+  if (language === "zh") {
+    return [
+      ...zhProjects.interactiveInstallation,
+      ...zhProjects.immersiveGaming,
+      ...zhProjects.animationFilm,
+      ...zhProjects.futureDesign,
+    ];
+  }
+
+  return [
+    ...enProjects.interactiveInstallation,
+    ...enProjects.immersiveGaming,
+    ...enProjects.animationFilm,
+    ...enProjects.futureDesign,
+  ];
 }
 
 export function getLandingContent(language: Language) {
