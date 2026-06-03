@@ -1,12 +1,2 @@
-export interface ContactContent {
-  heading: string;
-  email: string;
-  footer: string;
-}
-
-export const contactContentEn: ContactContent = {
-  heading: "Contact",
-  email: "jingqi.gu.24@gmail.com",
-  footer: "© 2026 Jingqi Gu",
-};
-
+/** @deprecated Content lives in content/manifests/site/contact.ts */
+export type { ContactContent } from "../manifests/_schema/siteContent";

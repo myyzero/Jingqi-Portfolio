@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import type { Language } from "../../../content";
+import { getNavLabels, type Language } from "../../../content";
 
 interface NavigationProps {
   language: Language;
@@ -40,18 +40,7 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
     }
   };
 
-  const navItems =
-    language === "zh"
-      ? [
-          { id: "about-me", label: "关于我" },
-          { id: "works", label: "作品" },
-          { id: "contact", label: "联系" },
-        ]
-      : [
-          { id: "about-me", label: "About Me" },
-          { id: "works", label: "Works" },
-          { id: "contact", label: "Contact" },
-        ];
+  const navItems = getNavLabels(language);
 
   return (
     <motion.nav

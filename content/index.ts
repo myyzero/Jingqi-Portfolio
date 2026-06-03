@@ -1,17 +1,11 @@
 import * as enProjects from "./en/projects";
 import * as zhProjects from "./zh/projects";
-import { landingContentEn } from "./en/landing";
-import { landingContentZh } from "./zh/landing";
-import { aboutContentEn } from "./en/about";
-import { aboutContentZh } from "./zh/about";
-import { aboutMeContentEn } from "./en/aboutMe";
-import { aboutMeContentZh } from "./zh/aboutMe";
-import { contactContentEn } from "./en/contact";
-import { contactContentZh } from "./zh/contact";
 import { visualPracticeEn } from "./en/visualPractice";
 import { visualPracticeZh } from "./zh/visualPractice";
 
-export type Language = "en" | "zh";
+import type { Language } from "./manifests/_schema/types";
+
+export type { Language };
 
 export type {
   Project,
@@ -20,14 +14,49 @@ export type {
   AnimationCategory,
   CarouselSlide,
 } from "./en/projects";
-export type { ShaderMediaItem, ShaderSection } from "./shared/popupMuseumShaderSections";
-export type { UiUxMediaPair } from "./shared/popupMuseumUiUxMedia";
-export type { ToolDevelopmentRow } from "./shared/popupMuseumToolDevelopment";
-export type { LandingContent } from "./en/landing";
-export type { AboutContent } from "./en/about";
-export type { AboutMeContent } from "./en/aboutMe";
-export type { ContactContent } from "./en/contact";
+export type {
+  ShaderMediaItem,
+  ShaderSection,
+  UiUxMediaPair,
+  ToolDevelopmentRow,
+} from "./manifests/_schema/workDetailBlocks";
 export type { MediaItemContent } from "./en/visualPractice";
+
+export type {
+  LandingContent,
+  AboutContent,
+  AboutMeContent,
+  ContactContent,
+  WorksFilterType,
+  WorksPageLabels,
+} from "./manifests";
+
+export {
+  getSiteLabels,
+  getWorkDetailLabels,
+  getNavLabels,
+  getLandingContent,
+  getAboutContent,
+  getAboutMeContent,
+  getContactContent,
+  getWorksPageLabels,
+  getWorksTypeLabel,
+  getWorksInfoOverride,
+  worksCatalog,
+  resolveMedia,
+  resolveMediaOptional,
+  siteLabelsManifest,
+} from "./manifests";
+
+export type {
+  MediaRef,
+  LocalizedCopy,
+  LocalizedStringList,
+  WorkDetailLabels,
+  SiteLabels,
+  HowBlockLayout,
+  WorksCategory,
+} from "./manifests";
 
 export function getProjectContent(language: Language) {
   if (language === "zh") {
@@ -61,23 +90,6 @@ export function getAllWorksContent(language: Language) {
   ];
 }
 
-export function getLandingContent(language: Language) {
-  return language === "zh" ? landingContentZh : landingContentEn;
-}
-
-export function getAboutContent(language: Language) {
-  return language === "zh" ? aboutContentZh : aboutContentEn;
-}
-
-export function getAboutMeContent(language: Language) {
-  return language === "zh" ? aboutMeContentZh : aboutMeContentEn;
-}
-
-export function getContactContent(language: Language) {
-  return language === "zh" ? contactContentZh : contactContentEn;
-}
-
 export function getVisualPracticeContent(language: Language) {
   return language === "zh" ? visualPracticeZh : visualPracticeEn;
 }
-

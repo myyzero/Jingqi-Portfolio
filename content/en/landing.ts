@@ -1,12 +1,2 @@
-export interface LandingContent {
-  name: string;
-  subtitle: string;
-  scrollLabel: string;
-}
-
-export const landingContentEn: LandingContent = {
-  name: "Jingqi Gu",
-  subtitle: "Interaction Designer | Technical Artist | Creative Technologist",
-  scrollLabel: "Scroll to explore",
-};
-
+/** @deprecated Content lives in content/manifests/site/landing.ts */
+export type { LandingContent } from "../manifests/_schema/siteContent";

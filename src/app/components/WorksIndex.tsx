@@ -1,16 +1,18 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
-import type { Language } from "../../../content";
-import { getAllWorksContent } from "../../../content";
+import {
+  getAllWorksContent,
+  getWorksInfoOverride,
+  getWorksPageLabels,
+  getWorksTypeLabel,
+  worksCatalog,
+  type Language,
+  type WorksFilterType,
+} from "../../../content";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
-type WorkType =
-  | "all"
-  | "interaction-design"
-  | "game-digital-experience"
-  | "animation-film"
-  | "future-design";
+type WorkType = WorksFilterType;
 
 type WorkIndexItem = {
   id: string;
@@ -24,97 +26,15 @@ type WorkIndexItem = {
   infoSummary: string;
 };
 
-const WORKS_CATALOG: Record<string, Exclude<WorkType, "all">> = {
-  "popup-museum": "interaction-design",
-  "seeing-unseen": "interaction-design",
-  "dragon-mountain": "game-digital-experience",
-  "aquas-will": "game-digital-experience",
-  "life-begets-life": "animation-film",
-  "yuliu-tea-ceremony": "animation-film",
-  montage: "animation-film",
-  "future-design-project": "future-design",
-};
-
-const EN_INFO_OVERRIDES: Partial<
-  Record<string, Pick<WorkIndexItem, "infoType" | "infoRole" | "infoTools">>
-> = {
-  "popup-museum": {
-    infoType: "Team Project",
-    infoRole: "Animator",
-    infoTools: "Maya, Unity, Adobe CS",
-  },
-};
-
-const ZH_INFO_OVERRIDES: Partial<
-  Record<string, Pick<WorkIndexItem, "infoType" | "infoRole" | "infoTools">>
-> = {
-  "popup-museum": {
-    infoType: "团队项目",
-    infoRole: "动画师",
-    infoTools: "Maya, Unity, Adobe CS",
-  },
-};
-
-function getTypeLabel(type: WorkType, language: Language) {
-  if (language === "zh") {
-    switch (type) {
-      case "all":
-        return "全部";
-      case "interaction-design":
-        return "交互设计";
-      case "game-digital-experience":
-        return "游戏与数字体验";
-      case "animation-film":
-        return "动画与影像";
-      case "future-design":
-        return "未来设计";
-    }
-  }
-
-  switch (type) {
-    case "all":
-      return "All";
-    case "interaction-design":
-      return "Interaction Design";
-    case "game-digital-experience":
-      return "Game & Digital Experience";
-    case "animation-film":
-      return "Animation & Film";
-    case "future-design":
-      return "Future Design";
-  }
-}
-
-function getWorksLabels(language: Language) {
-  if (language === "zh") {
-    return {
-      heading: "作品",
-      type: "类型",
-      role: "我的职责",
-      tools: "工具",
-      summary: "简介",
-    };
-  }
-
-  return {
-    heading: "Works",
-    type: "Type",
-    role: "My Role",
-    tools: "Tools",
-    summary: "Summary",
-  };
-}
-
 function buildIndexItems(language: Language): WorkIndexItem[] {
   const all = getAllWorksContent(language);
-  const overrides = language === "zh" ? ZH_INFO_OVERRIDES : EN_INFO_OVERRIDES;
 
-  const items = Object.entries(WORKS_CATALOG)
+  const items = Object.entries(worksCatalog)
     .map(([id, category]) => {
       const project = all.find((p) => p.id === id);
       if (!project) return null;
 
-      const override = overrides[id];
+      const override = getWorksInfoOverride(id, language);
 
       return {
         id: project.id,
@@ -143,7 +63,7 @@ function InfoLabels({
   labels,
   item,
 }: {
-  labels: ReturnType<typeof getWorksLabels>;
+  labels: ReturnType<typeof getWorksPageLabels>;
   item: WorkIndexItem;
 }) {
   return (
@@ -182,7 +102,7 @@ function InfoLabelsMobile({
   labels,
   item,
 }: {
-  labels: ReturnType<typeof getWorksLabels>;
+  labels: ReturnType<typeof getWorksPageLabels>;
   item: WorkIndexItem;
 }) {
   return (
@@ -218,7 +138,7 @@ function InfoLabelsMobile({
 }
 
 export function WorksIndex({ language }: { language: Language }) {
-  const labels = getWorksLabels(language);
+  const labels = getWorksPageLabels(language);
   const allItems = useMemo(() => buildIndexItems(language), [language]);
 
   const [selectedType, setSelectedType] = useState<WorkType>("all");
@@ -295,7 +215,7 @@ export function WorksIndex({ language }: { language: Language }) {
                       : "text-[#6b6b6b] hover:text-[#567C8D] hover:font-bold"
                   }`}
                 >
-                  {getTypeLabel(t, language)}
+                  {getWorksTypeLabel(t, language)}
                 </button>
               ))}
             </div>
@@ -362,7 +282,7 @@ export function WorksIndex({ language }: { language: Language }) {
                       : "text-[#6b6b6b] hover:text-[#567C8D] hover:font-bold"
                   }`}
                 >
-                  {getTypeLabel(t, language)}
+                  {getWorksTypeLabel(t, language)}
                 </button>
               ))}
             </div>
