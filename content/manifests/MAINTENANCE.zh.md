@@ -12,7 +12,8 @@ content/manifests/
 │   ├── types.ts
 │   ├── projectManifest.ts
 │   ├── workDetailBlocks.ts
-│   └── resolveMedia.ts
+│   ├── resolveMedia.ts
+│   └── localMaterialAssets.ts   # materials/ 动态索引，缺失文件 → 占位图 + warn
 ├── site/                    # 全站页面与栏目标签
 │   ├── labels.ts          # 导航 + 作品详情 UI 文案
 │   ├── landing.ts
@@ -32,6 +33,14 @@ content/manifests/
 
 **不要**在 `content/en|zh/landing.ts` 等旧路径里新增正文（仅类型 re-export）。  
 **不要**在 `content/en|zh/projects.ts` 里内联项目文案（只保留 builder 接线）。
+
+### 本地素材与占位图（`localMaterialAssets.ts`）
+
+新增或维护项目本地图/视频时，**优先**用 `buildMaterialRegistry(projectId, { key: "project/…/file.png", … })`，不要用 `import … from "../../../materials/…"` 静态引用。
+
+- Vite 通过 `import.meta.glob` 只打包实际存在的文件。
+- 路径指向的文件缺失时：图片自动用灰色占位 SVG，视频用空字符串；浏览器控制台会 **warn 一次**（含 project id 与 logical key），**不会导致编译失败**。
+- 示例：`life-begets-life-assets.ts`。
 
 ---
 

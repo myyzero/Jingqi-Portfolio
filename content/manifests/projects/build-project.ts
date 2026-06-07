@@ -24,6 +24,7 @@ export function buildProjectFromManifest(
 
   const project: Project = {
     id: manifest.id,
+    layout: manifest.layout,
     name: pick(language, meta.name),
     keyword: pick(language, meta.keyword),
     summary: pick(language, meta.summary),

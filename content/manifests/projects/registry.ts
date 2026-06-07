@@ -8,6 +8,7 @@ import { dragonMountainManifest } from "./dragon-mountain.data";
 import { aquasWillManifest } from "./aquas-will.data";
 import { mixingHappinessManifest } from "./mixing-happiness.data";
 import { emotionalTrapManifest } from "./emotional-trap.data";
+import { buildLifeBegetsLifeProject } from "./build-life-begets-life";
 import { lifeBegetsLifeManifest } from "./life-begets-life.data";
 import { yuliuTeaCeremonyManifest } from "./yuliu-tea-ceremony.data";
 import { montageManifest } from "./montage.data";
@@ -54,7 +55,7 @@ export function buildImmersiveGaming(language: Language): Project[] {
 
 export function buildAnimationFilm(language: Language): Project[] {
   return [
-    buildProject("life-begets-life", language),
+    buildLifeBegetsLifeProject(language),
     buildProject("yuliu-tea-ceremony", language),
     buildProject("montage", language),
   ];

@@ -21,13 +21,21 @@ import type {
   ShaderSection,
   ToolDevelopmentRow,
   UiUxMediaPair,
+  ProcessTriptychLayout,
+  ProcessThreePanelRow,
+  ProcessRenderQuadLayout,
 } from "../manifests/_schema/workDetailBlocks";
+
+export type { ProcessTriptychLayout, ProcessThreePanelRow, ProcessRenderQuadLayout };
 
 export type DetailBullet = {
   title: string;
   text: string | string[];
   image?: string;
   stepImages?: string[];
+  processTriptych?: ProcessTriptychLayout;
+  processThreePanelRow?: ProcessThreePanelRow;
+  processRenderQuad?: ProcessRenderQuadLayout;
   animationCategories?: AnimationCategory[];
   carouselSlides?: CarouselSlide[];
   shaderSections?: ShaderSection[];
@@ -40,6 +48,9 @@ export type ProjectDetailContent = {
   insight: string | string[];
   approachItems: DetailBullet[];
   process: {
+    /** When `pipeline`, `pipeline` replaces Research / Tasks / How / Integration steps. */
+    layout?: "standard" | "pipeline";
+    pipeline?: DetailBullet[];
     research: string;
     tasks: string;
     howItems: DetailBullet[];
@@ -48,11 +59,25 @@ export type ProjectDetailContent = {
   };
   resultImpact: string;
   resultGalleryImages?: readonly string[];
+  /** Optional video for Result & Impact (falls back to project.videoUrl). */
+  resultVideoUrl?: string;
   processImages?: {
     research?: string;
     tasks?: string;
     output?: string;
   };
+};
+
+export type ProjectDetailLayout = "default" | "fullscreen-video";
+
+/** Life Begets Life — replaces default What & Why with Story + Idea two-column layout. */
+export type ProjectStorySection = {
+  heading: string;
+  image: string;
+  storyTitle: string;
+  storyText: string;
+  ideaTitle: string;
+  ideaText: string;
 };
 
 export interface Project {
@@ -69,7 +94,9 @@ export interface Project {
   previewImage: string;
   images: string[];
   videoUrl?: string;
+  layout?: ProjectDetailLayout;
   detail?: ProjectDetailContent;
+  storySection?: ProjectStorySection;
 }
 
 export const interactiveInstallation: Project[] = [

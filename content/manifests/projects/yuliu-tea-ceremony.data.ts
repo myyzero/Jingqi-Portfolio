@@ -44,7 +44,7 @@ export const yuliuTeaCeremonyManifest: ProjectManifestEntry = {
     zh: [placeholderZh],
   },
   heroVideo: {
-    en: remote("TODO: YouTube or .mp4 link (optional)"),
+    en: remote("https://youtu.be/AEXkZEiB_Wk"),
     zh: remote("TODO：Bilibili 或 .mp4 链接（可选）"),
   },
 };

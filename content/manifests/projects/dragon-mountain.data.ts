@@ -100,7 +100,7 @@ export const dragonMountainManifest: ProjectManifestEntry = {
     ],
   },
   heroVideo: {
-    en: remote("https://youtu.be/jrOYWVOa4_k"),
+    en: remote("https://youtu.be/CPF2gNgYsvQ"),
     zh: remote("//player.bilibili.com/player.html?bvid=BV1NmP9zREXV&page=1"),
   },
 };

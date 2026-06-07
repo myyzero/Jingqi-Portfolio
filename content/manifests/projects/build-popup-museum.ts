@@ -55,12 +55,12 @@ function buildShaderSections(lang: Language): ShaderSection[] {
       media: [
         {
           caption: "Shader graph",
-          image: resolvePopupMuseumAsset("shaderDissolve2"),
+          image: resolvePopupMuseumAsset("shaderDissolveGraph"),
           aspect: "1920/1080",
         },
         {
           caption: "Output",
-          image: resolvePopupMuseumAsset("aniDissolveShader"),
+          image: resolvePopupMuseumAsset("shaderDissolveOutput"),
           aspect: "1920/1080",
           kind: "video",
         },
@@ -126,9 +126,24 @@ function buildCarouselSlides(): CarouselSlide[] {
   }));
 }
 
+function buildGalleryImages(): string[] {
+  const head = [
+    resolvePopupMuseumAsset("problem"),
+    resolvePopupMuseumAsset("insight"),
+    resolvePopupMuseumAsset("approach1"),
+    resolvePopupMuseumAsset("approach2"),
+    resolvePopupMuseumAsset("approach3"),
+  ];
+  const legacyTail = resolveMediaList(
+    [...popupMuseumRemote.legacy],
+    assets,
+  ).slice(5);
+  return [...head, ...legacyTail];
+}
+
 export function buildPopupMuseumProject(language: Language): Project {
   const { meta, whatWhy, approach, process, result } = popupMuseumCopy;
-  const legacyImages = resolveMediaList([...popupMuseumRemote.legacy], assets);
+  const galleryImages = buildGalleryImages();
 
   const detail: ProjectDetailContent = {
     problem: pickList(language, whatWhy.problem),
@@ -174,7 +189,8 @@ export function buildPopupMuseumProject(language: Language): Project {
     resultImpact: pick(language, result.impact),
     resultGalleryImages: resolveList(result.gallery),
     processImages: {
-      research: resolve(popupMuseumRemote.flowchart),
+      research: resolvePopupMuseumAsset("researchEn"),
+      tasks: resolvePopupMuseumAsset("whatEn"),
       output: resolve(popupMuseumRemote.processDiorama),
     },
   };
@@ -191,7 +207,7 @@ export function buildPopupMuseumProject(language: Language): Project {
     website: pick(language, meta.website),
     moreDetails: pick(language, meta.moreDetails),
     previewImage: resolve(meta.previewImage[language]),
-    images: legacyImages,
+    images: galleryImages,
     videoUrl: resolve(meta.heroVideo[language]),
     detail,
   };

@@ -98,7 +98,7 @@ export const seeingUnseenManifest: ProjectManifestEntry = {
     ],
   },
   heroVideo: {
-    en: remote("https://youtu.be/RkLyVnXSmog"),
+    en: remote("https://youtu.be/gAUYF0tgbx0"),
     zh: remote("//player.bilibili.com/player.html?bvid=BV1NKP9zXE6p&page=1"),
   },
 };

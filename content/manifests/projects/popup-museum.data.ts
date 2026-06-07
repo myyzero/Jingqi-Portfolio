@@ -207,18 +207,27 @@ export const popupMuseumCopy = {
         en: "Built a 3D asset pipeline from Maya and Cinema 4D to Unity, supporting custom shader development and animation integration.",
         zh: "建立从 Maya、Cinema 4D 到 Unity 的资产流程，支持自定义 Shader 与动画整合。",
       } satisfies LocalizedCopy,
-      stepImages: Array(5).fill(popupMuseumRemote.stepPlaceholder) as MediaRef[],
+      stepImages: [
+        local("enPro1"),
+        local("enPro2"),
+        local("enPro3"),
+        local("enPro4"),
+        local("enPro5"),
+      ],
       carouselSlides: [
-        { title: "Seychellophryne Frog", image: local("enPro1") },
-        { title: "Cowfish", image: local("enPro2") },
-        { title: "Carved ebony vessel", image: local("enPro3") },
-        { title: "Pottery 'tulip beaker'", image: local("enPro4") },
-        { title: "Limestone Frog", image: local("enPro5") },
-        { title: "Pipistrellus", image: local("enPro3") },
-        { title: "Female Figurine", image: local("enPro4") },
-        { title: "Sandstone Lion", image: local("enPro5") },
-        { title: "Sea Sponge", image: local("enPro1") },
-        { title: "Amoured Fish", image: local("enPro2") },
+        {
+          title: "Seychellophryne Frog",
+          image: local("dioSeychellophryneFrog"),
+        },
+        { title: "Cowfish", image: local("dioCowfish") },
+        { title: "Carved ebony vessel", image: local("dioVessel") },
+        { title: "Pottery 'tulip beaker'", image: local("dioPottery") },
+        { title: "Limestone Frog", image: local("dioLimestoneFrog") },
+        { title: "Pipistrellus", image: local("dioPipi") },
+        { title: "Female Figurine", image: local("dioFemaleFigurine") },
+        { title: "Sandstone Lion", image: local("dioSandstoneLion") },
+        { title: "Sea Sponge", image: local("dioSeasponge") },
+        { title: "Amoured Fish", image: local("dioAmouredfish") },
       ],
     },
     animation: {
@@ -237,7 +246,7 @@ export const popupMuseumCopy = {
             zh: "文物动画",
           } satisfies LocalizedCopy,
           layout: "circles" as const,
-          videos: [local("aniOb3"), local("aniOb4")],
+          videos: [local("aniArtefact1"), local("aniArtefact2")],
         },
         {
           title: {
@@ -245,7 +254,7 @@ export const popupMuseumCopy = {
             zh: "溶解与翻转动画",
           } satisfies LocalizedCopy,
           layout: "rectangles" as const,
-          videos: [local("aniOb1"), local("aniOb2")],
+          videos: [local("aniDissolveFlip1"), local("aniDissolveFlip2")],
         },
         {
           title: {
@@ -254,10 +263,10 @@ export const popupMuseumCopy = {
           } satisfies LocalizedCopy,
           layout: "grid" as const,
           videos: [
-            local("aniDio1"),
-            local("aniDio2"),
-            local("aniDio3"),
-            local("aniDio4"),
+            local("aniLoop1"),
+            local("aniLoop2"),
+            local("aniLoop3"),
+            local("aniLoop4"),
           ],
         },
       ],
@@ -283,7 +292,7 @@ export const popupMuseumCopy = {
       } satisfies LocalizedCopy,
       logicImage: local("logicUi"),
       storyboardImage: local("storyboardUx"),
-      video: local("aniUi"),
+      video: remote("https://youtu.be/9tGo0ZzQf9o"),
     },
     tools: {
       title: {

@@ -10,6 +10,7 @@ const placeholderZh = remote(
 
 export const montageManifest: ProjectManifestEntry = {
   id: "montage",
+  layout: "fullscreen-video",
   meta: {
     name: { en: "Montage", zh: "混剪" },
     keyword: { en: "Film montage", zh: "影像混剪" },
@@ -44,7 +45,7 @@ export const montageManifest: ProjectManifestEntry = {
     zh: [placeholderZh],
   },
   heroVideo: {
-    en: remote("TODO: YouTube or .mp4 link (optional)"),
-    zh: remote("TODO：Bilibili 或 .mp4 链接（可选）"),
+    en: remote("https://youtu.be/N8GMI1KpAhw"),
+    zh: remote("https://youtu.be/N8GMI1KpAhw"),
   },
 };

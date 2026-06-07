@@ -44,6 +44,13 @@ export type {
 } from "./_schema/siteContent";
 
 export { resolveMedia, resolveMediaOptional, resolveMediaList } from "./_schema/resolveMedia";
+export {
+  buildMaterialRegistry,
+  resolveMaterialFile,
+  MATERIAL_PLACEHOLDER_IMAGE,
+  getMaterialRegistryPlaceholders,
+} from "./_schema/localMaterialAssets";
+export type { MaterialResolveContext } from "./_schema/localMaterialAssets";
 export { buildPopupMuseumProject } from "./projects/popup-museum";
 export {
   buildProject,
@@ -56,6 +63,7 @@ export {
 export { buildProjectFromManifest } from "./projects/build-project";
 export type {
   ProjectManifestEntry,
+  ProjectDetailLayout,
   LocalizedMediaRef,
   LocalizedMediaList,
 } from "./_schema/projectManifest";

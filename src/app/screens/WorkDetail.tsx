@@ -15,6 +15,11 @@ import {
 import { getAllWorksContent } from "../../../content";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { withAutoScrollBehavior } from "../utils/scrollBehavior";
+import type {
+  ProcessTriptychLayout,
+  ProcessThreePanelRow,
+  ProcessRenderQuadLayout,
+} from "../../../content/manifests/_schema/workDetailBlocks";
 
 function normalizeLanguage(raw: string | undefined): Language {
   return raw === "zh" ? "zh" : "en";
@@ -111,7 +116,7 @@ export function WorkDetail() {
   return (
     <motion.div
       key={`${language}-${projectId ?? "unknown"}`}
-      className="min-h-screen bg-white"
+      className={`min-h-screen ${project?.layout === "fullscreen-video" ? "bg-black" : "bg-white"}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: isLeaving ? 0 : 1 }}
       transition={{ duration: 0.25 }}
@@ -162,6 +167,8 @@ export function WorkDetail() {
               {labels.backHome}
             </Link>
           </div>
+        ) : project.layout === "fullscreen-video" ? (
+          <FullscreenVideoDetail project={project} />
         ) : (
           <WorkDetailTemplate project={project} language={language} />
         )}
@@ -205,6 +212,12 @@ type ProcessStepData = {
   stage: string;
   text: string;
   image: string;
+  /** When true, image keeps intrinsic aspect ratio (no 16:9 crop). */
+  preserveImageAspect?: boolean;
+  stepImages?: string[];
+  processTriptych?: ProcessTriptychLayout;
+  processThreePanelRow?: ProcessThreePanelRow;
+  processRenderQuad?: ProcessRenderQuadLayout;
   integrationImages?: readonly string[];
   howItems?: {
     title: string;
@@ -434,6 +447,45 @@ function LoopVideo({
         className={`bg-[#CFCFCF] overflow-hidden ${className}`}
         style={style}
         aria-label={label}
+      />
+    );
+  }
+
+  const kind = getVideoKind(src);
+
+  if (kind === "youtube") {
+    const embed =
+      getYouTubeBackgroundLoopUrl(src) ?? getYouTubeEmbedUrl(src);
+    if (!embed) {
+      return (
+        <div
+          className={`bg-[#CFCFCF] overflow-hidden ${className}`}
+          style={style}
+          aria-label={label}
+        />
+      );
+    }
+    return (
+      <iframe
+        src={embed}
+        title={label}
+        className={`w-full h-full border-0 bg-[#CFCFCF] ${className}`}
+        style={style}
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerPolicy="strict-origin-when-cross-origin"
+      />
+    );
+  }
+
+  if (kind === "bilibili") {
+    return (
+      <iframe
+        src={normalizeEmbedUrl(src)}
+        title={label}
+        className={`w-full h-full border-0 bg-[#CFCFCF] ${className}`}
+        style={style}
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerPolicy="strict-origin-when-cross-origin"
       />
     );
   }
@@ -747,6 +799,480 @@ function StepImagesRow({ images }: { images: string[] }) {
         <ArrowRight className="w-5 h-5 shrink-0" strokeWidth={1.5} />
       </div>
     </div>
+  );
+}
+
+const TRIPTYCH_GAP = 12;
+const TRIPTYCH_CENTER_ASPECT = 1920 / 1080;
+
+function ProcessTriptychGallery({ layout }: { layout: ProcessTriptychLayout }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const width = el.clientWidth;
+      if (width > 0) setContainerWidth(width);
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const squareSize =
+    containerWidth > 0
+      ? Math.max(0, (9 * containerWidth - 50 * TRIPTYCH_GAP) / 66)
+      : 0;
+  const columnHeight =
+    squareSize > 0 ? 3 * squareSize + 2 * TRIPTYCH_GAP : 0;
+  const centerWidth = columnHeight * TRIPTYCH_CENTER_ASPECT;
+  const gridTemplateColumns =
+    squareSize > 0
+      ? `${squareSize}px ${centerWidth}px ${squareSize}px`
+      : undefined;
+
+  const cellClass =
+    "rounded-xl overflow-hidden bg-[#ececec] border border-[#e5e5e5]/60";
+
+  const columnTitleClass =
+    "text-xs tracking-widest uppercase font-bold text-[#2F4156] text-center";
+
+  return (
+    <div ref={containerRef} className="w-full overflow-x-auto">
+      <div
+        className="min-w-0"
+        style={
+          squareSize > 0
+            ? {
+                width: containerWidth,
+                minWidth:
+                  2 * squareSize + centerWidth + 2 * TRIPTYCH_GAP,
+              }
+            : undefined
+        }
+      >
+        <div
+          className="grid mb-3"
+          style={{ gridTemplateColumns, gap: TRIPTYCH_GAP }}
+        >
+          <h5 className={columnTitleClass}>{layout.left.title}</h5>
+          <h5 className={columnTitleClass}>{layout.center.title}</h5>
+          <h5 className={columnTitleClass}>{layout.right.title}</h5>
+        </div>
+
+        <div
+          className="grid items-stretch"
+          style={{
+            gridTemplateColumns,
+            gap: TRIPTYCH_GAP,
+            height: columnHeight > 0 ? columnHeight : undefined,
+          }}
+        >
+          <div
+            className="flex flex-col"
+            style={{ gap: TRIPTYCH_GAP, height: columnHeight || undefined }}
+          >
+            {layout.left.images.map((src, i) => (
+              <div
+                key={src}
+                className={`${cellClass} shrink-0`}
+                style={
+                  squareSize > 0
+                    ? { width: squareSize, height: squareSize }
+                    : undefined
+                }
+              >
+                <ImageWithFallback
+                  src={src}
+                  alt={`${layout.left.title} ${i + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
+          <div
+            className={cellClass}
+            style={
+              centerWidth > 0
+                ? { width: centerWidth, height: columnHeight }
+                : undefined
+            }
+          >
+            <ImageWithFallback
+              src={layout.center.image}
+              alt={layout.center.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div
+            className="flex flex-col"
+            style={{ gap: TRIPTYCH_GAP, height: columnHeight || undefined }}
+          >
+            {layout.right.images.map((src, i) => (
+              <div
+                key={src}
+                className={`${cellClass} shrink-0`}
+                style={
+                  squareSize > 0
+                    ? { width: squareSize, height: squareSize }
+                    : undefined
+                }
+              >
+                <ImageWithFallback
+                  src={src}
+                  alt={`${layout.right.title} ${i + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const PANEL_ROW_GAP = 12;
+const PANEL_CAROUSEL_INTERVAL_MS = 1000;
+
+const panelCellClass =
+  "rounded-xl overflow-hidden bg-[#ececec] border border-[#e5e5e5]/60 aspect-square";
+
+function ProcessPanelAutoCarousel({ images }: { images: string[] }) {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const id = window.setInterval(() => {
+      setIndex((current) => (current + 1) % images.length);
+    }, PANEL_CAROUSEL_INTERVAL_MS);
+    return () => window.clearInterval(id);
+  }, [images.length]);
+
+  if (images.length === 0) {
+    return <div className={`${panelCellClass} w-full`} aria-hidden />;
+  }
+
+  return (
+    <div className={`relative w-full ${panelCellClass}`}>
+      <ImageWithFallback
+        src={images[index]}
+        alt={`Slide ${index + 1}`}
+        className="w-full h-full object-cover"
+      />
+      {images.length > 1 ? (
+        <div
+          className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 pointer-events-none"
+          aria-hidden
+        >
+          {images.map((src, i) => (
+            <span
+              key={src}
+              className={`h-1.5 rounded-full transition-all ${
+                i === index ? "w-4 bg-white/90" : "w-1.5 bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+const panelMediaClass =
+  "rounded-xl overflow-hidden bg-[#ececec] border border-[#e5e5e5]/60 aspect-square w-full";
+
+const processFlatTextClass =
+  "text-[#6b6b6b] leading-relaxed text-sm lg:text-base whitespace-pre-line w-full max-w-none";
+
+function ProcessThreePanelRowGallery({
+  layout,
+}: {
+  layout: ProcessThreePanelRow;
+}) {
+  return (
+    <div className="w-full space-y-6">
+      {layout.introText ? (
+        <p className={processFlatTextClass}>{layout.introText}</p>
+      ) : null}
+
+      <div
+        className="grid grid-cols-1 sm:grid-cols-3 w-full"
+        style={{ gap: PANEL_ROW_GAP }}
+      >
+        {layout.images.map((src, i) => (
+          <div key={`panel-${i}`} className={panelCellClass}>
+            <ImageWithFallback
+              src={src}
+              alt={`Panel ${i + 1}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ))}
+        <ProcessPanelAutoCarousel images={layout.carouselImages} />
+      </div>
+
+      {layout.footer ? (
+        <div className="w-full space-y-4">
+          <p className={processFlatTextClass}>{layout.footer.text}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-4 lg:gap-6">
+            <div className={panelMediaClass}>
+              {layout.footer.video ? (
+                <video
+                  src={layout.footer.video}
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                />
+              ) : (
+                <div className="w-full h-full bg-[#ececec]" aria-hidden />
+              )}
+            </div>
+            <div className={panelMediaClass}>
+              <ImageWithFallback
+                src={layout.footer.image}
+                alt="XPRESSO setup"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+const RENDER_QUAD_GAP = 12;
+const RENDER_RECT_ASPECT = 1920 / 1080;
+
+function ProcessRenderQuadGallery({
+  layout,
+}: {
+  layout: ProcessRenderQuadLayout;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const width = el.clientWidth;
+      if (width > 0) setContainerWidth(width);
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const g = RENDER_QUAD_GAP;
+  const squareSize =
+    containerWidth > 0 ? Math.max(0, (9 * containerWidth - 10 * g) / 26) : 0;
+  const rectHeight = squareSize > 0 ? (squareSize - g) / 2 : 0;
+  const rectWidth = rectHeight * RENDER_RECT_ASPECT;
+  const gridTemplateColumns =
+    squareSize > 0
+      ? `${squareSize}px ${squareSize}px ${rectWidth}px`
+      : undefined;
+
+  const cellClass =
+    "rounded-xl overflow-hidden bg-[#ececec] border border-[#e5e5e5]/60";
+
+  return (
+    <div ref={containerRef} className="w-full overflow-x-auto">
+      <div
+        className="min-w-0"
+        style={
+          squareSize > 0
+            ? {
+                width: containerWidth,
+                minWidth: 2 * squareSize + rectWidth + 2 * g,
+              }
+            : undefined
+        }
+      >
+        <div
+          className="grid items-stretch"
+          style={{
+            gridTemplateColumns,
+            gap: g,
+            height: squareSize > 0 ? squareSize : undefined,
+          }}
+        >
+          {layout.squares.map((src, i) => (
+            <div
+              key={`sq-${i}`}
+              className={cellClass}
+              style={
+                squareSize > 0
+                  ? { width: squareSize, height: squareSize }
+                  : undefined
+              }
+            >
+              <ImageWithFallback
+                src={src}
+                alt={`Render ${i + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+
+          <div
+            className="flex flex-col"
+            style={{
+              gap: g,
+              width: rectWidth > 0 ? rectWidth : undefined,
+              height: squareSize > 0 ? squareSize : undefined,
+            }}
+          >
+            {layout.rectangles.map((src, i) => (
+              <div
+                key={`rect-${i}`}
+                className={cellClass}
+                style={
+                  rectWidth > 0 && rectHeight > 0
+                    ? { width: rectWidth, height: rectHeight }
+                    : undefined
+                }
+              >
+                <ImageWithFallback
+                  src={src}
+                  alt={`Render ${i + 3}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StorySection({
+  heading,
+  image,
+  storyTitle,
+  storyText,
+  ideaTitle,
+  ideaText,
+}: {
+  heading: string;
+  image: string;
+  storyTitle: string;
+  storyText: string;
+  ideaTitle: string;
+  ideaText: string;
+}) {
+  const imageWrapRef = useRef<HTMLDivElement>(null);
+  const [imageHalfHeight, setImageHalfHeight] = useState(0);
+
+  const measureImage = () => {
+    const el = imageWrapRef.current;
+    if (!el) return;
+    const h = el.offsetHeight;
+    if (h > 0) setImageHalfHeight(h / 2);
+  };
+
+  useEffect(() => {
+    const el = imageWrapRef.current;
+    if (!el) return;
+
+    measureImage();
+    const observer = new ResizeObserver(measureImage);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [image]);
+
+  const columnHeadingClass =
+    "mb-4 text-xs tracking-widest uppercase font-bold text-[#2F4156]";
+  const columnBodyClass =
+    "text-sm lg:text-base text-[#6b6b6b] leading-relaxed whitespace-pre-line";
+
+  const textGap = 48;
+
+  const storyContentWidth = "w-full max-w-5xl mx-auto";
+  const storyHorizontalPad = "px-4 lg:px-8";
+
+  const textPanelClass =
+    "rounded-3xl bg-[#ececec] px-8 lg:px-10 py-8 lg:py-10";
+
+  const storyIdeaColumns = (
+    <div
+      className={`grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 ${storyContentWidth}`}
+    >
+      <div className={textPanelClass}>
+        <h4 className={columnHeadingClass}>{storyTitle}</h4>
+        <p className={columnBodyClass}>{storyText}</p>
+      </div>
+      <div className={textPanelClass}>
+        <h4 className={columnHeadingClass}>{ideaTitle}</h4>
+        <p className={columnBodyClass}>{ideaText}</p>
+      </div>
+    </div>
+  );
+
+  return (
+    <section className="px-6 lg:px-10 py-20 bg-[#fafafa]">
+      <div className="max-w-[90rem] mx-auto">
+        <SectionHeading>{heading}</SectionHeading>
+
+        {/* Desktop: image in flow; two gray panels pull up to image midline */}
+        <div className="hidden md:block overflow-visible">
+          <div className={`relative z-10 ${storyHorizontalPad}`}>
+            <div
+              ref={imageWrapRef}
+              className={`${storyContentWidth} rounded-2xl overflow-hidden bg-white border border-[#e5e5e5] shadow-sm`}
+            >
+              <ImageWithFallback
+                src={image}
+                alt={heading}
+                className="w-full h-auto object-cover"
+                onLoad={measureImage}
+              />
+            </div>
+          </div>
+
+          <div
+            className={`relative z-0 overflow-visible ${storyHorizontalPad}`}
+            style={{
+              marginTop: imageHalfHeight > 0 ? -imageHalfHeight : undefined,
+              paddingTop:
+                imageHalfHeight > 0 ? imageHalfHeight + textGap : textGap,
+            }}
+          >
+            {storyIdeaColumns}
+          </div>
+        </div>
+
+        {/* Mobile: stacked */}
+        <div className={`md:hidden space-y-6 ${storyHorizontalPad}`}>
+          <div
+            className={`${storyContentWidth} rounded-2xl overflow-hidden bg-white border border-[#e5e5e5] shadow-sm`}
+          >
+            <ImageWithFallback
+              src={image}
+              alt={heading}
+              className="w-full h-auto object-cover"
+            />
+          </div>
+          {storyIdeaColumns}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1159,13 +1685,18 @@ function ProcessStepRow({
   const hasHowItems = step.howItems && step.howItems.length > 0;
   const hasIntegrationGallery =
     step.integrationImages && step.integrationImages.length > 0;
+  const hasTriptych = Boolean(step.processTriptych);
+  const hasThreePanelRow = Boolean(step.processThreePanelRow);
+  const hasRenderQuad = Boolean(step.processRenderQuad);
+  const useFlatProcessText =
+    hasTriptych || hasThreePanelRow || hasRenderQuad;
   const showStepText =
     !hasHowItems &&
     !hasIntegrationGallery &&
-    step.text.trim().length > 0;
+    (step.text?.trim().length ?? 0) > 0;
 
   return (
-    <div className="grid grid-cols-1 gap-10">
+    <div className="grid grid-cols-1 gap-6">
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-2">
           <div className="flex items-start gap-4">
@@ -1179,25 +1710,68 @@ function ProcessStepRow({
               <div className="text-sm tracking-widest uppercase text-[#1a1a1a]">
                 {step.stage}
               </div>
-              {showStepText ? (
+              {showStepText && !useFlatProcessText ? (
                 <p className="text-[#6b6b6b] leading-relaxed mt-3 whitespace-pre-line">
                   {step.text}
                 </p>
+              ) : null}
+              {step.stepImages && step.stepImages.length > 0 ? (
+                <div className="mt-4">
+                  <StepImagesRow images={step.stepImages} />
+                </div>
               ) : null}
             </div>
           </div>
         </div>
 
-        {!hasHowItems && !hasIntegrationGallery && (
-          <div className="lg:col-span-3 aspect-video bg-[#fafafa] overflow-hidden">
+        {!hasHowItems &&
+          !hasIntegrationGallery &&
+          !hasTriptych &&
+          !hasThreePanelRow &&
+          !hasRenderQuad && (
+          <div
+            className={
+              step.preserveImageAspect
+                ? "lg:col-span-3 overflow-hidden bg-[#fafafa] border border-[#e5e5e5]/60"
+                : "lg:col-span-3 aspect-video bg-[#fafafa] overflow-hidden"
+            }
+          >
             <ImageWithFallback
               src={step.image}
               alt={`${step.stage} image`}
-              className="w-full h-full object-cover"
+              className={
+                step.preserveImageAspect
+                  ? "w-full h-auto block object-contain"
+                  : "w-full h-full object-cover"
+              }
             />
           </div>
         )}
       </div>
+
+      {showStepText && useFlatProcessText ? (
+        <div className="lg:ml-10">
+          <p className={processFlatTextClass}>{step.text}</p>
+        </div>
+      ) : null}
+
+      {hasRenderQuad && step.processRenderQuad && (
+        <div className="lg:ml-10">
+          <ProcessRenderQuadGallery layout={step.processRenderQuad} />
+        </div>
+      )}
+
+      {hasThreePanelRow && step.processThreePanelRow && (
+        <div className="lg:ml-10">
+          <ProcessThreePanelRowGallery layout={step.processThreePanelRow} />
+        </div>
+      )}
+
+      {hasTriptych && step.processTriptych && (
+        <div className="lg:ml-10">
+          <ProcessTriptychGallery layout={step.processTriptych} />
+        </div>
+      )}
 
       {hasIntegrationGallery && (
         <div className="lg:ml-10">
@@ -1290,6 +1864,56 @@ function ProcessStepRow({
   );
 }
 
+/** Single controllable embed — used when manifest sets layout: fullscreen-video */
+function FullscreenVideoDetail({ project }: { project: Project }) {
+  const videoKind = getVideoKind(project.videoUrl);
+  const youtubeEmbed = getYouTubeEmbedUrl(project.videoUrl ?? "");
+  const bilibiliUrl =
+    project.videoUrl && videoKind === "bilibili"
+      ? normalizeEmbedUrl(project.videoUrl)
+      : null;
+
+  return (
+    <section
+      className="relative w-full h-[calc(100vh-65px)] min-h-[360px] bg-black"
+      aria-label={project.name}
+    >
+      {videoKind === "youtube" && youtubeEmbed ? (
+        <iframe
+          src={youtubeEmbed}
+          title={project.name}
+          className="absolute inset-0 w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+      ) : videoKind === "bilibili" && bilibiliUrl ? (
+        <iframe
+          src={bilibiliUrl}
+          title={project.name}
+          className="absolute inset-0 w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+      ) : videoKind === "mp4" && project.videoUrl ? (
+        <video
+          className="absolute inset-0 w-full h-full object-contain bg-black"
+          src={project.videoUrl}
+          controls
+          playsInline
+        />
+      ) : (
+        <ImageWithFallback
+          src={project.previewImage}
+          alt={project.name}
+          className="absolute inset-0 w-full h-full object-contain"
+        />
+      )}
+    </section>
+  );
+}
+
 function WorkDetailTemplate({
   project,
   language,
@@ -1348,12 +1972,30 @@ function WorkDetailTemplate({
     image: item.image ?? getImg(2 + i),
   }));
 
-  const process: ProcessStepData[] = detail
-    ? [
+  const process: ProcessStepData[] =
+    detail?.process.layout === "pipeline" && detail.process.pipeline?.length
+      ? detail.process.pipeline.map((item) => ({
+          stage: item.title,
+          text: Array.isArray(item.text) ? item.text.join("\n\n") : item.text,
+          image: item.image ?? imagePlaceholder,
+          stepImages: item.stepImages,
+          processTriptych: item.processTriptych,
+          processThreePanelRow: item.processThreePanelRow,
+          processRenderQuad: item.processRenderQuad,
+          preserveImageAspect:
+            !item.processTriptych &&
+            !item.processThreePanelRow &&
+            !item.processRenderQuad &&
+            project.id === "life-begets-life",
+        }))
+      : detail
+      ? [
         {
           stage: labels.processSteps.research,
           text: detail.process.research,
           image: detail.processImages?.research ?? getImg(0),
+          preserveImageAspect:
+            project.id === "popup-museum" || project.id === "life-begets-life",
         },
         {
           stage: labels.processSteps.tasks,
@@ -1408,13 +2050,22 @@ function WorkDetailTemplate({
 
   const resultImpactText = detail?.resultImpact ?? labels.impactPlaceholder;
 
-  const resultImages = detail?.resultGalleryImages
-    ? [...detail.resultGalleryImages]
-    : ([project.images[10], project.images[11], project.images[12]].filter(
-        Boolean,
-      ) as string[]);
+  const resultImages =
+    detail?.resultGalleryImages !== undefined
+      ? [...detail.resultGalleryImages]
+      : ([project.images[10], project.images[11], project.images[12]].filter(
+          Boolean,
+        ) as string[]);
 
   const resultGallery2x2 = resultImages.length === 4;
+
+  const resultVideoUrl = detail?.resultVideoUrl ?? project.videoUrl;
+  const resultVideoKind = getVideoKind(resultVideoUrl);
+  const resultYouTubeEmbed = getYouTubeEmbedUrl(resultVideoUrl ?? "");
+  const resultBilibiliUrl =
+    resultVideoUrl && resultVideoKind === "bilibili"
+      ? normalizeEmbedUrl(resultVideoUrl)
+      : null;
 
   return (
     <div>
@@ -1484,7 +2135,11 @@ function WorkDetailTemplate({
         </div>
       </section>
 
-      <WhatWhySection heading={labels.whatWhy} items={whatWhyItems} />
+      {project.storySection ? (
+        <StorySection {...project.storySection} />
+      ) : (
+        <WhatWhySection heading={labels.whatWhy} items={whatWhyItems} />
+      )}
 
       {approachItems && approachItems.length > 0 && (
         <ApproachItemsSection
@@ -1517,17 +2172,17 @@ function WorkDetailTemplate({
           <SectionHeading>{labels.resultImpact}</SectionHeading>
 
           <div className="w-full space-y-8">
-            <div
-              className={
-                resultGallery2x2
-                  ? "grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 w-full"
-                  : "grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
-              }
-            >
-              {(resultImages.length ? resultImages : [project.previewImage]).map(
-                (src, imageIdx) => (
+            {resultImages.length > 0 ? (
+              <div
+                className={
+                  resultGallery2x2
+                    ? "grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 w-full"
+                    : "grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
+                }
+              >
+                {resultImages.map((src, imageIdx) => (
                   <div
-                    key={src}
+                    key={`${src}-${imageIdx}`}
                     className="bg-white overflow-hidden aspect-video border border-[#e5e5e5]/60"
                   >
                     <ImageWithFallback
@@ -1536,36 +2191,36 @@ function WorkDetailTemplate({
                       className="w-full h-full object-cover"
                     />
                   </div>
-                ),
-              )}
-            </div>
+                ))}
+              </div>
+            ) : null}
 
             <p className="w-full text-[#6b6b6b] leading-relaxed text-lg whitespace-pre-line">
               {resultImpactText}
             </p>
 
-            {project.videoUrl && videoKind !== "none" && (
+            {resultVideoUrl && resultVideoKind !== "none" && (
               <div className="w-full aspect-video bg-[#1a1a1a]">
-                {videoKind === "youtube" && (detailsYouTube ?? project.videoUrl) ? (
+                {resultVideoKind === "youtube" && resultYouTubeEmbed ? (
                   <iframe
-                    src={detailsYouTube ?? project.videoUrl}
+                    src={resultYouTubeEmbed}
                     title={`${project.name} Video`}
                     className="w-full h-full"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
-                ) : videoKind === "bilibili" && bilibiliUrl ? (
+                ) : resultVideoKind === "bilibili" && resultBilibiliUrl ? (
                   <iframe
-                    src={bilibiliUrl}
+                    src={resultBilibiliUrl}
                     title={`${project.name} Video`}
                     className="w-full h-full"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
-                ) : videoKind === "mp4" ? (
+                ) : resultVideoKind === "mp4" ? (
                   <video
                     className="w-full h-full object-cover"
-                    src={project.videoUrl}
+                    src={resultVideoUrl}
                     controls
                     playsInline
                   />

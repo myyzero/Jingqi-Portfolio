@@ -84,7 +84,7 @@ export const aquasWillManifest: ProjectManifestEntry = {
     ],
   },
   heroVideo: {
-    en: remote("https://youtu.be/mc4brbHeh4w"),
+    en: remote("https://youtu.be/9QSlb-fNXos"),
     zh: remote(
       "https://pub-3f7c602e953f4339a45704b35dffefb6.r2.dev/AquasWill.mp4",
     ),

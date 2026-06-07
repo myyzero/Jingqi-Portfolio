@@ -11,12 +11,17 @@ export type LocalizedMediaList = {
   zh: readonly MediaRef[];
 };
 
+/** Work detail page layout — default is full case-study template. */
+export type ProjectDetailLayout = "default" | "fullscreen-video";
+
 /**
  * Card-level project manifest (no WorkDetail yet).
  * Add `detail` in a later phase when the full case study is ready.
  */
 export type ProjectManifestEntry = {
   id: string;
+  /** When `fullscreen-video`, detail page shows only a controllable hero embed. */
+  layout?: ProjectDetailLayout;
   meta: {
     name: LocalizedCopy;
     keyword: LocalizedCopy;

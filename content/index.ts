@@ -45,6 +45,9 @@ export {
   worksCatalog,
   resolveMedia,
   resolveMediaOptional,
+  buildMaterialRegistry,
+  resolveMaterialFile,
+  MATERIAL_PLACEHOLDER_IMAGE,
   siteLabelsManifest,
 } from "./manifests";
 
