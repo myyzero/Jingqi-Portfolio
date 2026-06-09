@@ -23,6 +23,13 @@ import type {
   ProcessTaskGroup,
   ProcessTasksOutlineItem,
 } from "../../../content/manifests/_schema/workDetailBlocks";
+import pageBackground from "../../../materials/background_1.png";
+
+/** White wash over background_1 — lower than Landing (75%) so texture shows through more */
+const WORK_PAGE_BG_OVERLAY = "rgba(255, 255, 255, 0.6)";
+
+/** Card / media panel surface on project detail pages */
+const CARD_SURFACE_CLASS = "bg-[#f2f7fa]/90";
 
 function normalizeLanguage(raw: string | undefined): Language {
   return raw === "zh" ? "zh" : "en";
@@ -115,11 +122,21 @@ export function WorkDetail() {
   };
 
   const labels = getWorkDetailLabels(language);
+  const isFullscreenVideo = project?.layout === "fullscreen-video";
 
   return (
     <motion.div
       key={`${language}-${projectId ?? "unknown"}`}
-      className={`min-h-screen ${project?.layout === "fullscreen-video" ? "bg-black" : "bg-white"}`}
+      className={`min-h-screen ${
+        isFullscreenVideo ? "bg-black" : "bg-cover bg-center bg-fixed bg-no-repeat"
+      }`}
+      style={
+        isFullscreenVideo
+          ? undefined
+          : {
+              backgroundImage: `linear-gradient(${WORK_PAGE_BG_OVERLAY}, ${WORK_PAGE_BG_OVERLAY}), url(${pageBackground})`,
+            }
+      }
       initial={{ opacity: 0 }}
       animate={{ opacity: isLeaving ? 0 : 1 }}
       transition={{ duration: 0.25 }}
@@ -132,7 +149,7 @@ export function WorkDetail() {
       }}
     >
         {/* Top bar */}
-        <div className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-[#e5e5e5]">
+        <div className="sticky top-0 z-50 bg-white/50 backdrop-blur border-b border-[#e5e5e5]/60">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <button
               onClick={onBackToWorks}
@@ -298,8 +315,7 @@ function ProcessImageCarousel({ slides }: { slides: CarouselSlide[] }) {
     return containerWidth / 2 - leading;
   }, [activeIndex, containerWidth, centerWidth, thumbWidth]);
 
-  const slideFrameClass =
-    "h-full w-full overflow-hidden border border-[#e5e5e5]/60 bg-[#fafafa]";
+  const slideFrameClass = `h-full w-full overflow-hidden border border-[#e5e5e5]/60 ${CARD_SURFACE_CLASS}`;
   const springTransition = {
     type: "spring" as const,
     stiffness: 320,
@@ -454,7 +470,7 @@ function LoopVideo({
   if (!hasVideo) {
     return (
       <div
-        className={`bg-[#CFCFCF] overflow-hidden ${className}`}
+        className={`bg-[#f2f7fa]/90 overflow-hidden ${className}`}
         style={style}
         aria-label={label}
       />
@@ -469,7 +485,7 @@ function LoopVideo({
     if (!embed) {
       return (
         <div
-          className={`bg-[#CFCFCF] overflow-hidden ${className}`}
+          className={`bg-[#f2f7fa]/90 overflow-hidden ${className}`}
           style={style}
           aria-label={label}
         />
@@ -479,7 +495,7 @@ function LoopVideo({
       <iframe
         src={embed}
         title={label}
-        className={`w-full h-full border-0 bg-[#CFCFCF] ${className}`}
+        className={`w-full h-full border-0 bg-[#f2f7fa]/90 ${className}`}
         style={style}
         allow="autoplay; encrypted-media; picture-in-picture"
         referrerPolicy="strict-origin-when-cross-origin"
@@ -492,7 +508,7 @@ function LoopVideo({
       <iframe
         src={normalizeEmbedUrl(src)}
         title={label}
-        className={`w-full h-full border-0 bg-[#CFCFCF] ${className}`}
+        className={`w-full h-full border-0 bg-[#f2f7fa]/90 ${className}`}
         style={style}
         allow="autoplay; encrypted-media; picture-in-picture"
         referrerPolicy="strict-origin-when-cross-origin"
@@ -507,7 +523,7 @@ function LoopVideo({
       muted
       loop
       playsInline
-      className={`w-full h-full object-cover bg-[#CFCFCF] ${className}`}
+      className={`w-full h-full object-cover bg-[#f2f7fa]/90 ${className}`}
       style={style}
       aria-label={label}
     />
@@ -757,7 +773,7 @@ function ResearchRowImage({
   alt: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl bg-[#fafafa] border border-[#e5e5e5]/60">
+    <div className="overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
       <ImageWithFallback
         src={src}
         alt={alt}
@@ -772,7 +788,7 @@ function ResultLeftSplitGallery({ images }: { images: readonly string[] }) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 w-full items-stretch">
-      <div className="overflow-hidden rounded-2xl bg-white border border-[#e5e5e5]/60 min-h-[280px] lg:min-h-0">
+      <div className="overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60 min-h-[280px] lg:min-h-0">
         <ImageWithFallback
           src={left}
           alt="Result image left"
@@ -783,7 +799,7 @@ function ResultLeftSplitGallery({ images }: { images: readonly string[] }) {
         {rightImages.map((src, imageIdx) => (
           <div
             key={src}
-            className="flex-1 overflow-hidden rounded-2xl bg-white border border-[#e5e5e5]/60 min-h-[180px]"
+            className="flex-1 overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60 min-h-[180px]"
           >
             <ImageWithFallback
               src={src}
@@ -805,7 +821,7 @@ function ResearchRowVideo({
   label: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl bg-[#fafafa] border border-[#e5e5e5]/60 aspect-video">
+    <div className="overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60 aspect-video">
       <LoopVideo
         src={src}
         label={label}
@@ -943,10 +959,10 @@ function ProcessResearchSplitGallery({
                       {group.rows.map((row) => (
                         <div
                           key={row.text}
-                          className="flex h-full flex-col items-center rounded-2xl bg-[#f2f7fa] px-4 py-6 text-center lg:px-5 lg:py-8"
+                          className="flex h-full flex-col items-center rounded-2xl bg-[#f2f7fa]/90 px-4 py-6 text-center lg:px-5 lg:py-8"
                         >
                           {row.image ? (
-                            <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full border border-[#e5e5e5]/60 bg-[#fafafa] lg:h-28 lg:w-28">
+                            <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full border border-[#e5e5e5]/60 bg-[#f2f7fa]/90 lg:h-28 lg:w-28">
                               <ImageWithFallback
                                 src={row.image}
                                 alt={row.text}
@@ -1281,7 +1297,7 @@ function ProcessTriptychGallery({ layout }: { layout: ProcessTriptychLayout }) {
       : undefined;
 
   const cellClass =
-    "rounded-xl overflow-hidden bg-[#ececec] border border-[#e5e5e5]/60";
+    "rounded-xl overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60";
 
   const columnTitleClass =
     "text-xs tracking-widest uppercase font-bold text-[#2F4156] text-center";
@@ -1387,7 +1403,7 @@ const PANEL_ROW_GAP = 12;
 const PANEL_CAROUSEL_INTERVAL_MS = 1000;
 
 const panelCellClass =
-  "rounded-xl overflow-hidden bg-[#ececec] border border-[#e5e5e5]/60 aspect-square";
+  "rounded-xl overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60 aspect-square";
 
 function ProcessPanelAutoCarousel({ images }: { images: string[] }) {
   const [index, setIndex] = useState(0);
@@ -1431,7 +1447,7 @@ function ProcessPanelAutoCarousel({ images }: { images: string[] }) {
 }
 
 const panelMediaClass =
-  "rounded-xl overflow-hidden bg-[#ececec] border border-[#e5e5e5]/60 aspect-square w-full";
+  "rounded-xl overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60 aspect-square w-full";
 
 const processFlatTextClass =
   "text-[#6b6b6b] leading-relaxed text-sm lg:text-base whitespace-pre-line w-full max-w-none";
@@ -1479,7 +1495,7 @@ function ProcessThreePanelRowGallery({
                   preload="auto"
                 />
               ) : (
-                <div className="w-full h-full bg-[#ececec]" aria-hidden />
+                <div className="w-full h-full bg-[#f2f7fa]/90" aria-hidden />
               )}
             </div>
             <div className={panelMediaClass}>
@@ -1533,7 +1549,7 @@ function ProcessRenderQuadGallery({
       : undefined;
 
   const cellClass =
-    "rounded-xl overflow-hidden bg-[#ececec] border border-[#e5e5e5]/60";
+    "rounded-xl overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60";
 
   return (
     <div ref={containerRef} className="w-full overflow-x-auto">
@@ -1652,7 +1668,7 @@ function StorySection({
   const storyHorizontalPad = "px-4 lg:px-8";
 
   const textPanelClass =
-    "rounded-3xl bg-[#ececec] px-8 lg:px-10 py-8 lg:py-10";
+    "rounded-3xl bg-[#f2f7fa]/90 px-8 lg:px-10 py-8 lg:py-10";
 
   const storyIdeaColumns = (
     <div
@@ -1670,7 +1686,7 @@ function StorySection({
   );
 
   return (
-    <section className="px-6 lg:px-10 py-20 bg-[#fafafa]">
+    <section className="px-6 lg:px-10 py-20">
       <div className="max-w-[90rem] mx-auto">
         <SectionHeading>{heading}</SectionHeading>
 
@@ -1679,7 +1695,7 @@ function StorySection({
           <div className={`relative z-10 ${storyHorizontalPad}`}>
             <div
               ref={imageWrapRef}
-              className={`${storyContentWidth} rounded-2xl overflow-hidden bg-white border border-[#e5e5e5] shadow-sm`}
+              className={`${storyContentWidth} rounded-2xl overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm`}
             >
               <ImageWithFallback
                 src={image}
@@ -1705,7 +1721,7 @@ function StorySection({
         {/* Mobile: stacked */}
         <div className={`md:hidden space-y-6 ${storyHorizontalPad}`}>
           <div
-            className={`${storyContentWidth} rounded-2xl overflow-hidden bg-white border border-[#e5e5e5] shadow-sm`}
+            className={`${storyContentWidth} rounded-2xl overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm`}
           >
             <ImageWithFallback
               src={image}
@@ -1728,13 +1744,13 @@ function WhatWhySection({
   items: WhatWhyItem[];
 }) {
   return (
-    <section className="px-6 lg:px-10 py-20 bg-[#fafafa]">
+    <section className="px-6 lg:px-10 py-20">
       <div className="max-w-[90rem] mx-auto">
         <SectionHeading>{heading}</SectionHeading>
 
         {/* Desktop: rounded bar + circles centered on top edge */}
         <div className="hidden md:block pt-40">
-          <div className="rounded-3xl bg-[#ececec] px-12 lg:px-24 pb-24 pt-0 overflow-visible min-h-[320px]">
+          <div className="rounded-3xl bg-[#f2f7fa]/90 px-12 lg:px-24 pb-24 pt-0 overflow-visible min-h-[320px]">
             <div
               className={`grid gap-10 lg:gap-20 w-full ${
                 items.length === 2
@@ -1747,7 +1763,7 @@ function WhatWhySection({
                   key={item.title}
                   className="flex flex-col items-center px-3 lg:px-6"
                 >
-                  <div className="w-80 h-80 shrink-0 -mt-40 rounded-full overflow-hidden bg-white border border-[#e5e5e5] shadow-sm z-10">
+                  <div className="w-80 h-80 shrink-0 -mt-40 rounded-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm z-10">
                     <ImageWithFallback
                       src={item.image}
                       alt={item.title}
@@ -1768,7 +1784,7 @@ function WhatWhySection({
         <div className="md:hidden space-y-14">
           {items.map((item) => (
             <div key={item.title} className="flex flex-col items-center px-4">
-              <div className="w-36 h-36 rounded-full overflow-hidden bg-white border border-[#e5e5e5] shadow-sm mb-6">
+              <div className="w-36 h-36 rounded-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm mb-6">
                 <ImageWithFallback
                   src={item.image}
                   alt={item.title}
@@ -1797,19 +1813,19 @@ function ApproachItemsSection({
   placeholderImage: string;
 }) {
   return (
-    <section className="px-6 lg:px-10 py-20 bg-white">
+    <section className="px-6 lg:px-10 py-20">
       <div className="max-w-[90rem] mx-auto">
         <SectionHeading>{heading}</SectionHeading>
 
         <div className="hidden md:block pt-40">
-          <div className="rounded-3xl bg-[#ececec] px-12 lg:px-24 pb-24 pt-0 overflow-visible min-h-[320px]">
+          <div className="rounded-3xl bg-[#f2f7fa]/90 px-12 lg:px-24 pb-24 pt-0 overflow-visible min-h-[320px]">
             <div className="grid grid-cols-3 gap-10 lg:gap-20 w-full">
               {items.map((item) => (
                 <div
                   key={item.title}
                   className="flex flex-col items-center px-3 lg:px-6"
                 >
-                  <div className="w-80 h-80 shrink-0 -mt-40 rounded-full overflow-hidden bg-white border border-[#e5e5e5] shadow-sm z-10">
+                  <div className="w-80 h-80 shrink-0 -mt-40 rounded-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm z-10">
                     <ImageWithFallback
                       src={item.image || placeholderImage}
                       alt={item.title}
@@ -1829,7 +1845,7 @@ function ApproachItemsSection({
         <div className="md:hidden space-y-14">
           {items.map((item) => (
             <div key={item.title} className="flex flex-col items-center px-4">
-              <div className="w-36 h-36 rounded-full overflow-hidden bg-white border border-[#e5e5e5] shadow-sm mb-6">
+              <div className="w-36 h-36 rounded-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm mb-6">
                 <ImageWithFallback
                   src={item.image || placeholderImage}
                   alt={item.title}
@@ -1874,7 +1890,7 @@ function ShaderMediaCell({
   return (
     <div className="w-full min-w-0 self-start">
       <div
-        className="relative w-full overflow-hidden bg-[#fafafa] border border-[#e5e5e5]/60"
+        className="relative w-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
         style={{ aspectRatio: ratio }}
       >
         {kind === "video" ? (
@@ -1929,21 +1945,21 @@ function UiUxDesignShowcase({
       ) : null}
 
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)] gap-6 lg:gap-8 items-stretch">
-        <div className="relative flex min-h-[min(85vw,320px)] lg:min-h-0 lg:h-full items-center justify-center overflow-hidden bg-[#fafafa] border border-[#e5e5e5]/60">
+        <div className="relative flex min-h-[min(85vw,320px)] lg:min-h-0 lg:h-full items-center justify-center overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
           <ImageWithFallback
             src={media.logicImage}
             alt="UI logic diagram"
             className="absolute inset-0 w-full h-full object-contain object-center p-2"
           />
         </div>
-        <div className="relative flex min-h-[min(85vw,320px)] lg:min-h-0 lg:h-full items-center justify-center overflow-hidden bg-[#fafafa] border border-[#e5e5e5]/60">
+        <div className="relative flex min-h-[min(85vw,320px)] lg:min-h-0 lg:h-full items-center justify-center overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
           <ImageWithFallback
             src={media.storyboardImage}
             alt="UI storyboard"
             className="absolute inset-0 w-full h-full object-contain object-center p-2"
           />
         </div>
-        <div className="relative w-full self-start aspect-video overflow-hidden bg-[#fafafa] border border-[#e5e5e5]/60">
+        <div className="relative w-full self-start aspect-video overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
           <LoopVideo
             src={media.video}
             label="UI animation"
@@ -2039,7 +2055,7 @@ function ToonShaderBlock({ section }: { section: ShaderSection }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:grid-rows-[auto_minmax(0,1fr)] gap-6 lg:gap-8 items-stretch">
       <div className="lg:row-span-2 flex w-full min-h-0 lg:h-full">
-        <div className="relative flex-1 w-full min-h-[min(85vw,420px)] lg:min-h-0 lg:h-full overflow-hidden bg-[#fafafa] border border-[#e5e5e5]/60">
+        <div className="relative flex-1 w-full min-h-[min(85vw,420px)] lg:min-h-0 lg:h-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
           <ImageWithFallback
             src={logic.image}
             alt={logic.caption}
@@ -2123,7 +2139,7 @@ function ProcessTasksOutlineGallery({
   items: ProcessTasksOutlineItem[];
 }) {
   return (
-    <div className="w-full rounded-2xl bg-[#f2f7fa] border border-[#e5e5e5]/60 px-6 py-10 lg:px-8 lg:py-12">
+    <div className="w-full rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60 px-6 py-10 lg:px-8 lg:py-12">
       <div className="flex flex-col divide-y divide-[#dcdcdc] lg:flex-row lg:divide-y-0 lg:divide-x">
         {items.map((item) => (
           <div
@@ -2131,7 +2147,7 @@ function ProcessTasksOutlineGallery({
             className="flex flex-1 flex-col items-center text-center px-3 py-8 first:pt-0 last:pb-0 lg:px-5 lg:py-0"
           >
             {item.image ? (
-              <div className="mb-5 h-24 w-24 shrink-0 overflow-hidden rounded-full bg-[#e8f0eb] lg:h-[6.5rem] lg:w-[6.5rem]">
+              <div className="mb-5 h-24 w-24 shrink-0 overflow-hidden rounded-full bg-[#f2f7fa]/90 lg:h-[6.5rem] lg:w-[6.5rem]">
                 <ImageWithFallback
                   src={item.image}
                   alt={item.title}
@@ -2238,8 +2254,8 @@ function ProcessStepRow({
           <div
             className={
               step.preserveImageAspect
-                ? "lg:col-span-3 overflow-hidden bg-[#fafafa] border border-[#e5e5e5]/60"
-                : "lg:col-span-3 aspect-video bg-[#fafafa] overflow-hidden"
+                ? "lg:col-span-3 overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
+                : "lg:col-span-3 aspect-video bg-[#f2f7fa]/90 overflow-hidden"
             }
           >
             <ImageWithFallback
@@ -2287,7 +2303,7 @@ function ProcessStepRow({
 
       {hasFlowchartImage && step.flowchartImage && (
         <div className="lg:ml-10">
-          <div className="overflow-hidden rounded-2xl bg-[#fafafa] border border-[#e5e5e5]/60">
+          <div className="overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
             <ImageWithFallback
               src={step.flowchartImage}
               alt={`${step.stage} flowchart`}
@@ -2315,7 +2331,7 @@ function ProcessStepRow({
             {step.integrationImages!.map((src, imageIdx) => (
               <div
                 key={src}
-                className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl bg-[#fafafa] border border-[#e5e5e5]/60"
+                className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
               >
                 <ImageWithFallback
                   src={src}
@@ -2419,7 +2435,7 @@ function ProcessStepRow({
                   {item.carouselSlides && item.carouselSlides.length > 0 ? (
                     <ProcessImageCarousel slides={item.carouselSlides} />
                   ) : (
-                    <div className="aspect-video bg-[#fafafa] overflow-hidden border border-[#e5e5e5]/60">
+                    <div className="aspect-video bg-[#f2f7fa]/90 overflow-hidden border border-[#e5e5e5]/60">
                       <ImageWithFallback
                         src={item.image}
                         alt={item.title}
@@ -2709,7 +2725,7 @@ function WorkDetailTemplate({
       </section>
 
       {/* Title + summary */}
-      <section className="px-6 py-16 bg-white">
+      <section className="px-6 py-16">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-5xl text-[#1a1a1a] mb-6">
             {project.name}
@@ -2752,7 +2768,7 @@ function WorkDetailTemplate({
       )}
 
       {/* Process */}
-      <section className="px-6 py-20 bg-white">
+      <section className="px-6 py-20">
         <div className="max-w-7xl mx-auto">
           <SectionHeading>{labels.process}</SectionHeading>
           <div className="grid grid-cols-1 gap-16">
@@ -2769,7 +2785,7 @@ function WorkDetailTemplate({
       </section>
 
       {/* Result & Impact */}
-      <section className="px-6 py-20 bg-[#fafafa]">
+      <section className="px-6 py-20">
         <div className="max-w-7xl mx-auto">
           <SectionHeading>{labels.resultImpact}</SectionHeading>
 
@@ -2788,7 +2804,7 @@ function WorkDetailTemplate({
                   {resultImages.map((src, imageIdx) => (
                     <div
                       key={`${src}-${imageIdx}`}
-                      className="overflow-hidden rounded-2xl bg-white aspect-video border border-[#e5e5e5]/60"
+                      className="overflow-hidden rounded-2xl bg-[#f2f7fa]/90 aspect-video border border-[#e5e5e5]/60"
                     >
                       <ImageWithFallback
                         src={src}

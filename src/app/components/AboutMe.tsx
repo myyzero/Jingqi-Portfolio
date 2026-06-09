@@ -10,7 +10,7 @@ export function AboutMe({ language }: { language: Language }) {
   const skillLabelSeparator = language === "zh" ? "" : ":";
 
   return (
-    <section id="about-me" ref={ref} className="px-6 py-24 bg-[#F3F3F5]">
+    <section id="about-me" ref={ref} className="px-6 py-24">
       <motion.div
         className="max-w-7xl mx-auto"
         initial={{ opacity: 0 }}
@@ -18,7 +18,7 @@ export function AboutMe({ language }: { language: Language }) {
         transition={{ duration: 0.8 }}
       >
         <motion.div
-          className="mb-8 text-[#CBD9E6] tracking-widest uppercase text-sm"
+          className="mb-8 text-[#6086ad] tracking-widest uppercase text-sm font-medium"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
@@ -33,14 +33,14 @@ export function AboutMe({ language }: { language: Language }) {
           transition={{ delay: 0.3, duration: 0.7 }}
         >
           <div>
-            <h3 className="mb-2 text-sm md:text-base text-[#1a1a1a] font-normal">
+            <h3 className="mb-2 text-sm md:text-base text-[#6086ad] font-medium">
               {content.summaryTitle}
             </h3>
             <p
-              className="text-[#6b6b6b] tracking-wide leading-relaxed"
+              className="text-[#a1c0df] tracking-wide leading-relaxed"
               style={{
                 fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
-                fontWeight: 200,
+                fontWeight: 400,
               }}
             >
               {content.summaryText}
@@ -48,7 +48,7 @@ export function AboutMe({ language }: { language: Language }) {
           </div>
 
           <div>
-            <h3 className="mb-2 text-sm md:text-base text-[#1a1a1a] font-normal">
+            <h3 className="mb-2 text-sm md:text-base text-[#6086ad] font-medium">
               {content.skillsTitle}
             </h3>
             <div className="space-y-2">
@@ -57,15 +57,15 @@ export function AboutMe({ language }: { language: Language }) {
                 const value = rest.join(":");
                 return (
                   <p key={line} className="leading-relaxed">
-                    <span className="text-sm md:text-base text-[#4f4f4f] font-normal">
+                    <span className="text-sm md:text-base text-[#6086ad] font-medium">
                       {label}
                       {skillLabelSeparator}
                     </span>
                     <span
-                      className="text-[#6b6b6b] tracking-wide"
+                      className="text-[#a1c0df] tracking-wide"
                       style={{
                         fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
-                        fontWeight: 200,
+                        fontWeight: 400,
                       }}
                     >
                       {value}

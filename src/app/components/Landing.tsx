@@ -2,6 +2,8 @@ import { motion } from "motion/react";
 import { useEffect, useState, useRef } from "react";
 import type { Language } from "../../../content";
 import { getLandingContent } from "../../../content";
+import landingBackground from "../../../materials/background_0.png";
+import momentTagline from "../../../materials/Fonts/moment_1.png";
 
 interface LandingProps {
   language: Language;
@@ -72,12 +74,12 @@ export function Landing({ language, onLanguageChange }: LandingProps) {
   return (
     <section
       id="landing"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen overflow-hidden"
       style={{
-        backgroundImage: 'url(https://images.unsplash.com/photo-1557683316-973673baf926?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1920)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
+        backgroundImage: `url(${landingBackground})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
       }}
     >
       {/* Overlay */}
@@ -107,71 +109,88 @@ export function Landing({ language, onLanguageChange }: LandingProps) {
         }}
       />
 
-      {/* Main content */}
+      {/* Hero — screen center; moving tagline image does not affect this block */}
       <motion.div
-        className="relative z-10 text-center px-6 max-w-4xl"
-        initial={{ opacity: 0, y: 20 }}
+        className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 max-w-4xl mx-auto w-full left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+        >
+          <motion.h1
+            className="mb-4 tracking-tight text-[#6086ad]"
+            style={{
+              fontSize: "clamp(2.85rem, 7vw, 5.5rem)",
+              lineHeight: 1.2,
+              fontWeight: 700,
+            }}
+          >
+            {content.name}
+          </motion.h1>
+
+          <motion.p
+            className="text-[#a1c0df] tracking-wide"
+            style={{
+              fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
+              fontWeight: 400,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1 }}
+          >
+            {content.subtitle}
+          </motion.p>
+
+          <motion.div
+            className="mt-8 flex items-center justify-center gap-2 text-xs tracking-widest uppercase"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 0.8 }}
+          >
+            <button
+              onClick={() => onLanguageChange("en")}
+              className={
+                language === "en"
+                  ? "text-[#a1c0df]"
+                  : "text-[#a1c0df]/50 hover:text-[#a1c0df] transition-colors duration-300"
+              }
+            >
+              EN
+            </button>
+            <span className="text-[#a1c0df]">|</span>
+            <button
+              onClick={() => onLanguageChange("zh")}
+              className={
+                language === "zh"
+                  ? "text-[#a1c0df]"
+                  : "text-[#a1c0df]/50 hover:text-[#a1c0df] transition-colors duration-300"
+              }
+            >
+              中文
+            </button>
+          </motion.div>
+      </motion.div>
+
+      {/* Tagline image — only adjust bottom-* / max-w-* here */}
+      <motion.div
+        className="absolute left-0 right-0 z-10 flex justify-center px-6 bottom-[22%] md:bottom-[24%]"
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
+        transition={{ delay: 1, duration: 1 }}
       >
-        <motion.h1
-          className="mb-4 tracking-tight text-[#1a1a1a]"
-          style={{
-            fontSize: "clamp(2.5rem, 6vw, 5rem)",
-            lineHeight: 1.2,
-            fontWeight: 700,
-          }}
-        >
-          {content.name}
-        </motion.h1>
+        <img
+          src={momentTagline}
+          alt="I care about the MOMENT when a concept RESONATES with PEOPLE."
+          className="w-full max-w-4xl h-auto mix-blend-screen select-none"
+          draggable={false}
+        />
+      </motion.div>
 
-        <motion.p
-          className="text-[#6b6b6b] tracking-wide"
-          style={{
-            fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
-            fontWeight: 200,
-          }}
+      {/* Scroll hint — fixed at bottom */}
+      <motion.div
+        className="absolute bottom-8 left-0 right-0 z-10 flex items-center justify-center gap-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 1 }}
-        >
-          {content.subtitle}
-        </motion.p>
-
-        <motion.div
-          className="mt-6 flex items-center justify-center gap-2 text-xs tracking-widest uppercase"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
-        >
-          <button
-            onClick={() => onLanguageChange("en")}
-            className={
-              language === "en"
-                ? "text-[#1a1a1a]"
-                : "text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors duration-300"
-            }
-          >
-            EN
-          </button>
-          <span className="text-[#6b6b6b]">|</span>
-          <button
-            onClick={() => onLanguageChange("zh")}
-            className={
-              language === "zh"
-                ? "text-[#1a1a1a]"
-                : "text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors duration-300"
-            }
-          >
-            中文
-          </button>
-        </motion.div>
-
-        <motion.div
-          className="mt-16 flex items-center justify-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
+          transition={{ delay: 1.6, duration: 1 }}
         >
           <motion.div
             className="w-1 h-1 rounded-full bg-[#a8c5d8]"
@@ -185,10 +204,9 @@ export function Landing({ language, onLanguageChange }: LandingProps) {
               ease: "easeInOut",
             }}
           />
-          <span className="text-sm text-[#6b6b6b] tracking-wide">
+          <span className="text-sm text-[#a1c0df] tracking-wide">
             {content.scrollLabel}
           </span>
-        </motion.div>
       </motion.div>
     </section>
   );

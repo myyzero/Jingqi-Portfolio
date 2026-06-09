@@ -7,6 +7,7 @@ import { AboutMe } from "../components/AboutMe";
 import { Contact } from "../components/Contact";
 import { WorksIndex } from "../components/WorksIndex";
 import { withAutoScrollBehavior } from "../utils/scrollBehavior";
+import pageBackground from "../../../materials/background_1.png";
 
 function normalizeLanguage(raw: string | undefined): Language {
   return raw === "zh" ? "zh" : "en";
@@ -58,7 +59,10 @@ export function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat"
+      style={{ backgroundImage: `url(${pageBackground})` }}
+    >
       <Navigation language={language} onLanguageChange={onLanguageChange} />
       <Landing language={language} onLanguageChange={onLanguageChange} />
       <AboutMe language={language} />

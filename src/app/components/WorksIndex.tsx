@@ -179,7 +179,7 @@ export function WorksIndex({ language }: { language: Language }) {
   ];
 
   return (
-    <section id="works" className="min-h-screen px-6 py-28 bg-white">
+    <section id="works" className="min-h-screen px-6 py-28">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="mb-14 text-[#CBD9E6] tracking-widest uppercase text-sm"
@@ -221,10 +221,10 @@ export function WorksIndex({ language }: { language: Language }) {
                   <button
                     key={t}
                     onClick={() => setSelectedType(t)}
-                    className={`flex flex-1 items-center w-full text-left px-3 py-2 rounded-sm tracking-widest uppercase transition-colors ${
+                    className={`flex flex-1 items-center w-full text-left px-3 py-2 rounded-sm tracking-wide uppercase text-xs transition-colors ${
                       isSelected
-                        ? "bg-[#f3f3f3] text-[#567C8D] font-bold text-base"
-                        : "text-[#6b6b6b] font-semibold text-sm hover:bg-[#fafafa] hover:text-[#567C8D] hover:font-bold"
+                        ? "bg-[#f8fdff]/60 text-[#567C8D] font-bold"
+                        : "text-[#6b6b6b] font-semibold hover:bg-[#f8fdff]/60 hover:text-[#567C8D] hover:font-bold"
                     }`}
                   >
                     {getWorksTypeLabel(t, language)}
@@ -245,7 +245,7 @@ export function WorksIndex({ language }: { language: Language }) {
                     onMouseEnter={() => setSelectedId(item.id)}
                     onFocus={() => setSelectedId(item.id)}
                     className={`block px-3 py-2 rounded-sm transition-colors ${
-                      isSelected ? "bg-[#f3f3f3]" : "hover:bg-[#fafafa]"
+                      isSelected ? "bg-[#f8fdff]/60" : "hover:bg-[#f8fdff]/60"
                     }`}
                   >
                     <div className="text-xs text-[#6b6b6b] tracking-wide">
@@ -291,10 +291,10 @@ export function WorksIndex({ language }: { language: Language }) {
                   <button
                     key={t}
                     onClick={() => setSelectedType(t)}
-                    className={`flex flex-1 items-center w-full text-left px-2 py-2 rounded-sm tracking-widest uppercase transition-colors ${
+                    className={`flex flex-1 items-center w-full text-left px-2 py-2 rounded-sm tracking-wide uppercase text-[11px] leading-tight transition-colors ${
                       isSelected
-                        ? "bg-[#f3f3f3] text-[#567C8D] font-bold text-sm"
-                        : "text-[#6b6b6b] font-semibold text-xs hover:bg-[#fafafa] hover:text-[#567C8D] hover:font-bold"
+                        ? "bg-[#f8fdff]/60 text-[#567C8D] font-bold"
+                        : "text-[#6b6b6b] font-semibold hover:bg-[#f8fdff]/60 hover:text-[#567C8D] hover:font-bold"
                     }`}
                   >
                     {getWorksTypeLabel(t, language)}
@@ -318,7 +318,7 @@ export function WorksIndex({ language }: { language: Language }) {
                         }
                       }}
                       className={`block px-2 py-2 rounded-sm transition-colors ${
-                        isSelected ? "bg-[#f3f3f3]" : "hover:bg-[#fafafa]"
+                        isSelected ? "bg-[#f8fdff]/60" : "hover:bg-[#f8fdff]/60"
                       }`}
                     >
                       <div className="text-[10px] text-[#6b6b6b] tracking-wide">
