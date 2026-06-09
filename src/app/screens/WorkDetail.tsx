@@ -19,6 +19,9 @@ import type {
   ProcessTriptychLayout,
   ProcessThreePanelRow,
   ProcessRenderQuadLayout,
+  ProcessResearchSubsection,
+  ProcessTaskGroup,
+  ProcessTasksOutlineItem,
 } from "../../../content/manifests/_schema/workDetailBlocks";
 
 function normalizeLanguage(raw: string | undefined): Language {
@@ -218,12 +221,19 @@ type ProcessStepData = {
   processTriptych?: ProcessTriptychLayout;
   processThreePanelRow?: ProcessThreePanelRow;
   processRenderQuad?: ProcessRenderQuadLayout;
+  researchSections?: ProcessResearchSubsection[];
+  taskSections?: ProcessTaskGroup[];
+  flowchartImage?: string;
+  tasksOutline?: ProcessTasksOutlineItem[];
   integrationImages?: readonly string[];
+  integrationVideos?: readonly string[];
+  howVideoRow?: readonly string[];
   howItems?: {
     title: string;
     text: string | string[];
     image: string;
     stepImages?: string[];
+    stepImageShape?: "circle" | "roundedSquare";
     animationCategories?: AnimationCategory[];
     carouselSlides?: CarouselSlide[];
     shaderSections?: ShaderSection[];
@@ -667,47 +677,13 @@ function AnimationDesignShowcase({
   );
 }
 
-/** One continuous wave: semicircle hugs on each circle + smooth curves in gaps */
-function buildHuggingWavePath(
-  centers: { x: number; y: number }[],
-  radius: number,
-): string {
-  if (centers.length === 0) return "";
-
-  let d = "";
-
-  for (let i = 0; i < centers.length; i++) {
-    const { x, y } = centers[i];
-    const startX = x - radius;
-    const endX = x + radius;
-    const wrapTop = i % 2 === 0;
-
-    if (i === 0) {
-      d = `M ${startX} ${y}`;
-    } else {
-      const prev = centers[i - 1];
-      const prevEndX = prev.x + radius;
-      const gapMidX = (prevEndX + startX) / 2;
-      const prevWrapTop = (i - 1) % 2 === 0;
-
-      if (prevWrapTop && !wrapTop) {
-        d += ` Q ${gapMidX} ${y + radius} ${startX} ${y}`;
-      } else if (!prevWrapTop && wrapTop) {
-        d += ` Q ${gapMidX} ${y - radius} ${startX} ${y}`;
-      } else {
-        d += ` L ${startX} ${y}`;
-      }
-    }
-
-    d += wrapTop
-      ? ` A ${radius} ${radius} 0 0 0 ${endX} ${y}`
-      : ` A ${radius} ${radius} 0 0 1 ${endX} ${y}`;
-  }
-
-  return d;
-}
-
-function StepImagesRow({ images }: { images: string[] }) {
+function StepImagesRow({
+  images,
+  shape = "circle",
+}: {
+  images: string[];
+  shape?: "circle" | "roundedSquare";
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [layout, setLayout] = useState({ width: 0, circleSize: 72 });
 
@@ -735,39 +711,26 @@ function StepImagesRow({ images }: { images: string[] }) {
 
   const { width, circleSize } = layout;
   const count = images.length;
-  const radius = circleSize / 2;
-  const strokeWidth = Math.max(2, Math.round(circleSize * 0.07));
   const horizontalStep = count > 1 ? (width - circleSize) / (count - 1) : 0;
-  const circleTop = strokeWidth;
-  const equatorY = circleTop + radius;
-  const rowHeight = circleSize + strokeWidth * 2;
 
-  const centers =
-    width > 0
-      ? images.map((_, i) => ({
-          x: i * horizontalStep + radius,
-          y: equatorY,
-        }))
-      : [];
-
-  const wavePath =
-    centers.length > 0 ? buildHuggingWavePath(centers, radius) : "";
+  const shapeClass =
+    shape === "roundedSquare" ? "rounded-xl" : "rounded-full";
 
   return (
     <div ref={containerRef} className="mt-6 w-full">
       <div
         className="relative w-full"
-        style={{ height: width > 0 ? rowHeight : circleSize + 40 }}
+        style={{ height: width > 0 ? circleSize : circleSize + 40 }}
       >
         {images.map((src, i) => (
           <div
             key={`${src}-${i}`}
-            className="absolute rounded-full overflow-hidden border-[3px] border-white shadow-sm bg-[#e5e5e5] z-10"
+            className={`absolute overflow-hidden border-[3px] border-white shadow-sm bg-[#e5e5e5] z-10 ${shapeClass}`}
             style={{
               width: circleSize,
               height: circleSize,
               left: i * horizontalStep,
-              top: circleTop,
+              top: 0,
             }}
           >
             <ImageWithFallback
@@ -777,27 +740,508 @@ function StepImagesRow({ images }: { images: string[] }) {
             />
           </div>
         ))}
-
-        {width > 0 && wavePath && (
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none z-20"
-            aria-hidden
-          >
-            <path
-              d={wavePath}
-              fill="none"
-              stroke="#CBD9E6"
-              strokeWidth={strokeWidth}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )}
       </div>
       <div className="mt-4 flex w-full items-center gap-1 text-[#CBD9E6]">
         <div className="flex-1 h-px bg-current" />
         <ArrowRight className="w-5 h-5 shrink-0" strokeWidth={1.5} />
       </div>
+    </div>
+  );
+}
+
+function ResearchRowImage({
+  src,
+  alt,
+}: {
+  src: string;
+  alt: string;
+}) {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-[#fafafa] border border-[#e5e5e5]/60">
+      <ImageWithFallback
+        src={src}
+        alt={alt}
+        className="w-full h-auto block object-contain"
+      />
+    </div>
+  );
+}
+
+function ResultLeftSplitGallery({ images }: { images: readonly string[] }) {
+  const [left, ...rightImages] = images;
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 w-full items-stretch">
+      <div className="overflow-hidden rounded-2xl bg-white border border-[#e5e5e5]/60 min-h-[280px] lg:min-h-0">
+        <ImageWithFallback
+          src={left}
+          alt="Result image left"
+          className="w-full h-full min-h-[280px] lg:min-h-full object-cover"
+        />
+      </div>
+      <div className="flex flex-col gap-6 lg:gap-8 min-h-0">
+        {rightImages.map((src, imageIdx) => (
+          <div
+            key={src}
+            className="flex-1 overflow-hidden rounded-2xl bg-white border border-[#e5e5e5]/60 min-h-[180px]"
+          >
+            <ImageWithFallback
+              src={src}
+              alt={`Result image right ${imageIdx + 1}`}
+              className="w-full h-full min-h-[180px] object-cover"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ResearchRowVideo({
+  src,
+  label,
+}: {
+  src: string;
+  label: string;
+}) {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-[#fafafa] border border-[#e5e5e5]/60 aspect-video">
+      <LoopVideo
+        src={src}
+        label={label}
+        className="h-full w-full object-cover"
+      />
+    </div>
+  );
+}
+
+function hasCopyText(text: string | string[] | undefined): boolean {
+  if (!text) return false;
+  if (Array.isArray(text)) return text.length > 0;
+  return text.trim().length > 0;
+}
+
+function getResearchSplitLayout(ratio: "1:2" | "2:1" | "1:1" = "1:2") {
+  switch (ratio) {
+    case "2:1":
+      return {
+        grid: "grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start",
+        text: "lg:col-span-2",
+        image: "lg:col-span-1",
+      };
+    case "1:1":
+      return {
+        grid: "grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-start",
+        text: "lg:col-span-1",
+        image: "lg:col-span-1",
+      };
+    default:
+      return {
+        grid: "grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start",
+        text: "lg:col-span-1",
+        image: "lg:col-span-2",
+      };
+  }
+}
+
+function getScaledImageWidthStyle(
+  scale?: number,
+): React.CSSProperties | undefined {
+  return scale ? { width: `${scale * 100}%` } : undefined;
+}
+
+function ProcessResearchSplitGallery({
+  sections,
+}: {
+  sections: ProcessResearchSubsection[];
+}) {
+  const bulletClass =
+    "text-sm lg:text-base text-[#6b6b6b] leading-relaxed list-disc pl-5 marker:text-[#CBD9E6]";
+
+  return (
+    <div className="space-y-14">
+      {sections.map((section) => {
+        const bullets = Array.isArray(section.text)
+          ? section.text
+          : [section.text];
+
+        if (section.imageLayout === "rows") {
+          return (
+            <div key={section.title} className="space-y-8 lg:space-y-10">
+              <h4 className="text-base md:text-lg font-medium text-[#1a1a1a] tracking-wide">
+                {section.title}
+              </h4>
+              {bullets.map((bullet, rowIdx) => (
+                <div
+                  key={bullet}
+                  className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start"
+                >
+                  <div className="lg:col-span-1">
+                    <ul className={bulletClass}>
+                      <li>{bullet}</li>
+                    </ul>
+                  </div>
+                  <div className="lg:col-span-2">
+                    {section.images[rowIdx] ? (
+                      <ResearchRowImage
+                        src={section.images[rowIdx]}
+                        alt={`${section.title} ${rowIdx + 1}`}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        if (section.imageLayout === "groupedRows" && section.rowGroups) {
+          let imageIdx = 0;
+          return (
+            <div key={section.title} className="space-y-8 lg:space-y-10">
+              <div>
+                <h4 className="text-base md:text-lg font-medium text-[#1a1a1a] tracking-wide">
+                  {section.title}
+                </h4>
+                {section.intro ? (
+                  <p className="mt-4 text-sm lg:text-base text-[#6b6b6b] leading-relaxed">
+                    {section.intro}
+                  </p>
+                ) : null}
+              </div>
+              {section.rowGroups.map((group, groupIdx) => (
+                <div key={`${section.title}-group-${groupIdx}`} className="space-y-6">
+                  {group.heading ? (
+                    <h5 className="text-sm md:text-base font-medium text-[#1a1a1a] tracking-wide">
+                      {group.heading}
+                    </h5>
+                  ) : null}
+
+                  {group.groupLayout === "labelOnly" ? null : group.groupLayout === "summary" && group.sharedImage ? (
+                    <ResearchRowImage
+                      src={group.sharedImage}
+                      alt={group.heading ?? section.title}
+                    />
+                  ) : group.groupLayout === "textTwinImages" &&
+                    group.prose &&
+                    group.images &&
+                    group.images.length >= 2 ? (
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+                      <p className="text-sm lg:text-base text-[#6b6b6b] leading-relaxed">
+                        {group.prose}
+                      </p>
+                      {group.images.slice(0, 2).map((src, twinIdx) => (
+                        <ResearchRowImage
+                          key={src}
+                          src={src}
+                          alt={`${group.heading ?? section.title} ${twinIdx + 1}`}
+                        />
+                      ))}
+                    </div>
+                  ) : group.groupLayout === "cards" && group.rows ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                      {group.rows.map((row) => (
+                        <div
+                          key={row.text}
+                          className="flex h-full flex-col items-center rounded-2xl bg-[#f2f7fa] px-4 py-6 text-center lg:px-5 lg:py-8"
+                        >
+                          {row.image ? (
+                            <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full border border-[#e5e5e5]/60 bg-[#fafafa] lg:h-28 lg:w-28">
+                              <ImageWithFallback
+                                src={row.image}
+                                alt={row.text}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          ) : null}
+                          <p className="mt-4 text-xs lg:text-sm text-[#6b6b6b] leading-relaxed">
+                            {row.text}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : group.sharedImage && group.items ? (
+                    (() => {
+                      const split = getResearchSplitLayout(
+                        group.splitRatio ?? "1:2",
+                      );
+                      return (
+                    <div className={split.grid}>
+                      <div className={split.text}>
+                        <ul className="text-sm lg:text-base text-[#6b6b6b] leading-relaxed space-y-2.5 list-disc pl-5 marker:text-[#CBD9E6]">
+                          {group.items.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div
+                        className={
+                          group.sharedImageScale
+                            ? `${split.image} flex justify-end`
+                            : split.image
+                        }
+                      >
+                        <div
+                          className={group.sharedImageScale ? undefined : "w-full"}
+                          style={getScaledImageWidthStyle(group.sharedImageScale)}
+                        >
+                          <ResearchRowImage
+                            src={group.sharedImage}
+                            alt={group.heading ?? section.title}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                      );
+                    })()
+                  ) : group.rows ? (
+                    group.rows.map((row) =>
+                      row.layout === "imageOnly" && row.image ? (
+                        <ResearchRowImage
+                          key={row.image}
+                          src={row.image}
+                          alt={group.heading ?? section.title}
+                        />
+                      ) : (
+                        (() => {
+                          const split = getResearchSplitLayout(
+                            row.splitRatio ?? "1:2",
+                          );
+                          return (
+                        <div
+                          key={row.text ?? row.image}
+                          className={split.grid}
+                        >
+                          <div className={split.text}>
+                            {row.label ? (
+                              <h6 className="text-xs md:text-sm font-bold uppercase tracking-widest text-[#2F4156] mb-3">
+                                {row.label}
+                              </h6>
+                            ) : null}
+                            {row.text ? (
+                              <p className="text-sm lg:text-base text-[#6b6b6b] leading-relaxed whitespace-pre-line">
+                                {row.text}
+                              </p>
+                            ) : null}
+                          </div>
+                          <div
+                            className={
+                              row.imageScale
+                                ? `${split.image} flex justify-end`
+                                : split.image
+                            }
+                          >
+                            {row.layout === "grid2x2" && row.images ? (
+                              <div className="grid grid-cols-2 gap-4 w-full">
+                                {row.images.map((src, gridIdx) => (
+                                  <ResearchRowImage
+                                    key={src}
+                                    src={src}
+                                    alt={`${row.text ?? group.heading} ${gridIdx + 1}`}
+                                  />
+                                ))}
+                              </div>
+                            ) : row.image ? (
+                              <div
+                                className={row.imageScale ? undefined : "w-full"}
+                                style={getScaledImageWidthStyle(row.imageScale)}
+                              >
+                                <ResearchRowImage
+                                  src={row.image}
+                                  alt={
+                                    row.text ?? group.heading ?? section.title
+                                  }
+                                />
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+                          );
+                        })()
+                      ),
+                    )
+                  ) : group.items ? (
+                    group.items.map((item) => {
+                      const currentImageIdx = imageIdx;
+                      imageIdx += 1;
+                      return (
+                        <div
+                          key={item}
+                          className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start"
+                        >
+                          <div className="lg:col-span-1">
+                            <p className="text-sm lg:text-base text-[#6b6b6b] leading-relaxed">
+                              {item}
+                            </p>
+                          </div>
+                          <div className="lg:col-span-2">
+                            {section.images[currentImageIdx] ? (
+                              <ResearchRowImage
+                                src={section.images[currentImageIdx]}
+                                alt={`${section.title} ${currentImageIdx + 1}`}
+                              />
+                            ) : null}
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        if (section.imageLayout === "vertical") {
+          return (
+            <div key={section.title} className="space-y-6">
+              <div>
+                <h4 className="text-base md:text-lg font-medium text-[#1a1a1a] tracking-wide">
+                  {section.title}
+                </h4>
+                {section.titleSubtitle ? (
+                  <p className="text-base md:text-lg font-medium text-[#1a1a1a] mt-1 mb-4 tracking-wide">
+                    {section.titleSubtitle}
+                  </p>
+                ) : null}
+                {hasCopyText(section.text) ? (
+                  <WhatWhyText text={section.text} />
+                ) : null}
+              </div>
+              {section.images[0] ? (
+                <ResearchRowImage
+                  src={section.images[0]}
+                  alt={section.titleSubtitle ?? section.title}
+                />
+              ) : null}
+            </div>
+          );
+        }
+
+        return (
+          <div
+            key={section.title}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start"
+          >
+            <div className="lg:col-span-1">
+              <h4 className="text-base md:text-lg font-medium text-[#1a1a1a] mb-4 tracking-wide">
+                {section.title}
+              </h4>
+              <WhatWhyText text={section.text} />
+            </div>
+            <div className="lg:col-span-2">
+              {section.imageLayout === "stack" ? (
+                <div className="flex flex-col gap-4">
+                  {section.images.map((src, imageIdx) => (
+                    <ResearchRowImage
+                      key={src}
+                      src={src}
+                      alt={`${section.title} ${imageIdx + 1}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <ResearchRowImage
+                  src={section.images[0]}
+                  alt={section.title}
+                />
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ProcessTasksSplitGallery({
+  groups,
+}: {
+  groups: ProcessTaskGroup[];
+}) {
+  return (
+    <div className="space-y-14">
+      {groups.map((group) => (
+        <div key={group.title} className="space-y-8 lg:space-y-10">
+          <h4 className="text-base md:text-lg font-medium text-[#1a1a1a] tracking-wide">
+            {group.title}
+          </h4>
+          {group.rows && group.rows.length > 0 ? (
+            group.rows.map((row) =>
+              group.rowLayout === "stack" ? (
+                <div key={row.title} className="space-y-4">
+                  <h5 className="text-sm md:text-base font-medium text-[#1a1a1a] tracking-wide">
+                    {row.title}
+                  </h5>
+                  <div className="flex flex-col gap-4 lg:gap-6">
+                    {row.video ? (
+                      <ResearchRowVideo
+                        src={row.video}
+                        label={`${row.title} animation`}
+                      />
+                    ) : null}
+                    <ResearchRowImage src={row.image} alt={row.title} />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  key={row.title}
+                  className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start"
+                >
+                  <div className="lg:col-span-1">
+                    <h5 className="text-sm md:text-base font-medium text-[#1a1a1a] mb-3 tracking-wide">
+                      {row.title}
+                    </h5>
+                    {hasCopyText(row.text) ? (
+                      <WhatWhyText text={row.text!} />
+                    ) : null}
+                  </div>
+                  <div className="lg:col-span-2">
+                    <ResearchRowImage src={row.image} alt={row.title} />
+                  </div>
+                </div>
+              ),
+            )
+          ) : group.layout === "verticalTriple" && group.images ? (
+            <div className="space-y-6">
+              {hasCopyText(group.text) ? (
+                <WhatWhyText text={group.text!} />
+              ) : null}
+              {group.stackImages && group.stackImages.length > 0 ? (
+                <div className="flex flex-col gap-4 lg:gap-6">
+                  {group.stackImages.map((src, imageIdx) => (
+                    <ResearchRowImage
+                      key={src}
+                      src={src}
+                      alt={`${group.title} detail ${imageIdx + 1}`}
+                    />
+                  ))}
+                </div>
+              ) : null}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {group.images.map((src, imageIdx) => (
+                  <ResearchRowImage
+                    key={src}
+                    src={src}
+                    alt={`${group.title} ${imageIdx + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : group.image && !hasCopyText(group.text) ? (
+            <ResearchRowImage src={group.image} alt={group.title} />
+          ) : group.text && group.image ? (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start">
+              <div className="lg:col-span-1">
+                <WhatWhyText text={group.text} />
+              </div>
+              <div className="lg:col-span-2">
+                <ResearchRowImage src={group.image} alt={group.title} />
+              </div>
+            </div>
+          ) : null}
+        </div>
+      ))}
     </div>
   );
 }
@@ -1673,6 +2117,43 @@ function ShaderDevelopmentShowcase({
   );
 }
 
+function ProcessTasksOutlineGallery({
+  items,
+}: {
+  items: ProcessTasksOutlineItem[];
+}) {
+  return (
+    <div className="w-full rounded-2xl bg-[#f2f7fa] border border-[#e5e5e5]/60 px-6 py-10 lg:px-8 lg:py-12">
+      <div className="flex flex-col divide-y divide-[#dcdcdc] lg:flex-row lg:divide-y-0 lg:divide-x">
+        {items.map((item) => (
+          <div
+            key={item.title}
+            className="flex flex-1 flex-col items-center text-center px-3 py-8 first:pt-0 last:pb-0 lg:px-5 lg:py-0"
+          >
+            {item.image ? (
+              <div className="mb-5 h-24 w-24 shrink-0 overflow-hidden rounded-full bg-[#e8f0eb] lg:h-[6.5rem] lg:w-[6.5rem]">
+                <ImageWithFallback
+                  src={item.image}
+                  alt={item.title}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ) : null}
+            <h4 className="mb-3 text-[11px] font-bold uppercase leading-snug tracking-widest text-[#2F4156] lg:text-xs">
+              {item.title}
+            </h4>
+            {item.subItems && item.subItems.length > 0 ? (
+              <p className="text-xs leading-relaxed text-[#2F4156]/85 lg:text-sm">
+                {item.subItems.join(", ")}
+              </p>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ProcessStepRow({
   step,
   idx,
@@ -1685,14 +2166,33 @@ function ProcessStepRow({
   const hasHowItems = step.howItems && step.howItems.length > 0;
   const hasIntegrationGallery =
     step.integrationImages && step.integrationImages.length > 0;
+  const hasIntegrationVideos =
+    step.integrationVideos && step.integrationVideos.length > 0;
+  const hasHowVideoRow = step.howVideoRow && step.howVideoRow.length > 0;
   const hasTriptych = Boolean(step.processTriptych);
   const hasThreePanelRow = Boolean(step.processThreePanelRow);
   const hasRenderQuad = Boolean(step.processRenderQuad);
+  const hasResearchSections =
+    Boolean(step.researchSections && step.researchSections.length > 0);
+  const hasTaskSections =
+    Boolean(step.taskSections && step.taskSections.length > 0);
+  const hasFlowchartImage = Boolean(step.flowchartImage);
+  const hasTasksOutline = Boolean(step.tasksOutline && step.tasksOutline.length > 0);
   const useFlatProcessText =
-    hasTriptych || hasThreePanelRow || hasRenderQuad;
+    hasTriptych ||
+    hasThreePanelRow ||
+    hasRenderQuad ||
+    hasResearchSections ||
+    hasTaskSections ||
+    hasFlowchartImage ||
+    hasTasksOutline ||
+    hasHowVideoRow ||
+    hasIntegrationVideos;
   const showStepText =
     !hasHowItems &&
     !hasIntegrationGallery &&
+    !hasIntegrationVideos &&
+    !hasHowVideoRow &&
     (step.text?.trim().length ?? 0) > 0;
 
   return (
@@ -1726,9 +2226,15 @@ function ProcessStepRow({
 
         {!hasHowItems &&
           !hasIntegrationGallery &&
+          !hasIntegrationVideos &&
+          !hasHowVideoRow &&
           !hasTriptych &&
           !hasThreePanelRow &&
-          !hasRenderQuad && (
+          !hasRenderQuad &&
+          !hasResearchSections &&
+          !hasTaskSections &&
+          !hasFlowchartImage &&
+          !hasTasksOutline && (
           <div
             className={
               step.preserveImageAspect
@@ -1761,6 +2267,36 @@ function ProcessStepRow({
         </div>
       )}
 
+      {hasResearchSections && step.researchSections && (
+        <div className="lg:ml-10">
+          <ProcessResearchSplitGallery sections={step.researchSections} />
+        </div>
+      )}
+
+      {hasTaskSections && step.taskSections && (
+        <div className="lg:ml-10">
+          <ProcessTasksSplitGallery groups={step.taskSections} />
+        </div>
+      )}
+
+      {hasTasksOutline && step.tasksOutline && (
+        <div className="w-full">
+          <ProcessTasksOutlineGallery items={step.tasksOutline} />
+        </div>
+      )}
+
+      {hasFlowchartImage && step.flowchartImage && (
+        <div className="lg:ml-10">
+          <div className="overflow-hidden rounded-2xl bg-[#fafafa] border border-[#e5e5e5]/60">
+            <ImageWithFallback
+              src={step.flowchartImage}
+              alt={`${step.stage} flowchart`}
+              className="w-full h-auto block object-contain"
+            />
+          </div>
+        </div>
+      )}
+
       {hasThreePanelRow && step.processThreePanelRow && (
         <div className="lg:ml-10">
           <ProcessThreePanelRowGallery layout={step.processThreePanelRow} />
@@ -1787,6 +2323,40 @@ function ProcessStepRow({
                   className="w-full h-full object-cover"
                 />
               </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {hasIntegrationVideos && (
+        <div
+          className={
+            hasIntegrationGallery
+              ? "lg:ml-10 mt-8 lg:mt-10"
+              : "lg:ml-10"
+          }
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+            {step.integrationVideos!.map((src, videoIdx) => (
+              <ResearchRowVideo
+                key={src}
+                src={src}
+                label={`${step.stage} ${videoIdx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {hasHowVideoRow && (
+        <div className="lg:ml-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8">
+            {step.howVideoRow!.map((src, videoIdx) => (
+              <ResearchRowVideo
+                key={src}
+                src={src}
+                label={`${step.stage} ${videoIdx + 1}`}
+              />
             ))}
           </div>
         </div>
@@ -1839,7 +2409,10 @@ function ProcessStepRow({
                     <WhatWhyText text={item.text} />
                   )}
                   {item.stepImages && item.stepImages.length > 0 && (
-                    <StepImagesRow images={item.stepImages} />
+                    <StepImagesRow
+                      images={item.stepImages}
+                      shape={item.stepImageShape}
+                    />
                   )}
                 </div>
                 <div className="lg:col-span-3">
@@ -1947,6 +2520,15 @@ function WorkDetailTemplate({
           text: detail.insight,
           image: getImg(1),
         },
+        ...(detail.approach
+          ? [
+              {
+                title: labels.approach,
+                text: detail.approach,
+                image: getImg(2),
+              },
+            ]
+          : []),
       ]
     : [
         {
@@ -1994,23 +2576,32 @@ function WorkDetailTemplate({
           stage: labels.processSteps.research,
           text: detail.process.research,
           image: detail.processImages?.research ?? getImg(0),
+          researchSections: detail.process.researchSections,
           preserveImageAspect:
             project.id === "popup-museum" || project.id === "life-begets-life",
         },
         {
-          stage: labels.processSteps.tasks,
+          stage:
+            detail.process.stepLabels?.tasks ?? labels.processSteps.tasks,
           text: detail.process.tasks,
           image: detail.processImages?.tasks ?? getImg(2),
+          flowchartImage: detail.process.tasksFlowchart,
+          tasksOutline: detail.process.tasksOutline,
+          taskSections: detail.process.tasksSections,
         },
         {
-          stage: labels.processSteps.how,
+          stage:
+            detail.process.stepLabels?.how ?? labels.processSteps.how,
           text: "",
           image: imagePlaceholder,
+          taskSections: detail.process.howTaskSections,
+          howVideoRow: detail.process.howVideoRow,
           howItems: detail.process.howItems.map((item) => ({
             title: item.title,
             text: item.text,
             image: item.image ?? imagePlaceholder,
             stepImages: item.stepImages,
+            stepImageShape: item.stepImageShape,
             animationCategories: item.animationCategories,
             carouselSlides: item.carouselSlides,
             shaderSections: item.shaderSections,
@@ -2018,12 +2609,19 @@ function WorkDetailTemplate({
             toolDevelopment: item.toolDevelopment,
           })),
         },
-        {
-          stage: labels.processSteps.output,
-          text: detail.process.output,
-          image: detail.processImages?.output ?? getImg(9),
-          integrationImages: detail.process.integrationImages,
-        },
+        ...(detail.process.hideOutputStep
+          ? []
+          : [
+              {
+                stage:
+                  detail.process.stepLabels?.output ??
+                  labels.processSteps.output,
+                text: detail.process.output,
+                image: detail.processImages?.output ?? getImg(9),
+                integrationImages: detail.process.integrationImages,
+                integrationVideos: detail.process.integrationVideos,
+              },
+            ]),
       ]
     : [
         {
@@ -2057,7 +2655,11 @@ function WorkDetailTemplate({
           Boolean,
         ) as string[]);
 
+  const resultGalleryLayout = detail?.resultGalleryLayout ?? "default";
   const resultGallery2x2 = resultImages.length === 4;
+  const resultGallery2x3 = resultImages.length === 6;
+  const resultGalleryLeftSplit =
+    resultGalleryLayout === "leftOneRightTwo" && resultImages.length >= 2;
 
   const resultVideoUrl = detail?.resultVideoUrl ?? project.videoUrl;
   const resultVideoKind = getVideoKind(resultVideoUrl);
@@ -2173,26 +2775,30 @@ function WorkDetailTemplate({
 
           <div className="w-full space-y-8">
             {resultImages.length > 0 ? (
-              <div
-                className={
-                  resultGallery2x2
-                    ? "grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 w-full"
-                    : "grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
-                }
-              >
-                {resultImages.map((src, imageIdx) => (
-                  <div
-                    key={`${src}-${imageIdx}`}
-                    className="bg-white overflow-hidden aspect-video border border-[#e5e5e5]/60"
-                  >
-                    <ImageWithFallback
-                      src={src}
-                      alt={`Result image ${imageIdx + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+              resultGalleryLeftSplit ? (
+                <ResultLeftSplitGallery images={resultImages} />
+              ) : (
+                <div
+                  className={
+                    resultGallery2x2 || resultGallery2x3
+                      ? "grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 w-full"
+                      : "grid grid-cols-1 md:grid-cols-3 gap-6 w-full"
+                  }
+                >
+                  {resultImages.map((src, imageIdx) => (
+                    <div
+                      key={`${src}-${imageIdx}`}
+                      className="overflow-hidden rounded-2xl bg-white aspect-video border border-[#e5e5e5]/60"
+                    >
+                      <ImageWithFallback
+                        src={src}
+                        alt={`Result image ${imageIdx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )
             ) : null}
 
             <p className="w-full text-[#6b6b6b] leading-relaxed text-lg whitespace-pre-line">

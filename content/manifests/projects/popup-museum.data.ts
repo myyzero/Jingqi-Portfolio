@@ -353,5 +353,9 @@ export const popupMuseumCopy = {
       local("result3"),
       local("result4"),
     ] as const,
+    resultVideo: {
+      en: remote("https://youtu.be/xCatM3rwGKA"),
+      zh: remote("https://youtu.be/xCatM3rwGKA"),
+    },
   },
 } as const;

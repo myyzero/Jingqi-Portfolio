@@ -160,6 +160,7 @@ export function buildPopupMuseumProject(language: Language): Project {
           title: pick(language, process.modelling.title),
           text: pick(language, process.modelling.text),
           stepImages: resolveMediaList(process.modelling.stepImages, assets),
+          stepImageShape: "roundedSquare",
           carouselSlides: buildCarouselSlides(),
         },
         {
@@ -188,6 +189,7 @@ export function buildPopupMuseumProject(language: Language): Project {
     },
     resultImpact: pick(language, result.impact),
     resultGalleryImages: resolveList(result.gallery),
+    resultVideoUrl: resolve(result.resultVideo[language]),
     processImages: {
       research: resolvePopupMuseumAsset("researchEn"),
       tasks: resolvePopupMuseumAsset("whatEn"),

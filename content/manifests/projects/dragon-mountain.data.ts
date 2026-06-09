@@ -1,5 +1,266 @@
+import type { LocalizedCopy, LocalizedStringList } from "../_schema/types";
 import type { ProjectManifestEntry } from "../_schema/projectManifest";
+import type { DragonMountainAssetKey } from "./dragon-mountain-assets";
 import { remote } from "./_media";
+
+export const dragonMountainWhatWhyCopy = {
+  problem: {
+    en: [
+      "Visitors often spend limited time engaging with paintings, reducing opportunities for deeper cultural understanding.",
+      "Traditional Chinese paintings contain rich artistic and cultural value that static displays fail to fully communicate.",
+      "Conventional exhibition formats struggle to attract sustained audience attention.",
+    ],
+    zh: [
+      "Visitors often spend limited time engaging with paintings, reducing opportunities for deeper cultural understanding.",
+      "Traditional Chinese paintings contain rich artistic and cultural value that static displays fail to fully communicate.",
+      "Conventional exhibition formats struggle to attract sustained audience attention.",
+    ],
+  } satisfies LocalizedStringList,
+  insight: {
+    en: [
+      "Interactive experiences can foster deeper engagement with traditional artworks and cultural heritage.",
+      "Digital technologies can make traditional culture more accessible, immersive, and memorable.",
+    ],
+    zh: [
+      "Interactive experiences can foster deeper engagement with traditional artworks and cultural heritage.",
+      "Digital technologies can make traditional culture more accessible, immersive, and memorable.",
+    ],
+  } satisfies LocalizedStringList,
+  approach: {
+    en: [
+      "Researched the symbolism, narratives, and artistic intentions within Autumn Colors Across Rivers and Mountains.",
+      "Transformed the 2D painting into an interactive 3D environment using Unreal Engine, integrating animation, sound, and real-time interaction.",
+      "Enabled visitors to explore the artwork from within, uncovering cultural narratives through immersive and gamified experiences.",
+    ],
+    zh: [
+      "Researched the symbolism, narratives, and artistic intentions within Autumn Colors Across Rivers and Mountains.",
+      "Transformed the 2D painting into an interactive 3D environment using Unreal Engine, integrating animation, sound, and real-time interaction.",
+      "Enabled visitors to explore the artwork from within, uncovering cultural narratives through immersive and gamified experiences.",
+    ],
+  } satisfies LocalizedStringList,
+} as const;
+
+export const dragonMountainResearchCopy = [
+  {
+    title: {
+      en: "Theory Study",
+      zh: "Theory Study",
+    } satisfies LocalizedCopy,
+    text: {
+      en: [
+        "Investigated Wang Yuanqi's Theory of the Dragon Vein, which emphasizes the interconnected flow and structure underlying Chinese landscape paintings.",
+        "Identified how spatial relationships between mountains, rivers, trees, architecture, and figures guide visual navigation and narrative progression.",
+      ],
+      zh: [
+        "Investigated Wang Yuanqi's Theory of the Dragon Vein, which emphasizes the interconnected flow and structure underlying Chinese landscape paintings.",
+        "Identified how spatial relationships between mountains, rivers, trees, architecture, and figures guide visual navigation and narrative progression.",
+      ],
+    } satisfies LocalizedStringList,
+    imageKeys: ["theory1", "theory2"] as const satisfies readonly DragonMountainAssetKey[],
+    imageLayout: "rows" as const,
+  },
+  {
+    title: {
+      en: "Painting Analysis",
+      zh: "Painting Analysis",
+    } satisfies LocalizedCopy,
+    text: {
+      en: [
+        "Analyzed key visual elements, symbolism, and compositional structures within Autumn Colors Across Rivers and Mountains.",
+        "Defined interactive opportunities and prioritized components for 3D reconstruction based on the Dragon Vein framework.",
+      ],
+      zh: [
+        "Analyzed key visual elements, symbolism, and compositional structures within Autumn Colors Across Rivers and Mountains.",
+        "Defined interactive opportunities and prioritized components for 3D reconstruction based on the Dragon Vein framework.",
+      ],
+    } satisfies LocalizedStringList,
+    imageKeys: ["paintingAnalysis1", "paintingAnalysis2"] as const satisfies readonly DragonMountainAssetKey[],
+    imageLayout: "rows" as const,
+  },
+  {
+    title: {
+      en: "UX Design - Experience Logic Wireframe Deck",
+      zh: "UX Design - Experience Logic Wireframe Deck",
+    } satisfies LocalizedCopy,
+    text: {
+      en: [] as const,
+      zh: [] as const,
+    } satisfies LocalizedStringList,
+    imageKeys: ["experienceMapping"] as const satisfies readonly DragonMountainAssetKey[],
+    imageLayout: "vertical" as const,
+  },
+] as const;
+
+export const dragonMountainTasksCopy = {
+  modelling3d: {
+    title: {
+      en: "3D Modelling & Environment Design",
+      zh: "3D Modelling & Environment Design",
+    } satisfies LocalizedCopy,
+    text: {
+      en: [
+        "In Unreal Engine, sculpted mountain terrain with landscape tools to follow the painting's forms and developed custom ink-wash style materials.",
+        "In Maya, modelled architectural elements from the painting and imported them into Unreal Engine with tailored surface materials.",
+      ],
+      zh: [
+        "In Unreal Engine, sculpted mountain terrain with landscape tools to follow the painting's forms and developed custom ink-wash style materials.",
+        "In Maya, modelled architectural elements from the painting and imported them into Unreal Engine with tailored surface materials.",
+      ],
+    } satisfies LocalizedStringList,
+    imageKeys: ["model1", "model2", "model3"] as const satisfies readonly DragonMountainAssetKey[],
+    stackImageKeys: ["modelWhole2", "modelWhole1"] as const satisfies readonly DragonMountainAssetKey[],
+    layout: "verticalTriple" as const,
+  },
+  interactionDesign: {
+    title: {
+      en: "Interaction Design",
+      zh: "Interaction Design",
+    } satisfies LocalizedCopy,
+    rowLayout: "stack" as const,
+    rows: [
+      {
+        title: {
+          en: "Dialogue System",
+          zh: "Dialogue System",
+        } satisfies LocalizedCopy,
+        imageKey: "dialogueSystem" as const satisfies DragonMountainAssetKey,
+        videoKey: "dialogueSystemVideo" as const satisfies DragonMountainAssetKey,
+      },
+      {
+        title: {
+          en: "Navigation System",
+          zh: "Navigation System",
+        } satisfies LocalizedCopy,
+        imageKey: "navigationSystem" as const satisfies DragonMountainAssetKey,
+        videoKey: "navigationSystemVideo" as const satisfies DragonMountainAssetKey,
+      },
+      {
+        title: {
+          en: "Soaring on a Giant Bird",
+          zh: "Soaring on a Giant Bird",
+        } satisfies LocalizedCopy,
+        imageKey: "soaringBird" as const satisfies DragonMountainAssetKey,
+        videoKey: "soaringBirdVideo" as const satisfies DragonMountainAssetKey,
+      },
+      {
+        title: {
+          en: "Navigating by boat",
+          zh: "Navigating by boat",
+        } satisfies LocalizedCopy,
+        imageKey: "navigatingBoat" as const satisfies DragonMountainAssetKey,
+        videoKey: "navigatingBoatVideo" as const satisfies DragonMountainAssetKey,
+      },
+      {
+        title: {
+          en: "Withered Tree Regrowth",
+          zh: "Withered Tree Regrowth",
+        } satisfies LocalizedCopy,
+        imageKey: "witheredTree" as const satisfies DragonMountainAssetKey,
+        videoKey: "witheredTreeVideo" as const satisfies DragonMountainAssetKey,
+      },
+      {
+        title: {
+          en: "Weather System",
+          zh: "Weather System",
+        } satisfies LocalizedCopy,
+        imageKey: "weatherSystem" as const satisfies DragonMountainAssetKey,
+        videoKey: "weatherSystemVideo" as const satisfies DragonMountainAssetKey,
+      },
+      {
+        title: {
+          en: "Collection System",
+          zh: "Collection System",
+        } satisfies LocalizedCopy,
+        imageKey: "collectionSystem" as const satisfies DragonMountainAssetKey,
+        videoKey: "collectionSystemVideo" as const satisfies DragonMountainAssetKey,
+      },
+    ],
+  },
+  uiDesign: {
+    title: {
+      en: "UI Design",
+      zh: "UI Design",
+    } satisfies LocalizedCopy,
+    imageKey: "uiDesign" as const satisfies DragonMountainAssetKey,
+  },
+  postcardBookmark: {
+    title: {
+      en: "Postcard & Bookmark Design",
+      zh: "Postcard & Bookmark Design",
+    } satisfies LocalizedCopy,
+    imageKey: "postcardBookmark" as const satisfies DragonMountainAssetKey,
+  },
+} as const;
+
+export const dragonMountainTasksOutlineCopy = [
+  {
+    title: {
+      en: "3D Modelling & Environment Design",
+      zh: "3D Modelling & Environment Design",
+    } satisfies LocalizedCopy,
+    subItems: {
+      en: ["Architecture in Maya", "Terrains and Mountains in UE"],
+      zh: ["Architecture in Maya", "Terrains and Mountains in UE"],
+    } satisfies LocalizedStringList,
+    imageKey: "taskCol1" as const satisfies DragonMountainAssetKey,
+  },
+  {
+    title: {
+      en: "Interaction Design",
+      zh: "Interaction Design",
+    } satisfies LocalizedCopy,
+    subItems: {
+      en: [
+        "Dialogue System",
+        "Navigation System",
+        "Soaring on a Giant Bird",
+        "Navigating by boat",
+        "Withered Tree Regrowth",
+        "Weather System",
+        "Collection System",
+      ],
+      zh: [
+        "Dialogue System",
+        "Navigation System",
+        "Soaring on a Giant Bird",
+        "Navigating by boat",
+        "Withered Tree Regrowth",
+        "Weather System",
+        "Collection System",
+      ],
+    } satisfies LocalizedStringList,
+    imageKey: "taskCol2" as const satisfies DragonMountainAssetKey,
+  },
+  {
+    title: {
+      en: "UI Design",
+      zh: "UI Design",
+    } satisfies LocalizedCopy,
+    imageKey: "taskCol3" as const satisfies DragonMountainAssetKey,
+  },
+  {
+    title: {
+      en: "Postcard & Bookmark Design",
+      zh: "Postcard & Bookmark Design",
+    } satisfies LocalizedCopy,
+    imageKey: "taskCol4" as const satisfies DragonMountainAssetKey,
+  },
+] as const;
+
+export const dragonMountainResultCopy = {
+  resultGalleryKeys: [
+    "result1",
+    "result2",
+    "result3",
+    "result4",
+    "result5",
+    "result6",
+  ] as const satisfies readonly DragonMountainAssetKey[],
+  resultVideo: {
+    en: "https://youtu.be/jrOYWVOa4_k",
+    zh: "https://youtu.be/jrOYWVOa4_k",
+  },
+} as const;
 
 export const dragonMountainManifest: ProjectManifestEntry = {
   id: "dragon-mountain",

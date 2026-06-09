@@ -1,5 +1,331 @@
 import type { ProjectManifestEntry } from "../_schema/projectManifest";
+import type { LocalizedCopy, LocalizedStringList } from "../_schema/types";
+import type { SeeingUnseenAssetKey } from "./seeing-unseen-assets";
 import { remote } from "./_media";
+
+export const seeingUnseenWhatWhyCopy = {
+  problem: {
+    en: [
+      "Urban sensory adaptation causes people to become desensitised to everyday environmental stimuli.",
+      "Continuous exposure to noise and visual overload can negatively impact wellbeing despite often going unnoticed.",
+      'Research Question: How can people become aware of sensory stimuli that have been normalised and overlooked in urban environments?',
+    ],
+    zh: [
+      "Urban sensory adaptation causes people to become desensitised to everyday environmental stimuli.",
+      "Continuous exposure to noise and visual overload can negatively impact wellbeing despite often going unnoticed.",
+      'Research Question: How can people become aware of sensory stimuli that have been normalised and overlooked in urban environments?',
+    ],
+  } satisfies LocalizedStringList,
+  insight: {
+    en: [
+      "Awareness is the first step toward reclaiming sensory agency.",
+      "Real-time feedback can help people recognise both environmental conditions and changes in their own sensory responsiveness.",
+    ],
+    zh: [
+      "Awareness is the first step toward reclaiming sensory agency.",
+      "Real-time feedback can help people recognise both environmental conditions and changes in their own sensory responsiveness.",
+    ],
+  } satisfies LocalizedStringList,
+  approach: {
+    en: [
+      "Literature review on sensory perception and urban sensory discipline.",
+      "Environmental data collection and analysis.",
+      "Wearable system design and hardware prototyping.",
+      "Development of visual and haptic feedback mechanisms to externalise sensory information.",
+    ],
+    zh: [
+      "Literature review on sensory perception and urban sensory discipline.",
+      "Environmental data collection and analysis.",
+      "Wearable system design and hardware prototyping.",
+      "Development of visual and haptic feedback mechanisms to externalise sensory information.",
+    ],
+  } satisfies LocalizedStringList,
+} as const;
+
+export const seeingUnseenResearchCopy = [
+  {
+    title: {
+      en: "1. Field Research: Understanding Urban Environmental Perception",
+      zh: "1. Field Research: Understanding Urban Environmental Perception",
+    } satisfies LocalizedCopy,
+    intro: {
+      en: "To investigate how people perceive urban environments in everyday life, field studies were conducted across a range of locations in London, including residential areas, commercial districts, public squares, and urban green spaces.",
+      zh: "To investigate how people perceive urban environments in everyday life, field studies were conducted across a range of locations in London, including residential areas, commercial districts, public squares, and urban green spaces.",
+    } satisfies LocalizedCopy,
+    rowGroups: [
+      {
+        heading: {
+          en: "Research Activities",
+          zh: "Research Activities",
+        } satisfies LocalizedCopy,
+        rows: [
+          {
+            text: {
+              en: "Site observations and environmental documentation through photography and audio recording.",
+              zh: "Site observations and environmental documentation through photography and audio recording.",
+            } satisfies LocalizedCopy,
+            imageKey: "researchSite1" as const satisfies SeeingUnseenAssetKey,
+            layout: "split" as const,
+          },
+          {
+            text: {
+              en: "Intercept interviews with passers-by regarding their perceptions of sound and colour in the surrounding environment.",
+              zh: "Intercept interviews with passers-by regarding their perceptions of sound and colour in the surrounding environment.",
+            } satisfies LocalizedCopy,
+            imageKeys: [
+              "interview1",
+              "interview2",
+              "interview3",
+              "interview4",
+            ] as const satisfies readonly SeeingUnseenAssetKey[],
+            layout: "grid2x2" as const,
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Key Findings",
+          zh: "Key Findings",
+        } satisfies LocalizedCopy,
+        groupLayout: "cards" as const,
+        rows: [
+          {
+            text: {
+              en: "Urban noise feels inevitable—few question its impact on wellbeing.",
+              zh: "城市噪音被视为理所当然，鲜少质疑其对身心健康的影响。",
+            } satisfies LocalizedCopy,
+            imageKey: "key1" as const satisfies SeeingUnseenAssetKey,
+          },
+          {
+            text: {
+              en: "Daily traffic and crowd noise normalises stimuli, lowering conscious awareness.",
+              zh: "持续的交通与人群噪音使刺激常态化，降低感知觉察。",
+            } satisfies LocalizedCopy,
+            imageKey: "key2" as const satisfies SeeingUnseenAssetKey,
+          },
+          {
+            text: {
+              en: "Natural environments bring greater comfort, calm, and satisfaction.",
+              zh: "自然环境带来更高的舒适、平静与满意度。",
+            } satisfies LocalizedCopy,
+            imageKey: "key3" as const satisfies SeeingUnseenAssetKey,
+          },
+          {
+            text: {
+              en: "Visually rich settings with more colour and natural elements were strongly preferred.",
+              zh: "更偏好色彩丰富、自然元素较多的视觉环境。",
+            } satisfies LocalizedCopy,
+            imageKey: "key4" as const satisfies SeeingUnseenAssetKey,
+          },
+        ],
+      },
+    ],
+    imageLayout: "groupedRows" as const,
+  },
+  {
+    title: {
+      en: "2. Online Survey: Factors Influencing Environmental Experience",
+      zh: "2. Online Survey: Factors Influencing Environmental Experience",
+    } satisfies LocalizedCopy,
+    intro: {
+      en: "To further explore public perceptions at a larger scale, an online questionnaire was distributed to evaluate how people experience urban soundscapes and visual environments.",
+      zh: "To further explore public perceptions at a larger scale, an online questionnaire was distributed to evaluate how people experience urban soundscapes and visual environments.",
+    } satisfies LocalizedCopy,
+    rowGroups: [
+      {
+        heading: {
+          en: "Survey Overview",
+          zh: "Survey Overview",
+        } satisfies LocalizedCopy,
+        items: {
+          en: [
+            "Sample Size: N = 256",
+            "Method: Online questionnaire",
+            "Focus Areas: Environmental comfort; Perceived pleasantness; Soundscape appropriateness; Satisfaction with environmental conditions; Preferences toward different sound and colour characteristics",
+          ],
+          zh: [
+            "Sample Size: N = 256",
+            "Method: Online questionnaire",
+            "Focus Areas: Environmental comfort; Perceived pleasantness; Soundscape appropriateness; Satisfaction with environmental conditions; Preferences toward different sound and colour characteristics",
+          ],
+        } satisfies LocalizedStringList,
+        sharedImageKey: "onlineSurvey" as const satisfies SeeingUnseenAssetKey,
+        sharedImageScale: 0.75,
+        splitRatio: "2:1" as const,
+      },
+      {
+        heading: {
+          en: "How to describe sound and colour perception",
+          zh: "How to describe sound and colour perception",
+        } satisfies LocalizedCopy,
+        rows: [
+          {
+            label: {
+              en: "SOUND",
+              zh: "SOUND",
+            } satisfies LocalizedCopy,
+            text: {
+              en: "We selected Acoustic Comfort and Pleasantness as the research target, with Average RMS Amplitude as an objective sound measure, Average Chromaticity Difference to represent color variation, Soundscape Appropriateness to reflect consistency, and nine types of sound sources as the potential factors influencing acoustic comfort.",
+              zh: "We selected Acoustic Comfort and Pleasantness as the research target, with Average RMS Amplitude as an objective sound measure, Average Chromaticity Difference to represent color variation, Soundscape Appropriateness to reflect consistency, and nine types of sound sources as the potential factors influencing acoustic comfort.",
+            } satisfies LocalizedCopy,
+            imageKey: "surveySound" as const satisfies SeeingUnseenAssetKey,
+            layout: "split" as const,
+          },
+          {
+            label: {
+              en: "COLOUR",
+              zh: "COLOUR",
+            } satisfies LocalizedCopy,
+            text: {
+              en: "We use Average Chromaticity Difference to describe the colour complexity of the environment.\n\nVarying degrees of chromatic differences in the environment may trigger different levels of physiological discomfort, potentially posing risks to human health (Penacchio et al., 2021).\n\nThe Average Chromaticity Difference of each scene image are calculated in Matlab2019.",
+              zh: "We use Average Chromaticity Difference to describe the colour complexity of the environment.\n\nVarying degrees of chromatic differences in the environment may trigger different levels of physiological discomfort, potentially posing risks to human health (Penacchio et al., 2021).\n\nThe Average Chromaticity Difference of each scene image are calculated in Matlab2019.",
+            } satisfies LocalizedCopy,
+            imageKey: "surveyAcd" as const satisfies SeeingUnseenAssetKey,
+            layout: "split" as const,
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Key Findings",
+          zh: "Key Findings",
+        } satisfies LocalizedCopy,
+        groupLayout: "labelOnly" as const,
+      },
+      {
+        heading: {
+          en: "Perception difference",
+          zh: "Perception difference",
+        } satisfies LocalizedCopy,
+        groupLayout: "textTwinImages" as const,
+        prose: {
+          en: "The questionnaire results showed that individuals exhibited significant differences in their perceptions of the same environment, making it difficult to use a single objective variable as a unified standard to evaluate their environmental experiences.",
+          zh: "The questionnaire results showed that individuals exhibited significant differences in their perceptions of the same environment, making it difficult to use a single objective variable as a unified standard to evaluate their environmental experiences.",
+        } satisfies LocalizedCopy,
+        imageKeys: [
+          "finding1",
+          "finding2",
+        ] as const satisfies readonly SeeingUnseenAssetKey[],
+      },
+      {
+        heading: {
+          en: "New evaluation system",
+          zh: "New evaluation system",
+        } satisfies LocalizedCopy,
+        rows: [
+          {
+            text: {
+              en: "We used the previously proposed indicators of soundscape perception as latent variables and conducted a linear regression analysis to examine their effects on acoustic comfort.\n\nThe variables that showed significant influence were included in a linear regression equation, through which the statistical value of acoustic comfort could be predicted.",
+              zh: "We used the previously proposed indicators of soundscape perception as latent variables and conducted a linear regression analysis to examine their effects on acoustic comfort.\n\nThe variables that showed significant influence were included in a linear regression equation, through which the statistical value of acoustic comfort could be predicted.",
+            } satisfies LocalizedCopy,
+            imageKey: "finding3" as const satisfies SeeingUnseenAssetKey,
+            layout: "split" as const,
+          },
+          {
+            text: {
+              en: "When selecting influencing factors, we added construction noise which showed significant differences in the questionnaire results, as a new variable.\n\nNext, we aim to simplify the model and conduct further analysis from a local perspective to obtain more detailed conclusions.",
+              zh: "When selecting influencing factors, we added construction noise which showed significant differences in the questionnaire results, as a new variable.\n\nNext, we aim to simplify the model and conduct further analysis from a local perspective to obtain more detailed conclusions.",
+            } satisfies LocalizedCopy,
+            imageKey: "finding4" as const satisfies SeeingUnseenAssetKey,
+            layout: "split" as const,
+          },
+        ],
+      },
+      {
+        heading: {
+          en: "Summary",
+          zh: "Summary",
+        } satisfies LocalizedCopy,
+        groupLayout: "summary" as const,
+        sharedImageKey: "surveyModelling" as const satisfies SeeingUnseenAssetKey,
+      },
+    ],
+    imageLayout: "groupedRows" as const,
+  },
+  {
+    title: {
+      en: "3. Data Analysis - Linear Process",
+      zh: "3. Data Analysis - Linear Process",
+    } satisfies LocalizedCopy,
+    rowGroups: [
+      {
+        rows: [
+          {
+            text: {
+              en: "We simplified the previously obtained model equation, focusing on the variables that influence people's sense of pleasantness.\n\nThe resulting linear regression model includes four factors—RMS, ACD, Wind, and Airplane—and can be used to predict the perceived pleasantness of urban-disciplined groups in a given environment.",
+              zh: "We simplified the previously obtained model equation, focusing on the variables that influence people's sense of pleasantness.\n\nThe resulting linear regression model includes four factors—RMS, ACD, Wind, and Airplane—and can be used to predict the perceived pleasantness of urban-disciplined groups in a given environment.",
+            } satisfies LocalizedCopy,
+            imageKey: "linear" as const satisfies SeeingUnseenAssetKey,
+            imageScale: 0.75,
+            splitRatio: "1:1" as const,
+            layout: "split" as const,
+          },
+          {
+            imageKey: "linear2" as const satisfies SeeingUnseenAssetKey,
+            layout: "imageOnly" as const,
+          },
+        ],
+      },
+    ],
+    imageLayout: "groupedRows" as const,
+  },
+] as const;
+
+export const seeingUnseenTasksCopy = {
+  userJourney: {
+    title: {
+      en: "User journey",
+      zh: "User journey",
+    } satisfies LocalizedCopy,
+    imageKey: "userJourney" as const satisfies SeeingUnseenAssetKey,
+  },
+  hardwareDevelopment: {
+    title: {
+      en: "Hardware system development",
+      zh: "Hardware system development",
+    } satisfies LocalizedCopy,
+    layout: "verticalTriple" as const,
+    imageKeys: ["hard1", "hard2", "hard3"] as const satisfies readonly SeeingUnseenAssetKey[],
+  },
+} as const;
+
+export const seeingUnseenHowCopy = {
+  videoKeys: [
+    "aniGear1",
+    "aniGear2",
+    "aniMake",
+  ] as const satisfies readonly SeeingUnseenAssetKey[],
+} as const;
+
+export const seeingUnseenIntegrationCopy = {
+  imageKeys: [
+    "final1",
+    "final2",
+    "final3",
+  ] as const satisfies readonly SeeingUnseenAssetKey[],
+  videoKeys: [
+    "aniUse",
+    "aniOutcome",
+  ] as const satisfies readonly SeeingUnseenAssetKey[],
+} as const;
+
+export const seeingUnseenResultCopy = {
+  galleryLayout: "leftOneRightTwo" as const,
+  galleryKeys: [
+    "resultLeft",
+    "result1",
+    "result2",
+    "result3",
+  ] as const satisfies readonly SeeingUnseenAssetKey[],
+  impact: {
+    en: "Exhibited at the 2025 Bartlett Fifteen Show, the work received enthusiastic and consistently positive feedback from visitors.",
+    zh: "该项目于 2025 年 Bartlett Fifteen Show 展出，收获了观众广泛而积极的反馈。",
+  } satisfies LocalizedCopy,
+  video: {
+    en: "https://youtu.be/RkLyVnXSmog",
+    zh: "https://youtu.be/RkLyVnXSmog",
+  } satisfies LocalizedCopy,
+} as const;
 
 export const seeingUnseenManifest: ProjectManifestEntry = {
   id: "seeing-unseen",

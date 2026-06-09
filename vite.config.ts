@@ -25,4 +25,11 @@ export default defineConfig({
   // Uncomment and set the base to your repo name: base: '/your-repo-name/'
   // If deploying to a custom domain or https://<USERNAME>.github.io/, use: base: '/'
   base: '/',
+
+  server: {
+    // Bind IPv4 + IPv6 so both localhost and 127.0.0.1 work on Windows.
+    host: true,
+    port: 5173,
+    strictPort: true,
+  },
 })

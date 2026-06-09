@@ -2,8 +2,10 @@ import type { Language } from "../_schema/types";
 import type { ProjectManifestEntry } from "../_schema/projectManifest";
 import type { Project } from "../../en/projects";
 import { buildProjectFromManifest } from "./build-project";
+import { buildSeeingUnseenProject } from "./build-seeing-unseen";
 import { seeingUnseenManifest } from "./seeing-unseen.data";
 import { interactiveArchiveManifest } from "./interactive-archive.data";
+import { buildDragonMountainProject } from "./build-dragon-mountain";
 import { dragonMountainManifest } from "./dragon-mountain.data";
 import { aquasWillManifest } from "./aquas-will.data";
 import { mixingHappinessManifest } from "./mixing-happiness.data";
@@ -39,14 +41,14 @@ export function buildProject(
 /** Card-level projects grouped as in `content/en|zh/projects.ts`. */
 export function buildInteractiveInstallation(language: Language): Project[] {
   return [
-    buildProject("seeing-unseen", language),
+    buildSeeingUnseenProject(language),
     buildProject("interactive-archive", language),
   ];
 }
 
 export function buildImmersiveGaming(language: Language): Project[] {
   return [
-    buildProject("dragon-mountain", language),
+    buildDragonMountainProject(language),
     buildProject("aquas-will", language),
     buildProject("mixing-happiness", language),
     buildProject("emotional-trap", language),

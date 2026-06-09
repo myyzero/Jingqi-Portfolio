@@ -24,15 +24,31 @@ import type {
   ProcessTriptychLayout,
   ProcessThreePanelRow,
   ProcessRenderQuadLayout,
+  ProcessResearchSubsection,
+  ProcessResearchSplitLayout,
+  ProcessTaskGroup,
+  ProcessTaskRow,
+  ProcessTasksOutlineItem,
 } from "../manifests/_schema/workDetailBlocks";
 
-export type { ProcessTriptychLayout, ProcessThreePanelRow, ProcessRenderQuadLayout };
+export type {
+  ProcessTriptychLayout,
+  ProcessThreePanelRow,
+  ProcessRenderQuadLayout,
+  ProcessResearchSubsection,
+  ProcessResearchSplitLayout,
+  ProcessTaskGroup,
+  ProcessTaskRow,
+  ProcessTasksOutlineItem,
+};
 
 export type DetailBullet = {
   title: string;
   text: string | string[];
   image?: string;
   stepImages?: string[];
+  /** Shape for `stepImages` row. Default: circle. */
+  stepImageShape?: "circle" | "roundedSquare";
   processTriptych?: ProcessTriptychLayout;
   processThreePanelRow?: ProcessThreePanelRow;
   processRenderQuad?: ProcessRenderQuadLayout;
@@ -46,6 +62,8 @@ export type DetailBullet = {
 export type ProjectDetailContent = {
   problem: string | string[];
   insight: string | string[];
+  /** When set, rendered as a third block inside What & Why (not a separate Approach section). */
+  approach?: string | string[];
   approachItems: DetailBullet[];
   process: {
     /** When `pipeline`, `pipeline` replaces Research / Tasks / How / Integration steps. */
@@ -56,9 +74,29 @@ export type ProjectDetailContent = {
     howItems: DetailBullet[];
     output: string;
     integrationImages?: readonly string[];
+    /** INTEGRATION step — looping videos in a horizontal row. */
+    integrationVideos?: readonly string[];
+    /** HOW step — looping videos in a horizontal row (replaces default howItems layout). */
+    howVideoRow?: readonly string[];
+    /** Replaces default Research sidebar layout with split subsections. */
+    researchSections?: ProcessResearchSubsection[];
+    /** Rendered under How to do it (left text / right image groups). */
+    howTaskSections?: ProcessTaskGroup[];
+    /** Rendered under the Tasks step (subsection galleries). */
+    tasksSections?: ProcessTaskGroup[];
+    /** Full-width flowchart image for the Tasks step. */
+    tasksFlowchart?: string;
+    /** Outline bullets for the Tasks step (replaces flowchart when set). */
+    tasksOutline?: ProcessTasksOutlineItem[];
+    /** Override default process step labels (e.g. Tasks → TASKS). */
+    stepLabels?: { tasks?: string; how?: string; output?: string };
+    /** When true, omit the Integration / Output process step. */
+    hideOutputStep?: boolean;
   };
   resultImpact: string;
   resultGalleryImages?: readonly string[];
+  /** `leftOneRightTwo`: one image left, remaining images stacked right (1:1 columns). */
+  resultGalleryLayout?: "default" | "leftOneRightTwo";
   /** Optional video for Result & Impact (falls back to project.videoUrl). */
   resultVideoUrl?: string;
   processImages?: {

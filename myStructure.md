@@ -373,39 +373,28 @@ More than a wearable, Seeing the Unseen invites us to reconsider sensory thresho
 
 #### Problem
 
-- City dwellers are trained to filter stimuli; many sensations never register consciously.
-- The project goal was to externalise the gap between measured environment and felt experience, using the body as an interface rather than a phone screen.
+- Urban sensory adaptation causes people to become desensitised to everyday environmental stimuli.
+- Continuous exposure to noise and visual overload can negatively impact wellbeing despite often going unnoticed.
+- Research Question: How can people become aware of sensory stimuli that have been normalised and overlooked in urban environments?
 
-**Media:** `materials/seeing-unseen/whatwhy/problem.png` `[CONFIRM — file not in repo yet]`  
-**Also (manifest gallery):** `images[0–2]` concept / early device
+**Media:**   
+
 
 #### Insight
 
-- People engaged most when the device felt like a conversation with themselves, not a scoreboard.
-- Each input retrains the model, so the wearer sees how their calibration diverges from the group model—surfacing sensory discipline as something learned, not fixed.
+- Awareness is the first step toward reclaiming sensory agency.
+- Real-time feedback can help people recognise both environmental conditions and changes in their own sensory responsiveness.
 
-**Media:** `materials/seeing-unseen/whatwhy/insight.jpg` `[CONFIRM]`
+**Media:** 
 
-#### Approach 1 — Data collection and Model  Built
+#### Approach
 
-- Co-built wearable hardware pipeline (sensors → microcontrollers → output actuators) with teammates.
-- Integrated live capture of environmental sound and colour for real-time inference.
+- Literature review on sensory perception and urban sensory discipline.
+- Environmental data collection and analysis.
+- Wearable system design and hardware prototyping.
+- Development of visual and haptic feedback mechanisms to externalise sensory information.
 
-**Media:** `materials/seeing-unseen/approach/approach_1.jpg` `[CONFIRM]` · manifest `images[3–5]`
-
-#### Approach 2 — Wearable Design and Hardware System
-
-- Conducted colour and sound studies to define features fed into the regression model.
-- Compared disciplined vs. less-filtered participant groups to train prediction baselines. `[CONFIRM sample size]`
-
-**Media:** `materials/seeing-unseen/approach/approach_2.jpg` `[CONFIRM]`
-
-#### Approach 3 — Outcome Visualization and Narrative Film
-
-- Designed feedback patterns (light, motion, haptics) legible in gallery without a manual.
-- Supported walk-up trials where visitors compared predicted vs. felt responses.
-
-**Media:** `materials/seeing-unseen/approach/approach_3.jpg` `[CONFIRM]` · manifest `images[6–8]`
+**Media:** 
 
 ---
 
@@ -414,13 +403,67 @@ More than a wearable, Seeing the Unseen invites us to reconsider sensory thresho
 #### Research (step copy)
 
 ```
-Field Research: 
+RESEARCH
+1. Field Research: Understanding Urban Environmental Perception
+
+To investigate how people perceive urban environments in everyday life, field studies were conducted across a range of locations in London, including residential areas, commercial districts, public squares, and urban green spaces.
+
+Research Activities
+Site observations and environmental documentation through photography and audio recording.
+Intercept interviews with passers-by regarding their perceptions of sound and colour in the surrounding environment.
+Comparative analysis of environmental characteristics across different urban contexts.
+Key Findings
+Most participants described urban noise as an unavoidable aspect of city living and rarely questioned its impact on their wellbeing.
+Continuous exposure to traffic, construction, and crowd-related sounds appeared to normalise these stimuli, reducing conscious awareness of them.
+Natural environments were consistently associated with greater comfort, calmness, and environmental satisfaction.
+Participants showed a strong preference for visually rich environments with greater colour variation and natural elements.
+2. Online Survey: Factors Influencing Environmental Experience
+
+To further explore public perceptions at a larger scale, an online questionnaire was distributed to evaluate how people experience urban soundscapes and visual environments.
+
+Survey Overview
+Sample Size: N = 256
+Method: Online questionnaire
+Focus Areas:
+Environmental comfort
+Perceived pleasantness
+Soundscape appropriateness
+Satisfaction with environmental conditions
+Preferences toward different sound and colour characteristics
+Key Findings
+Participants generally reported lower satisfaction with environments characterised by excessive mechanical or traffic noise.
+Natural sounds were perceived as more pleasant and appropriate across most environmental contexts.
+Visually diverse environments with stronger chromatic contrast were consistently rated as more attractive and engaging.
+Responses revealed considerable variation between individuals, suggesting that environmental perception is highly subjective and influenced by personal sensitivity.
+3. Emerging Patterns from the Research
+
+By comparing findings from field observations and survey responses, two recurring factors emerged as potential drivers of environmental satisfaction.
+
+Sound Factors
+Sound intensity (loudness)
+Types and composition of sound sources
+Visual Factors
+Degree of colour diversity
+Chromatic difference between visual elements within a scene
+
+These findings suggest that both auditory and visual characteristics contribute significantly to how people evaluate urban environments.
+
+Design Opportunity
+
+The research indicates that long-term exposure to urban environments may lead people to become desensitised to everyday stimuli, particularly urban noise.
+
+At the same time, environmental satisfaction appears to be strongly associated with:
+
+Lower levels of intrusive noise
+More pleasant sound sources
+Greater chromatic diversity and visual richness
+
+Therefore, sound amplitude, sound composition, and colour chromatic difference were identified as measurable environmental indicators for further investigation.
+
+These variables became the focus of subsequent quantitative analysis and informed the development of the wearable system, which aims to reveal overlooked environmental stimuli and support greater sensory awareness in everyday urban life.
 ```
 
-Literature and prototypes on sensory adaptation, urban noise/colour profiles, and wearable ethics. Collected training data from disciplined vs. less-filtered participant groups to define regression features and exhibition constraints.
-
-**Media (sidebar):** `materials/seeing-unseen/process/research.png` `[CONFIRM]`  
-**Remote (manifest):** `images[0]` flow / concept, `images[4]` flowchart if used
+**Media (sidebar):** 
 
 #### Tasks (sidebar — “What needs to be done”)
 
@@ -663,38 +706,26 @@ An immersive interactive experience set in a traditional Chinese painting conver
 
 #### Problem
 
-- Traditional paintings are admired statically in galleries; younger audiences often lack context for brushwork, space, and cultural symbolism.
-- The goal was to translate 2D compositional rhythm into 3D spatial traversal without losing the painting’s poetic restraint.
+- Visitors often spend limited time engaging with paintings, reducing opportunities for deeper cultural understanding.
+- Traditional Chinese paintings contain rich artistic and cultural value that static displays fail to fully communicate.
+- Conventional exhibition formats struggle to attract sustained audience attention.
 
-**Media:** `materials/dragon-mountain/whatwhy/problem.png` `[CONFIRM]` · manifest `images[0–3]` painterly environments
+**Media:** `materials/dragon-mountain/whatwhy/problem.png`
 
 #### Insight
 
-- Authenticity came from material behaviour, not polygon density: ink diffusion, atmospheric perspective, and weather as emotional UI helped players feel the scroll unfold.
-- Gameplay needed light puzzles tied to space (path, gate, bird ride) rather than combat-heavy mechanics.
+- Interactive experiences can foster deeper engagement with traditional artworks and cultural heritage.
+- Digital technologies can make traditional culture more accessible, immersive, and memorable.
 
-**Media:** `materials/dragon-mountain/whatwhy/insight.jpg` `[CONFIRM]`
+**Media:** `materials/dragon-mountain/whatwhy/insight.png`
 
-#### Approach 1 — Ink-Style Look Development
+#### Approach
 
-- Developed ink-style shaders and post treatments in UE to keep surfaces readable at multiple camera distances.
-- Preserved shanshui readability when the camera moves through depth and weather.
+- Researched the symbolism, narratives, and artistic intentions within *Autumn Colors Across Rivers and Mountains*.
+- Transformed the 2D painting into an interactive 3D environment using Unreal Engine, integrating animation, sound, and real-time interaction.
+- Enabled visitors to explore the artwork from within, uncovering cultural narratives through immersive and gamified experiences.
 
-**Media:** `materials/dragon-mountain/approach/approach_1.jpg` `[CONFIRM]` · manifest `images[8]` DM_shader
-
-#### Approach 2 — Contemplative Interaction Systems
-
-- Built navigation and dialogue systems suited to slow, museum-style pacing (guided paths, optional discovery).
-- Wired triggers for narrative beats without breaking the meditative tone.
-
-**Media:** `materials/dragon-mountain/approach/approach_2.jpg` `[CONFIRM]` · manifest `images[6–7]` dialogue, navigation
-
-#### Approach 3 — Weather & Signature Events
-
-- Designed weather and a bird-ride event as narrative punctuation—changing visibility, audio, and player focus.
-- Used environmental state shifts as puzzle and storytelling tools.
-
-**Media:** `materials/dragon-mountain/approach/approach_3.jpg` `[CONFIRM]` · manifest `images[5]` bird ride · `images[9]` weather
+**Media:** `materials/dragon-mountain/whatwhy/approach.png`
 
 ---
 
@@ -702,22 +733,32 @@ An immersive interactive experience set in a traditional Chinese painting conver
 
 #### Research (step copy)
 
-Analysed source painting composition, temple and architecture references, and museum-style slow-looking behaviours. Produced a systems flowchart linking interaction beats to environmental states.
+#### Theory Study
 
-**Media (sidebar):** `materials/dragon-mountain/process/research.png` `[CONFIRM]`  
-**Remote:** manifest `images[4]` DM_flowChart
+- Investigated Wang Yuanqi’s **Theory of the Dragon Vein**, which emphasizes the interconnected flow and structure underlying Chinese landscape paintings.
+- Identified how spatial relationships between mountains, rivers, trees, architecture, and figures guide visual navigation and narrative progression.
+
+#### Painting Analysis
+
+- Analyzed key visual elements, symbolism, and compositional structures within *Autumn Colors Across Rivers and Mountains*.
+- Defined interactive opportunities and prioritized components for 3D reconstruction based on the Dragon Vein framework.
+
+#### Experience Mapping
+
+- Developed a user journey and interaction framework to translate the painting into an explorable digital environment.
+- Structured exploration paths, interaction points, and narrative sequences to guide subsequent design and development.
 
 #### Tasks (sidebar — “What needs to be done”)
 
-Unreal experience development including:
+3D Modelling & Environment Design-Archietecture in Maya, Terrians and Mountians in UE
 
-· Ink-style shader & lighting look dev  
-· Navigation & dialogue systems  
-· Weather state machine  
-· Bird-ride sequence integration  
-· Maya environment asset prep  
+Interaction Deisgn-Dialogue System, Navigation System, Soaring on a Giant Bird, Navigating by boat, Withered Tree Regrowth, Weather System, Collection System.
 
-**Media (sidebar):** `materials/dragon-mountain/process/tasks.png` `[CONFIRM]`
+UI Deisgn
+
+Postcard & Bookmark Deisign
+
+
 
 ---
 

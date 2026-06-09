@@ -4,10 +4,13 @@
  * so Vite never fails the build when an asset was renamed or removed.
  */
 
-const MATERIAL_GLOB = import.meta.glob<string>("../../../materials/**/*.{png,jpg,jpeg,webp,gif,mp4,webm}", {
-  eager: true,
-  import: "default",
-});
+const MATERIAL_GLOB = import.meta.glob<string>(
+  "../../../materials/**/*.{png,jpg,jpeg,JPG,JPEG,PNG,webp,gif,mp4,webm}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
 
 /** 16:9 gray SVG — matches UI placeholder tone (#ececec). */
 export const MATERIAL_PLACEHOLDER_IMAGE =
