@@ -1,7 +1,6 @@
 import { buildPopupMuseumProject } from "../manifests/projects/popup-museum";
 import {
   buildAnimationFilm,
-  buildFutureDesign,
   buildImmersiveGaming,
   buildInteractiveInstallation,
 } from "../manifests/projects/registry";
@@ -146,5 +145,6 @@ export const immersiveGaming: Project[] = buildImmersiveGaming("en");
 
 export const animationFilm: Project[] = buildAnimationFilm("en");
 
-export const futureDesign: Project[] = buildFutureDesign("en");
+/** Reserved for future projects; empty while Future Design is unpublished. */
+export const futureDesign: Project[] = [];
 

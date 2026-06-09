@@ -340,7 +340,7 @@ export const seeingUnseenManifest: ProjectManifestEntry = {
       en: "Hardware system, data analysis, colour and sound research",
       zh: "硬件系统、数据分析、声音与色彩研究、交互设计",
     },
-    type: { en: "Team Project with 3 members", zh: "团队项目" },
+    type: { en: "Team Project", zh: "团队项目" },
     tools: { en: "Arduino, Raspberry Pi", zh: "Arduino, Raspberry Pi" },
     details: {
       en: "Exhibited in Bartlett Fifteen Show",

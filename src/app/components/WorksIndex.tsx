@@ -50,9 +50,20 @@ function buildIndexItems(language: Language): WorkIndexItem[] {
     })
     .filter((item): item is WorkIndexItem => item !== null);
 
+  const displayOrder = [
+    "popup-museum",
+    "dragon-mountain",
+    "life-begets-life",
+    "seeing-unseen",
+    "montage",
+  ];
+
   items.sort((a, b) => {
-    if (a.id === "popup-museum") return -1;
-    if (b.id === "popup-museum") return 1;
+    const ai = displayOrder.indexOf(a.id);
+    const bi = displayOrder.indexOf(b.id);
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1;
+    if (bi !== -1) return 1;
     return a.name.localeCompare(b.name, language === "zh" ? "zh" : "en");
   });
 
@@ -165,7 +176,6 @@ export function WorksIndex({ language }: { language: Language }) {
     "interaction-design",
     "game-digital-experience",
     "animation-film",
-    "future-design",
   ];
 
   return (
@@ -204,20 +214,23 @@ export function WorksIndex({ language }: { language: Language }) {
           </div>
 
           <div className="col-span-3">
-            <div className="space-y-2">
-              {types.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setSelectedType(t)}
-                  className={`w-full text-left px-3 py-2 text-xs tracking-widest uppercase transition-colors ${
-                    selectedType === t
-                      ? "text-[#567C8D] font-bold"
-                      : "text-[#6b6b6b] hover:text-[#567C8D] hover:font-bold"
-                  }`}
-                >
-                  {getWorksTypeLabel(t, language)}
-                </button>
-              ))}
+            <div className="aspect-video flex flex-col gap-2">
+              {types.map((t) => {
+                const isSelected = selectedType === t;
+                return (
+                  <button
+                    key={t}
+                    onClick={() => setSelectedType(t)}
+                    className={`flex flex-1 items-center w-full text-left px-3 py-2 rounded-sm tracking-widest uppercase transition-colors ${
+                      isSelected
+                        ? "bg-[#f3f3f3] text-[#567C8D] font-bold text-base"
+                        : "text-[#6b6b6b] font-semibold text-sm hover:bg-[#fafafa] hover:text-[#567C8D] hover:font-bold"
+                    }`}
+                  >
+                    {getWorksTypeLabel(t, language)}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -271,20 +284,23 @@ export function WorksIndex({ language }: { language: Language }) {
           )}
 
           <div className="grid grid-cols-2 gap-4 items-start">
-            <div className="space-y-2">
-              {types.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setSelectedType(t)}
-                  className={`w-full text-left px-2 py-2 text-[10px] tracking-widest uppercase transition-colors ${
-                    selectedType === t
-                      ? "text-[#567C8D] font-bold"
-                      : "text-[#6b6b6b] hover:text-[#567C8D] hover:font-bold"
-                  }`}
-                >
-                  {getWorksTypeLabel(t, language)}
-                </button>
-              ))}
+            <div className="flex flex-col gap-2 min-h-[200px]">
+              {types.map((t) => {
+                const isSelected = selectedType === t;
+                return (
+                  <button
+                    key={t}
+                    onClick={() => setSelectedType(t)}
+                    className={`flex flex-1 items-center w-full text-left px-2 py-2 rounded-sm tracking-widest uppercase transition-colors ${
+                      isSelected
+                        ? "bg-[#f3f3f3] text-[#567C8D] font-bold text-sm"
+                        : "text-[#6b6b6b] font-semibold text-xs hover:bg-[#fafafa] hover:text-[#567C8D] hover:font-bold"
+                    }`}
+                  >
+                    {getWorksTypeLabel(t, language)}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="max-h-[45vh] overflow-y-auto pr-1">

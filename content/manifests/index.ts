@@ -57,7 +57,6 @@ export {
   buildInteractiveInstallation,
   buildImmersiveGaming,
   buildAnimationFilm,
-  buildFutureDesign,
   projectManifestRegistry,
 } from "./projects/registry";
 export { buildProjectFromManifest } from "./projects/build-project";

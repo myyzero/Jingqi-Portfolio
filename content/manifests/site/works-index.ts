@@ -10,11 +10,8 @@ export const worksCatalog: Record<string, WorksCategory> = {
   "popup-museum": "interaction-design",
   "seeing-unseen": "interaction-design",
   "dragon-mountain": "game-digital-experience",
-  "aquas-will": "game-digital-experience",
   "life-begets-life": "animation-film",
-  "yuliu-tea-ceremony": "animation-film",
   montage: "animation-film",
-  "future-design-project": "future-design",
 };
 
 const infoOverrides: Record<string, { en: WorksInfoOverride; zh: WorksInfoOverride }> =
@@ -29,6 +26,18 @@ const infoOverrides: Record<string, { en: WorksInfoOverride; zh: WorksInfoOverri
         infoType: "团队项目",
         infoRole: "动画师",
         infoTools: "Maya, Unity, Adobe CS",
+      },
+    },
+    "seeing-unseen": {
+      en: {
+        infoType: "Team Project",
+        infoRole: "UX Designer, System Developer",
+        infoTools: "Arduino, Raspberry Pi, sensors",
+      },
+      zh: {
+        infoType: "团队项目",
+        infoRole: "UX 设计师、系统开发",
+        infoTools: "Arduino、Raspberry Pi、传感器",
       },
     },
   };

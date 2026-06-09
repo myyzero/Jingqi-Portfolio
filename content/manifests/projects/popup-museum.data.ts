@@ -82,7 +82,7 @@ export const popupMuseumCopy = {
       zh: "一个以 Grant 和 Petrie 博物馆藏品为基础的交互装置。通过 3D 打印复制品、物理传感与实时数字媒体，将原本“只能看不能碰”的文物转化为可被触摸、移动与聆听的体验。我主导动画系统，并负责 2D/3D 资产与 Unity 端的 UI/UX。",
     } satisfies LocalizedCopy,
     role: { en: "Animator", zh: "动画师" } satisfies LocalizedCopy,
-    type: { en: "Team project", zh: "团队项目" } satisfies LocalizedCopy,
+    type: { en: "Team Project", zh: "团队项目" } satisfies LocalizedCopy,
     tools: {
       en: "Unity, Maya, C4D, Adobe CS",
       zh: "Unity, Maya, C4D, Adobe CS",

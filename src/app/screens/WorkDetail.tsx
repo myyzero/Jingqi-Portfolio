@@ -2315,7 +2315,7 @@ function ProcessStepRow({
             {step.integrationImages!.map((src, imageIdx) => (
               <div
                 key={src}
-                className="relative w-full aspect-[4/3] overflow-hidden bg-[#fafafa] border border-[#e5e5e5]/60"
+                className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl bg-[#fafafa] border border-[#e5e5e5]/60"
               >
                 <ImageWithFallback
                   src={src}

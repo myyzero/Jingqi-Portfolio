@@ -329,11 +329,11 @@ Interactive Digital System Development including:
 ### Works index card override
 
 
-| Field | Value                |
-| ----- | -------------------- |
-| Type  | *(none — uses meta)* |
-| Role  | *(none — uses meta)* |
-| Tools | *(none — uses meta)* |
+| Field | Value                              |
+| ----- | ---------------------------------- |
+| Type  | *(Team Project)*                   |
+| Role  | *(UX Deisgner, System Developer)*  |
+| Tools | *(Arduino, Raspberry Pi, sensors)* |
 
 
 ---
@@ -346,7 +346,7 @@ Interactive Digital System Development including:
 | name              | Seeing the Unseen (2025)                                                                                                                                                         | —                                       |
 | keyword           | Wearable device                                                                                                                                                                  | —                                       |
 | role              | Hardware system, data analysis, colour and sound research                                                                                                                        | —                                       |
-| type              | Team Project with 3 members                                                                                                                                                      | —                                       |
+| type              | Team Project                                                                                                                                                                     | —                                       |
 | tools             | Arduino, Raspberry Pi                                                                                                                                                            | —                                       |
 | details           | Exhibited in Bartlett Fifteen Show                                                                                                                                               | —                                       |
 | website           | [https://fifteen2025.bartlettarchucl.com/dfpi-room-3/dfpi-2025-room-3-seeing-the-unseen](https://fifteen2025.bartlettarchucl.com/dfpi-room-3/dfpi-2025-room-3-seeing-the-unseen) | —                                       |
@@ -378,7 +378,6 @@ More than a wearable, Seeing the Unseen invites us to reconsider sensory thresho
 - Research Question: How can people become aware of sensory stimuli that have been normalised and overlooked in urban environments?
 
 **Media:**   
-
 
 #### Insight
 
@@ -685,7 +684,7 @@ Wearable system development including:
 | name              | Dragon Mountain (2024)                                                                                                                                                   | —                              |
 | keyword           | Digital experience design                                                                                                                                                | —                              |
 | role              | Technical Artist, Interaction Design                                                                                                                                     | —                              |
-| type              | Team Project with 2 members                                                                                                                                              | —                              |
+| type              | Team Project                                                                                                                                                             | —                              |
 | tools             | UE, Maya, Adobe CS                                                                                                                                                       | —                              |
 | details           | Designed for Museum                                                                                                                                                      | —                              |
 | website           | `[CONFIRM — not in manifest]`                                                                                                                                            | —                              |
@@ -757,8 +756,6 @@ Interaction Deisgn-Dialogue System, Navigation System, Soaring on a Giant Bird, 
 UI Deisgn
 
 Postcard & Bookmark Deisign
-
-
 
 ---
 
@@ -1234,18 +1231,18 @@ Game development (my scope highlighted) including:
 ### Meta
 
 
-| Field             | Copy                                                                     | Media / link                                |
-| ----------------- | ------------------------------------------------------------------------ | ------------------------------------------- |
-| name              | Life Begets Life                                                         | —                                           |
-| keyword           | 3D animation                                                             | —                                           |
-| role              | `[manifest TODO]` → **3D animation (solo)** `[CONFIRM]`                  | —                                           |
-| type              | `[manifest TODO]` → **Personal project** `[CONFIRM]`                     | —                                           |
-| tools             | `[manifest TODO]` → **Cinema 4D, After Effects** `[CONFIRM]`             | —                                           |
-| details           | `[manifest TODO]` → **Student animated short** `[CONFIRM year / school]` | —                                           |
-| website           | `[CONFIRM]`                                                              | —                                           |
-| moreDetails (PDF) | `[CONFIRM]`                                                              | —                                           |
-| heroVideo         | [https://youtu.be/wU2xjlGVz-Q](https://youtu.be/wU2xjlGVz-Q)             | —                                           |
-| previewImage      | —                                                                        | Visual Practice id 6 / manifest placeholder |
+| Field             | Copy                                                         | Media / link                                |
+| ----------------- | ------------------------------------------------------------ | ------------------------------------------- |
+| name              | Life Begets Life (2025)                                      | —                                           |
+| keyword           | 3D animation                                                 | —                                           |
+| role              | `Animator`                                                   | —                                           |
+| type              | `Personal Project`                                           | —                                           |
+| tools             | **Cinema 4D**                                                | —                                           |
+| details           | `3D Animation`                                               | —                                           |
+| website           | `[CONFIRM]`                                                  | —                                           |
+| moreDetails (PDF) | `[CONFIRM]`                                                  | —                                           |
+| heroVideo         | [https://youtu.be/wU2xjlGVz-Q](https://youtu.be/wU2xjlGVz-Q) | —                                           |
+| previewImage      | —                                                            | Visual Practice id 6 / manifest placeholder |
 
 
 ---
@@ -1590,18 +1587,18 @@ Character modelling/rigging `[CONFIRM]`, simulation, animation, lighting/render 
 ### Meta
 
 
-| Field             | Copy                                                           | Media / link          |
-| ----------------- | -------------------------------------------------------------- | --------------------- |
-| name              | Montage                                                        | —                     |
-| keyword           | Film montage                                                   | —                     |
-| role              | `[manifest TODO]` → **Editor (solo)** `[CONFIRM]`              | —                     |
-| type              | `[manifest TODO]` → **Personal / course project** `[CONFIRM]`  | —                     |
-| tools             | `[manifest TODO]` → **Premiere / DaVinci / Avid?** `[CONFIRM]` | —                     |
-| details           | `[CONFIRM assignment context, year]`                           | —                     |
-| website           | `[CONFIRM]`                                                    | —                     |
-| moreDetails (PDF) | `[CONFIRM]`                                                    | —                     |
-| heroVideo         | [https://youtu.be/N8GMI1KpAhw](https://youtu.be/N8GMI1KpAhw)   | —                     |
-| previewImage      | —                                                              | Visual Practice id 50 |
+| Field             | Copy                                                         | Media / link          |
+| ----------------- | ------------------------------------------------------------ | --------------------- |
+| name              | Montage                                                      | —                     |
+| keyword           | Film montage                                                 | —                     |
+| role              | `Editor`                                                     | —                     |
+| type              | `Personal Project`                                           | —                     |
+| tools             | `Adobe Premiere Pro`                                         | —                     |
+| details           | `montage with 5 chapters`                                    | —                     |
+| website           | `[CONFIRM]`                                                  | —                     |
+| moreDetails (PDF) | `[CONFIRM]`                                                  | —                     |
+| heroVideo         | [https://youtu.be/N8GMI1KpAhw](https://youtu.be/N8GMI1KpAhw) | —                     |
+| previewImage      | —                                                            | Visual Practice id 50 |
 
 
 ---

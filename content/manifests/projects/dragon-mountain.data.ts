@@ -275,7 +275,7 @@ export const dragonMountainManifest: ProjectManifestEntry = {
       en: "Technical Artist, Interaction Design",
       zh: "技术美术，交互设计",
     },
-    type: { en: "Team Project with 2 members", zh: "团队项目" },
+    type: { en: "Team Project", zh: "团队项目" },
     tools: { en: "UE, Maya, Adobe CS", zh: "UE, Maya, Adobe CS" },
     details: {
       en: "Designed for Museum",

@@ -148,31 +148,19 @@ export const lifeBegetsLifeDetailCopy = {
 export const lifeBegetsLifeManifest: ProjectManifestEntry = {
   id: "life-begets-life",
   meta: {
-    name: { en: "Life Begets Life", zh: "万物生" },
+    name: { en: "Life Begets Life (2025)", zh: "万物生（2025）" },
     keyword: { en: "3D animation", zh: "三维动画" },
     summary: {
       en: "A short 3D animated film tracing a whale's life cycle from birth to dissolution, re-emergence as a core of energy, and transformation into a mechanical submarine that carries an entire underwater city—symbolising that all life is connected through continuous cycles of matter and meaning.",
       zh: "A short 3D animated film tracing a whale's life cycle from birth to dissolution, re-emergence as a core of energy, and transformation into a mechanical submarine that carries an entire underwater city—symbolising that all life is connected through continuous cycles of matter and meaning.",
     },
-    role: {
-      en: "TODO: Replace with your role",
-      zh: "TODO：替换为你的职责",
-    },
-    type: {
-      en: "TODO: Personal / Team / Commercial",
-      zh: "TODO：个人 / 团队 / 商业",
-    },
-    tools: {
-      en: "TODO: Tools used",
-      zh: "TODO：使用的工具",
-    },
-    details: {
-      en: "TODO: Optional short context",
-      zh: "TODO：可选的简短背景说明",
-    },
+    role: { en: "Animator", zh: "动画师" },
+    type: { en: "Personal Project", zh: "个人项目" },
+    tools: { en: "Cinema 4D", zh: "Cinema 4D" },
+    details: { en: "3D Animation", zh: "三维动画" },
     moreDetails: {
-      en: "TODO: PDF link (optional)",
-      zh: "TODO：PDF 链接（可选）",
+      en: "",
+      zh: "",
     },
   },
   previewImage: { en: placeholderEn, zh: placeholderZh },

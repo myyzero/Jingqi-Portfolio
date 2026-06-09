@@ -1,48 +1,39 @@
 import type { ProjectManifestEntry } from "../_schema/projectManifest";
+import type { LocalizedCopy } from "../_schema/types";
+import coverImage from "../../../materials/montage/cover.png";
 import { remote } from "./_media";
 
-const placeholderEn = remote(
-  "https://res.cloudinary.com/dnigow6jb/image/upload/v1772745373/ScreenShot_2026-03-05_211513_697_qmv6ib.jpg",
-);
-const placeholderZh = remote(
-  "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_7_l4rq4r.png",
-);
+const cover = remote(coverImage);
 
 export const montageManifest: ProjectManifestEntry = {
   id: "montage",
   layout: "fullscreen-video",
   meta: {
-    name: { en: "Montage", zh: "混剪" },
+    name: { en: "Montage (2023)", zh: "混剪（2023）" },
     keyword: { en: "Film montage", zh: "影像混剪" },
     summary: {
-      en: "TODO: Replace with the real project summary (2–3 sentences).",
-      zh: "TODO：替换为真实的项目概述（2–3 句话）。",
-    },
-    role: {
-      en: "TODO: Replace with your role",
-      zh: "TODO：替换为你的职责",
-    },
-    type: {
-      en: "TODO: Personal / Team / Commercial",
-      zh: "TODO：个人 / 团队 / 商业",
-    },
+      en: "A five-chapter montage spanning nearly fifty films. Edited from existing moving-image sources, the piece shapes rhythm and emotional through-lines through juxtaposition of scale, motion, and sound.",
+      zh: "一部由五个章节构成的混剪作品，素材涵盖近五十部影片。通过镜头取舍、顺序与时长控制，在尺度、运动与声音的并置中塑造节奏与情感主线。",
+    } satisfies LocalizedCopy,
+    role: { en: "Editor", zh: "剪辑" } satisfies LocalizedCopy,
+    type: { en: "Personal Project", zh: "个人项目" } satisfies LocalizedCopy,
     tools: {
-      en: "TODO: Tools used",
-      zh: "TODO：使用的工具",
-    },
+      en: "Adobe Premiere Pro",
+      zh: "Adobe Premiere Pro",
+    } satisfies LocalizedCopy,
     details: {
-      en: "TODO: Optional short context",
-      zh: "TODO：可选的简短背景说明",
-    },
+      en: "Montage with 5 chapters",
+      zh: "五个章节的混剪作品",
+    } satisfies LocalizedCopy,
     moreDetails: {
-      en: "TODO: PDF link (optional)",
-      zh: "TODO：PDF 链接（可选）",
-    },
+      en: "",
+      zh: "",
+    } satisfies LocalizedCopy,
   },
-  previewImage: { en: placeholderEn, zh: placeholderZh },
+  previewImage: { en: cover, zh: cover },
   images: {
-    en: [placeholderEn],
-    zh: [placeholderZh],
+    en: [cover],
+    zh: [cover],
   },
   heroVideo: {
     en: remote("https://youtu.be/N8GMI1KpAhw"),
