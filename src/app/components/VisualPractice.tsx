@@ -4,14 +4,17 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useState } from "react";
 import type { Language, MediaItemContent } from "../../../content";
 import { getVisualPracticeContent } from "../../../content";
+import {
+  buildBilibiliEmbedUrl,
+  isBilibiliPlayerUrl,
+  normalizeMediaUrl,
+} from "../utils/bilibiliEmbed";
 
-// Helper function to convert YouTube URL to embed URL
-function getYouTubeEmbedUrl(url: string): string {
+function getVideoEmbedUrl(url: string): string {
   if (!url) return "";
 
-  // Bilibili 嵌入地址直接返回
-  if (url.includes("player.bilibili.com")) {
-    return url;
+  if (isBilibiliPlayerUrl(url)) {
+    return normalizeMediaUrl(buildBilibiliEmbedUrl(url, "interactive"));
   }
 
   const videoId =
@@ -223,7 +226,7 @@ function VideoModal({
         {/* YouTube Embed */}
         <div className="aspect-video bg-black">
           <iframe
-            src={getYouTubeEmbedUrl(item.videoUrl)}
+            src={getVideoEmbedUrl(item.videoUrl)}
             title={item.title || "Video"}
             className="w-full h-full"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

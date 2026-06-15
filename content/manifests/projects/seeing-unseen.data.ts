@@ -2,6 +2,7 @@ import type { ProjectManifestEntry } from "../_schema/projectManifest";
 import type { LocalizedCopy, LocalizedStringList } from "../_schema/types";
 import type { SeeingUnseenAssetKey } from "./seeing-unseen-assets";
 import { remote } from "./_media";
+import heroVideoZh from "../../../materials/seeing-unseen/HV_STU.mp4";
 
 export const seeingUnseenWhatWhyCopy = {
   problem: {
@@ -323,7 +324,7 @@ export const seeingUnseenResultCopy = {
   } satisfies LocalizedCopy,
   video: {
     en: "https://youtu.be/RkLyVnXSmog",
-    zh: "https://youtu.be/RkLyVnXSmog",
+    zh: "//player.bilibili.com/player.html?bvid=BV1NKP9zXE6p&page=1",
   } satisfies LocalizedCopy,
 } as const;
 
@@ -425,6 +426,6 @@ export const seeingUnseenManifest: ProjectManifestEntry = {
   },
   heroVideo: {
     en: remote("https://youtu.be/gAUYF0tgbx0"),
-    zh: remote("//player.bilibili.com/player.html?bvid=BV1NKP9zXE6p&page=1"),
+    zh: remote(heroVideoZh),
   },
 };

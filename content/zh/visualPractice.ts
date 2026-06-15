@@ -329,7 +329,7 @@ export const visualPracticeZh: MediaItemContent[] = [
     image:
       "https://pub-9b9aa28da9694d5c898fff02b25e70f0.r2.dev/Visual-square%20images/%E5%9B%BE%E5%B1%82_7_l4rq4r.png",
     videoUrl:
-      "//player.bilibili.com/player.html?bvid=BV1MdPDzQE7m&page=1",
+      "//player.bilibili.com/player.html?isOutside=true&aid=116199232899875&bvid=BV1MdPDzQE7m&cid=36578395510&p=1",
     type: "youtube",
   },
   {

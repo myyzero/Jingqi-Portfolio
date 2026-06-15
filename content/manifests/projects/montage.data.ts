@@ -37,6 +37,8 @@ export const montageManifest: ProjectManifestEntry = {
   },
   heroVideo: {
     en: remote("https://youtu.be/N8GMI1KpAhw"),
-    zh: remote("https://youtu.be/N8GMI1KpAhw"),
+    zh: remote(
+      "//player.bilibili.com/player.html?isOutside=true&aid=116199232899875&bvid=BV1MdPDzQE7m&cid=36578395510&p=1",
+    ),
   },
 };

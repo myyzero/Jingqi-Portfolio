@@ -1,6 +1,7 @@
 import type { LocalizedCopy } from "../_schema/types";
 import type { ProjectManifestEntry } from "../_schema/projectManifest";
 import { remote } from "./_media";
+import heroVideoZh from "../../../materials/life-begets-life/HV_LBL.mp4";
 
 const placeholderEn = remote(
   "https://res.cloudinary.com/dnigow6jb/image/upload/v1772745373/ScreenShot_2026-03-05_211513_697_qmv6ib.jpg",
@@ -141,7 +142,7 @@ export const lifeBegetsLifeDetailCopy = {
   resultGalleryKeys: [] as const,
   resultVideo: {
     en: "https://youtu.be/95UGfGbdLOM",
-    zh: "https://youtu.be/95UGfGbdLOM",
+    zh: "//player.bilibili.com/player.html?bvid=BV189jP66EBr&page=1",
   },
 } as const;
 
@@ -170,6 +171,6 @@ export const lifeBegetsLifeManifest: ProjectManifestEntry = {
   },
   heroVideo: {
     en: remote("https://youtu.be/wU2xjlGVz-Q"),
-    zh: remote("TODO：Bilibili 或 .mp4 链接（可选）"),
+    zh: remote(heroVideoZh),
   },
 };

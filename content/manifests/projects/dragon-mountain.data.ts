@@ -2,6 +2,7 @@ import type { LocalizedCopy, LocalizedStringList } from "../_schema/types";
 import type { ProjectManifestEntry } from "../_schema/projectManifest";
 import type { DragonMountainAssetKey } from "./dragon-mountain-assets";
 import { remote } from "./_media";
+import heroVideoZh from "../../../materials/dragon-mountain/HV_DM.mp4";
 
 export const dragonMountainWhatWhyCopy = {
   problem: {
@@ -258,7 +259,7 @@ export const dragonMountainResultCopy = {
   ] as const satisfies readonly DragonMountainAssetKey[],
   resultVideo: {
     en: "https://youtu.be/jrOYWVOa4_k",
-    zh: "https://youtu.be/jrOYWVOa4_k",
+    zh: "//player.bilibili.com/player.html?bvid=BV1NmP9zREXV&page=1",
   },
 } as const;
 
@@ -362,6 +363,6 @@ export const dragonMountainManifest: ProjectManifestEntry = {
   },
   heroVideo: {
     en: remote("https://youtu.be/CPF2gNgYsvQ"),
-    zh: remote("//player.bilibili.com/player.html?bvid=BV1NmP9zREXV&page=1"),
+    zh: remote(heroVideoZh),
   },
 };

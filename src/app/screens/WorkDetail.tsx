@@ -24,6 +24,7 @@ import type {
   ProcessTasksOutlineItem,
 } from "../../../content/manifests/_schema/workDetailBlocks";
 import pageBackground from "../../../materials/background_1.png";
+import { BilibiliEmbedIframe } from "../utils/bilibiliEmbed";
 
 /** White wash over background_1 — lower than Landing (75%) so texture shows through more */
 const WORK_PAGE_BG_OVERLAY = "rgba(255, 255, 255, 0.6)";
@@ -2457,10 +2458,6 @@ function ProcessStepRow({
 function FullscreenVideoDetail({ project }: { project: Project }) {
   const videoKind = getVideoKind(project.videoUrl);
   const youtubeEmbed = getYouTubeEmbedUrl(project.videoUrl ?? "");
-  const bilibiliUrl =
-    project.videoUrl && videoKind === "bilibili"
-      ? normalizeEmbedUrl(project.videoUrl)
-      : null;
 
   return (
     <section
@@ -2476,14 +2473,12 @@ function FullscreenVideoDetail({ project }: { project: Project }) {
           allowFullScreen
           referrerPolicy="strict-origin-when-cross-origin"
         />
-      ) : videoKind === "bilibili" && bilibiliUrl ? (
-        <iframe
-          src={bilibiliUrl}
+      ) : videoKind === "bilibili" && project.videoUrl ? (
+        <BilibiliEmbedIframe
+          url={project.videoUrl}
+          mode="interactive"
           title={project.name}
           className="absolute inset-0 w-full h-full border-0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          referrerPolicy="strict-origin-when-cross-origin"
         />
       ) : videoKind === "mp4" && project.videoUrl ? (
         <video
@@ -2514,10 +2509,6 @@ function WorkDetailTemplate({
   const videoKind = getVideoKind(project.videoUrl);
   const heroYouTube = getYouTubeBackgroundLoopUrl(project.videoUrl ?? "");
   const detailsYouTube = getYouTubeEmbedUrl(project.videoUrl ?? "");
-  const bilibiliUrl =
-    project.videoUrl && videoKind === "bilibili"
-      ? normalizeEmbedUrl(project.videoUrl)
-      : null;
 
   const placeholder = project.images[0] ?? project.previewImage;
   const getImg = (idx: number) => project.images[idx] ?? placeholder;
@@ -2697,13 +2688,12 @@ function WorkDetailTemplate({
             allow="autoplay; encrypted-media; picture-in-picture"
             referrerPolicy="strict-origin-when-cross-origin"
           />
-        ) : videoKind === "bilibili" && bilibiliUrl ? (
-          <iframe
-            src={bilibiliUrl}
+        ) : videoKind === "bilibili" && project.videoUrl ? (
+          <BilibiliEmbedIframe
+            url={project.videoUrl}
+            mode="hero-background"
             title={`${project.name} Hero`}
             className="absolute inset-0 w-full h-full"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            referrerPolicy="strict-origin-when-cross-origin"
           />
         ) : videoKind === "mp4" && project.videoUrl ? (
           <video

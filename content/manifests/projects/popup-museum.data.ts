@@ -1,5 +1,6 @@
 import type { LocalizedCopy, LocalizedStringList, MediaRef } from "../_schema/types";
 import type { PopupMuseumAssetKey } from "./popup-museum-assets";
+import heroVideoZh from "../../../materials/popup-museum/HV_PM.mp4";
 
 const remote = (url: string): MediaRef => ({ kind: "remote", url });
 const local = (assetKey: PopupMuseumAssetKey): MediaRef => ({
@@ -101,9 +102,7 @@ export const popupMuseumCopy = {
     } satisfies LocalizedCopy,
     heroVideo: {
       en: remote("https://youtu.be/Ld0dREliREA"),
-      zh: remote(
-        "//player.bilibili.com/player.html?bvid=BV1H5P9z7EhZ&page=1",
-      ),
+      zh: remote(heroVideoZh),
     },
     previewImage: {
       en: popupMuseumRemote.previewEn,
@@ -355,7 +354,7 @@ export const popupMuseumCopy = {
     ] as const,
     resultVideo: {
       en: remote("https://youtu.be/xCatM3rwGKA"),
-      zh: remote("https://youtu.be/xCatM3rwGKA"),
+      zh: remote("//player.bilibili.com/player.html?bvid=BV1H5P9z7EhZ&page=1"),
     },
   },
 } as const;
