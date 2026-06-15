@@ -109,6 +109,42 @@ function InfoLabels({
   );
 }
 
+function WorkPreviewThumbnail({
+  item,
+  language,
+  imageClassName = "w-full h-full object-cover aspect-video",
+}: {
+  item: WorkIndexItem;
+  language: Language;
+  imageClassName?: string;
+}) {
+  return (
+    <Link
+      to={`/${language}/works/${item.id}`}
+      className="block rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#567C8D]/40"
+      aria-label={item.name}
+    >
+      <div className="overflow-hidden rounded-lg bg-[#fafafa]">
+        <motion.div
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 1.03 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+        >
+          {item.previewImage ? (
+            <ImageWithFallback
+              src={item.previewImage}
+              alt={item.name}
+              className={imageClassName}
+            />
+          ) : (
+            <div className="w-full aspect-video bg-[#1a1a1a]" />
+          )}
+        </motion.div>
+      </div>
+    </Link>
+  );
+}
+
 function InfoLabelsMobile({
   labels,
   item,
@@ -194,17 +230,9 @@ export function WorksIndex({ language }: { language: Language }) {
         {/* Desktop layout */}
         <div className="hidden md:grid grid-cols-12 gap-8 items-start">
           <div className="col-span-6">
-            <div className="bg-[#fafafa] overflow-hidden">
-              {selectedItem?.previewImage ? (
-                <ImageWithFallback
-                  src={selectedItem.previewImage}
-                  alt={selectedItem.name}
-                  className="w-full h-full object-cover aspect-video"
-                />
-              ) : (
-                <div className="w-full aspect-video bg-[#1a1a1a]" />
-              )}
-            </div>
+            {selectedItem && (
+              <WorkPreviewThumbnail item={selectedItem} language={language} />
+            )}
 
             {selectedItem && (
               <div className="mt-4 space-y-3 max-w-full">
@@ -265,17 +293,13 @@ export function WorksIndex({ language }: { language: Language }) {
 
         {/* Mobile layout */}
         <div className="md:hidden space-y-6">
-          <div className="bg-[#fafafa] overflow-hidden">
-            {selectedItem?.previewImage ? (
-              <ImageWithFallback
-                src={selectedItem.previewImage}
-                alt={selectedItem.name}
-                className="w-full object-cover aspect-video"
-              />
-            ) : (
-              <div className="w-full aspect-video bg-[#1a1a1a]" />
-            )}
-          </div>
+          {selectedItem && (
+            <WorkPreviewThumbnail
+              item={selectedItem}
+              language={language}
+              imageClassName="w-full object-cover aspect-video"
+            />
+          )}
 
           {selectedItem && (
             <div className="space-y-3">
