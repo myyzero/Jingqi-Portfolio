@@ -36,6 +36,13 @@ export type ToolDevelopmentRow = {
   images: readonly [string, string];
 };
 
+/** Three-column gallery: wide image + stacked square videos + stacked landscape videos (≈2:0.8:1.2). */
+export type ProcessVideoTriptychLayout = {
+  image: string;
+  leftVideos: string[];
+  rightVideos: string[];
+};
+
 /** Three-column process gallery: side stacks of squares flanking a 16:9 center image. */
 export type ProcessTriptychLayout = {
   left: { title: string; images: string[] };
@@ -124,7 +131,8 @@ export type ProcessTasksOutlineItem = {
 export type ProcessTaskRow = {
   title: string;
   text?: string | string[];
-  image: string;
+  image?: string;
+  images?: string[];
   video?: string;
 };
 
@@ -136,9 +144,27 @@ export type ProcessTaskGroup = {
   images?: string[];
   /** Full-width images stacked between copy and `images` (verticalTriple). */
   stackImages?: string[];
-  /** `verticalTriple`: text above, three images in a row below. Default: left text / right image. */
-  layout?: "split" | "verticalTriple";
+  /** `verticalTriple`: text above, three images in a row below. `twinImages`: two side-by-side images. `twinImagesHeightAligned`: right image at native size, left matched to its height. `imageTextSplit`: image left, text right (2:1). `imageLevelSplit`: image left, stacked level blocks right. */
+  layout?:
+    | "split"
+    | "verticalTriple"
+    | "twinImages"
+    | "twinImagesHeightAligned"
+    | "imageTextSplit"
+    | "imageLevelSplit";
+  processVideoTriptych?: ProcessVideoTriptychLayout;
+  /** Level blocks for `imageLevelSplit` layout. */
+  levelItems?: { title: string; text: string }[];
+  /** Column headers for the `imageLevelSplit` table. */
+  levelHeader?: { left: string; right: string };
   /** Row layout when `rows` is set. Default: left text / right image (1:2). */
-  rowLayout?: "split" | "stack";
+  rowLayout?: "split" | "stack" | "textTripleSquares";
   rows?: ProcessTaskRow[];
+};
+
+/** What is it — image on top, copy below (full width aligned). */
+export type WhatIsItSubsection = {
+  title: string;
+  image: string;
+  text: string;
 };

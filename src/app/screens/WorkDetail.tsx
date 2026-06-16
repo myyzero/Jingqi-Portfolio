@@ -22,6 +22,7 @@ import type {
   ProcessResearchSubsection,
   ProcessTaskGroup,
   ProcessTasksOutlineItem,
+  ProcessVideoTriptychLayout,
 } from "../../../content/manifests/_schema/workDetailBlocks";
 import pageBackground from "../../../materials/background_1.png";
 import { BilibiliEmbedIframe } from "../utils/bilibiliEmbed";
@@ -223,7 +224,7 @@ function WhatWhyText({ text }: { text: string | string[] }) {
   }
 
   return (
-    <p className="w-full text-left text-sm lg:text-base text-[#6b6b6b] leading-relaxed">
+    <p className="w-full text-left text-sm lg:text-base text-[#6b6b6b] leading-relaxed whitespace-pre-line">
       {text}
     </p>
   );
@@ -242,6 +243,7 @@ type ProcessStepData = {
   researchSections?: ProcessResearchSubsection[];
   taskSections?: ProcessTaskGroup[];
   flowchartImage?: string;
+  flowchartImageScale?: number;
   tasksOutline?: ProcessTasksOutlineItem[];
   integrationImages?: readonly string[];
   integrationVideos?: readonly string[];
@@ -1185,7 +1187,35 @@ function ProcessTasksSplitGallery({
           </h4>
           {group.rows && group.rows.length > 0 ? (
             group.rows.map((row) =>
-              group.rowLayout === "stack" ? (
+              group.rowLayout === "textTripleSquares" && row.images ? (
+                <div
+                  key={row.title}
+                  className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start"
+                >
+                  <div className="lg:col-span-1">
+                    <h5 className="text-sm md:text-base font-medium text-[#1a1a1a] mb-3 tracking-wide">
+                      {row.title}
+                    </h5>
+                    {hasCopyText(row.text) ? (
+                      <WhatWhyText text={row.text!} />
+                    ) : null}
+                  </div>
+                  <div className="lg:col-span-2 grid grid-cols-3 gap-4">
+                    {row.images.map((src, imageIdx) => (
+                      <div
+                        key={src}
+                        className="aspect-square overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
+                      >
+                        <ImageWithFallback
+                          src={src}
+                          alt={`${row.title} ${imageIdx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : group.rowLayout === "stack" ? (
                 <div key={row.title} className="space-y-4">
                   <h5 className="text-sm md:text-base font-medium text-[#1a1a1a] tracking-wide">
                     {row.title}
@@ -1197,7 +1227,9 @@ function ProcessTasksSplitGallery({
                         label={`${row.title} animation`}
                       />
                     ) : null}
-                    <ResearchRowImage src={row.image} alt={row.title} />
+                    {row.image ? (
+                      <ResearchRowImage src={row.image} alt={row.title} />
+                    ) : null}
                   </div>
                 </div>
               ) : (
@@ -1214,11 +1246,59 @@ function ProcessTasksSplitGallery({
                     ) : null}
                   </div>
                   <div className="lg:col-span-2">
-                    <ResearchRowImage src={row.image} alt={row.title} />
+                    {row.image ? (
+                      <ResearchRowImage src={row.image} alt={row.title} />
+                    ) : null}
                   </div>
                 </div>
               ),
             )
+          ) : group.layout === "twinImagesHeightAligned" && group.images ? (
+            <TwinImagesHeightAligned
+              images={[group.images[0], group.images[1]]}
+              title={group.title}
+            />
+          ) : group.layout === "twinImages" && group.images ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+              {group.images.map((src, imageIdx) => (
+                <ResearchRowImage
+                  key={src}
+                  src={src}
+                  alt={`${group.title} ${imageIdx + 1}`}
+                />
+              ))}
+            </div>
+          ) : group.layout === "imageLevelSplit" &&
+            group.image &&
+            group.levelItems ? (
+            <ImageLevelSplitGallery
+              image={group.image}
+              levels={group.levelItems}
+              header={group.levelHeader}
+              title={group.title}
+            />
+          ) : group.layout === "imageTextSplit" && group.image ? (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start">
+              <div className="lg:col-span-2">
+                <ResearchRowImage src={group.image} alt={group.title} />
+              </div>
+              <div className="lg:col-span-1">
+                {hasCopyText(group.text) ? (
+                  <WhatWhyText text={group.text!} />
+                ) : null}
+              </div>
+            </div>
+          ) : group.processVideoTriptych ? (
+            <div className="space-y-6">
+              {hasCopyText(group.text) ? (
+                <p className="text-sm lg:text-base text-[#6b6b6b] leading-relaxed whitespace-pre-line">
+                  {Array.isArray(group.text)
+                    ? group.text.join("\n\n")
+                    : group.text}
+                </p>
+              ) : null}
+              <ProcessVideoTriptychGallery layout={group.processVideoTriptych} />
+            </div>
           ) : group.layout === "verticalTriple" && group.images ? (
             <div className="space-y-6">
               {hasCopyText(group.text) ? (
@@ -1265,6 +1345,315 @@ function ProcessTasksSplitGallery({
 
 const TRIPTYCH_GAP = 12;
 const TRIPTYCH_CENTER_ASPECT = 1920 / 1080;
+
+const TWIN_IMAGES_GAP = 24;
+
+function TwinImagesHeightAligned({
+  images,
+  title,
+}: {
+  images: [string, string];
+  title: string;
+}) {
+  const [leftSrc, rightSrc] = images;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [leftAspect, setLeftAspect] = useState(0);
+  const [rightAspect, setRightAspect] = useState(0);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const width = el.clientWidth;
+      if (width > 0) setContainerWidth(width);
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const ready =
+    containerWidth > 0 && leftAspect > 0 && rightAspect > 0;
+
+  // Shared row height so both images keep native aspect (no crop) and fill the
+  // content width: H = (W - gap) / (aspectLeft + aspectRight).
+  const rowHeight = ready
+    ? (containerWidth - TWIN_IMAGES_GAP) / (leftAspect + rightAspect)
+    : 0;
+  const leftWidth = rowHeight * leftAspect;
+  const rightWidth = rowHeight * rightAspect;
+
+  const cellClass =
+    "overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60";
+
+  return (
+    <div ref={containerRef} className="w-full">
+      <div
+        className="hidden sm:flex items-center justify-center"
+        style={{ gap: TWIN_IMAGES_GAP }}
+      >
+        <div
+          className={`${cellClass} shrink-0`}
+          style={ready ? { width: leftWidth, height: rowHeight } : undefined}
+        >
+          <ImageWithFallback
+            src={leftSrc}
+            alt={`${title} left`}
+            className="block h-full w-full object-contain"
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (img.naturalHeight > 0)
+                setLeftAspect(img.naturalWidth / img.naturalHeight);
+            }}
+          />
+        </div>
+        <div
+          className={`${cellClass} shrink-0`}
+          style={ready ? { width: rightWidth, height: rowHeight } : undefined}
+        >
+          <ImageWithFallback
+            src={rightSrc}
+            alt={`${title} right`}
+            className="block h-full w-full object-contain"
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (img.naturalHeight > 0)
+                setRightAspect(img.naturalWidth / img.naturalHeight);
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4 sm:hidden">
+        <div className={cellClass}>
+          <ImageWithFallback
+            src={leftSrc}
+            alt={`${title} left`}
+            className="block w-full h-auto object-contain"
+          />
+        </div>
+        <div className={cellClass}>
+          <ImageWithFallback
+            src={rightSrc}
+            alt={`${title} right`}
+            className="block w-full h-auto object-contain"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ImageLevelSplitGallery({
+  image,
+  levels,
+  header,
+  title,
+}: {
+  image: string;
+  levels: { title: string; text: string }[];
+  header?: { left: string; right: string };
+  title: string;
+}) {
+  const imageWrapRef = useRef<HTMLDivElement>(null);
+  const [imageHeight, setImageHeight] = useState(0);
+
+  useEffect(() => {
+    const el = imageWrapRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const height = el.offsetHeight;
+      if (height > 0) setImageHeight(height);
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [image]);
+
+  const headerCellClass =
+    "text-xs tracking-widest uppercase font-bold text-[#2F4156]";
+  const levelNameClass =
+    "text-sm md:text-base font-medium text-[#1a1a1a] pr-4 whitespace-nowrap";
+  const levelTextClass =
+    "text-sm lg:text-base text-[#6b6b6b] leading-relaxed";
+  const rowGridClass =
+    "grid grid-cols-[minmax(6rem,auto)_1fr] gap-x-4 items-baseline";
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-stretch">
+      <div ref={imageWrapRef} className="lg:col-span-2">
+        <ResearchRowImage src={image} alt={title} />
+      </div>
+      <div
+        className="lg:col-span-1 flex flex-col"
+        style={imageHeight > 0 ? { height: imageHeight } : undefined}
+      >
+        {header ? (
+          <div className={`${rowGridClass} shrink-0 pb-3 border-b border-[#e5e5e5]`}>
+            <span className={headerCellClass}>{header.left}</span>
+            <span className={headerCellClass}>{header.right}</span>
+          </div>
+        ) : null}
+        {levels.map((level, levelIdx) => (
+          <div
+            key={level.title}
+            className={`${rowGridClass} flex-1 content-center ${
+              levelIdx < levels.length - 1 ? "border-b border-[#eef2f5]" : ""
+            }`}
+          >
+            <span className={levelNameClass}>{level.title}</span>
+            <span className={levelTextClass}>{level.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Column width proportions ≈ left 60 : middle 10 : right 22 (matches wireframe).
+const VIDEO_TRIPTYCH_COL_UNITS = [60, 10, 22] as const;
+const VIDEO_TRIPTYCH_COL_TOTAL = VIDEO_TRIPTYCH_COL_UNITS.reduce(
+  (sum, unit) => sum + unit,
+  0,
+);
+const VIDEO_TRIPTYCH_GAP = 12;
+
+function ProcessVideoTriptychGallery({
+  layout,
+}: {
+  layout: ProcessVideoTriptychLayout;
+}) {
+  const imageWrapRef = useRef<HTMLDivElement>(null);
+  const [imageHeight, setImageHeight] = useState(0);
+
+  useEffect(() => {
+    const el = imageWrapRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const height = el.offsetHeight;
+      if (height > 0) setImageHeight(height);
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [layout.image]);
+
+  const [imageUnit, squareUnit, landscapeUnit] = VIDEO_TRIPTYCH_COL_UNITS;
+  const imageBasis = `${(imageUnit / VIDEO_TRIPTYCH_COL_TOTAL) * 100}%`;
+  const squareBasis = `${(squareUnit / VIDEO_TRIPTYCH_COL_TOTAL) * 100}%`;
+  const landscapeBasis = `${(landscapeUnit / VIDEO_TRIPTYCH_COL_TOTAL) * 100}%`;
+
+  // Right two columns scale to the left image height; each column's three cells
+  // share one aspect ratio and fill via object-cover (no letterboxing).
+  const cellHeight =
+    imageHeight > 0 ? (imageHeight - 2 * VIDEO_TRIPTYCH_GAP) / 3 : 0;
+
+  const cellClass =
+    "overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60";
+
+  const renderVideoColumn = (
+    videos: string[],
+    labelPrefix: string,
+    basis: string,
+  ) => (
+    <div
+      className="flex min-w-0 shrink-0 flex-col"
+      style={{ flexBasis: basis, gap: VIDEO_TRIPTYCH_GAP }}
+    >
+      {videos.map((src, videoIdx) => (
+        <div
+          key={src}
+          className={cellClass}
+          style={cellHeight > 0 ? { height: cellHeight } : { minHeight: 96 }}
+        >
+          <video
+            src={src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover bg-[#f2f7fa]/90"
+            aria-label={`${labelPrefix} ${videoIdx + 1}`}
+          />
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="w-full">
+      <div
+        className="hidden lg:flex items-start"
+        style={{ gap: VIDEO_TRIPTYCH_GAP }}
+      >
+        <div
+          ref={imageWrapRef}
+          className="min-w-0 shrink-0 overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
+          style={{ flexBasis: imageBasis }}
+        >
+          <ImageWithFallback
+            src={layout.image}
+            alt="Animation workflow"
+            className="block w-full h-auto object-contain"
+          />
+        </div>
+
+        {renderVideoColumn(layout.leftVideos, "Aqua animation", squareBasis)}
+        {renderVideoColumn(layout.rightVideos, "Boss animation", landscapeBasis)}
+      </div>
+
+      <div className="flex flex-col gap-4 lg:hidden">
+        <div className={cellClass}>
+          <ImageWithFallback
+            src={layout.image}
+            alt="Animation workflow"
+            className="block w-full h-auto object-contain"
+          />
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          {layout.leftVideos.map((src, videoIdx) => (
+            <div key={src} className={`${cellClass} aspect-square`}>
+              <video
+                src={src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-full w-full object-cover bg-[#f2f7fa]/90"
+                aria-label={`Aqua animation ${videoIdx + 1}`}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col gap-3">
+          {layout.rightVideos.map((src, videoIdx) => (
+            <div key={src} className={`${cellClass} aspect-video`}>
+              <video
+                src={src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-full w-full object-cover bg-[#f2f7fa]/90"
+                aria-label={`Boss animation ${videoIdx + 1}`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ProcessTriptychGallery({ layout }: { layout: ProcessTriptychLayout }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -1731,6 +2120,42 @@ function StorySection({
             />
           </div>
           {storyIdeaColumns}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhatIsItSection({
+  heading,
+  subsections,
+}: {
+  heading: string;
+  subsections: { title: string; image: string; text: string }[];
+}) {
+  const subsectionTitleClass =
+    "text-base md:text-lg font-medium text-[#1a1a1a] tracking-wide";
+  const subsectionBodyClass =
+    "text-sm lg:text-base text-[#6b6b6b] leading-relaxed whitespace-pre-line";
+
+  return (
+    <section className="px-6 lg:px-10 py-20">
+      <div className="max-w-5xl mx-auto">
+        <SectionHeading>{heading}</SectionHeading>
+        <div className="space-y-16">
+          {subsections.map((subsection) => (
+            <div key={subsection.title} className="space-y-6">
+              <h4 className={subsectionTitleClass}>{subsection.title}</h4>
+              <div className="rounded-2xl overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm">
+                <ImageWithFallback
+                  src={subsection.image}
+                  alt={subsection.title}
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+              <p className={subsectionBodyClass}>{subsection.text}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -2303,8 +2728,15 @@ function ProcessStepRow({
       )}
 
       {hasFlowchartImage && step.flowchartImage && (
-        <div className="lg:ml-10">
-          <div className="overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
+        <div className="lg:ml-10 flex justify-center">
+          <div
+            className="overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
+            style={{
+              width: step.flowchartImageScale
+                ? `${step.flowchartImageScale * 100}%`
+                : "100%",
+            }}
+          >
             <ImageWithFallback
               src={step.flowchartImage}
               alt={`${step.stage} flowchart`}
@@ -2571,11 +3003,18 @@ function WorkDetailTemplate({
           processTriptych: item.processTriptych,
           processThreePanelRow: item.processThreePanelRow,
           processRenderQuad: item.processRenderQuad,
+          flowchartImage: item.flowchartImage,
+          flowchartImageScale: item.flowchartImageScale,
+          taskSections: item.taskSections,
+          integrationImages: item.integrationImages,
           preserveImageAspect:
             !item.processTriptych &&
             !item.processThreePanelRow &&
             !item.processRenderQuad &&
-            project.id === "life-begets-life",
+            !item.flowchartImage &&
+            !item.taskSections &&
+            !item.integrationImages &&
+            (project.id === "life-begets-life" || project.id === "aquas-will"),
         }))
       : detail
       ? [
@@ -2585,7 +3024,9 @@ function WorkDetailTemplate({
           image: detail.processImages?.research ?? getImg(0),
           researchSections: detail.process.researchSections,
           preserveImageAspect:
-            project.id === "popup-museum" || project.id === "life-begets-life",
+            project.id === "popup-museum" ||
+            project.id === "life-begets-life" ||
+            project.id === "aquas-will",
         },
         {
           stage:
@@ -2743,7 +3184,9 @@ function WorkDetailTemplate({
         </div>
       </section>
 
-      {project.storySection ? (
+      {project.whatIsItSection ? (
+        <WhatIsItSection {...project.whatIsItSection} />
+      ) : project.storySection ? (
         <StorySection {...project.storySection} />
       ) : (
         <WhatWhySection heading={labels.whatWhy} items={whatWhyItems} />

@@ -11,6 +11,8 @@ import { mixingHappinessManifest } from "./mixing-happiness.data";
 import { emotionalTrapManifest } from "./emotional-trap.data";
 import { buildLifeBegetsLifeProject } from "./build-life-begets-life";
 import { lifeBegetsLifeManifest } from "./life-begets-life.data";
+import { buildAquasWillProject } from "./build-aquas-will";
+import { aquasWillManifest } from "./aquas-will.data";
 import { montageManifest } from "./montage.data";
 
 export const projectManifestRegistry = {
@@ -19,6 +21,7 @@ export const projectManifestRegistry = {
   "dragon-mountain": dragonMountainManifest,
   "mixing-happiness": mixingHappinessManifest,
   "emotional-trap": emotionalTrapManifest,
+  "aquas-will": aquasWillManifest,
   "life-begets-life": lifeBegetsLifeManifest,
   montage: montageManifest,
 } as const satisfies Record<string, ProjectManifestEntry>;
@@ -43,6 +46,7 @@ export function buildInteractiveInstallation(language: Language): Project[] {
 export function buildImmersiveGaming(language: Language): Project[] {
   return [
     buildDragonMountainProject(language),
+    buildAquasWillProject(language),
     buildProject("mixing-happiness", language),
     buildProject("emotional-trap", language),
   ];

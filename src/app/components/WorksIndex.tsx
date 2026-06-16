@@ -55,6 +55,7 @@ function buildIndexItems(language: Language): WorkIndexItem[] {
     "dragon-mountain",
     "life-begets-life",
     "seeing-unseen",
+    "aquas-will",
     "montage",
   ];
 

@@ -129,43 +129,81 @@ The piece offered a multi-sensory alternative to static display and demonstrated
 
 ### Summary
 
-A 2D side-scrolling RPG following Aqua, a sea spirit who enters a polluted underwater cave to rescue a mutated whale-shark companion and restore ecological balance. I designed the level flow and narrative beats and implemented the 2D animation system in Unity so character states, combat, and environmental storytelling stayed consistent across the team build.
+A 2D side-scrolling RPG following Aqua, a sea spirit who enters a polluted underwater cave to rescue a mutated whale-shark companion and restore ecological balance. I designed the level flow, narrative beats and implemented the 2D animation system in Unity, also developed an AI-enhanced image generation workflow through Midjourney to Photoshop and After Effects, which can be reused in future design prototypes.
 
-### What & Why
+### What is it
 
-**Problem**  
-The team wanted a short-form student game that communicated ocean pollution through play—not only through dialogue. The challenge was balancing environmental messaging with readable platformer/RPG mechanics in a tight production schedule.
+**Background Research**  
+The ocean is the cradle of life on Earth, brimming with abundant natural resources. However, today, 40% of the world’s oceans are severely impacted by human activity, and more than half of coastal habitats are degrading. While enjoying the ocean’s natural gifts, humanity must never forget the pain it has endured.
 
-**Insight**  
-Players understood the stakes faster when level geography mirrored emotional beats: clearer waters near hope, denser hazards near the mutated companion. Animation clarity (readable silhouettes, distinct hurt/attack frames) mattered more than frame count for a small team.
+Based on a lack of public awareness about marine pollution, the team created this work with the ocean as its theme, aiming to popularize marine knowledge and protect the marine environment.
 
-**Approach**
+**Story**  
+Aqua, the Sea Spirit, is a gentle guardian of the ocean, carrying its whispers across the endless blue.
 
-- Structured acts and encounter pacing in a level map tied to story milestones (descent → discovery → confrontation → resolution).
-- Built a reusable 2D animation controller in Unity for Aqua and key enemies, reducing duplicate logic across scenes.
-- Used AI-generated concept art (Midjourney) for rapid mood exploration, then refined hero readability in Adobe tools before in-engine implementation.
+By her side swims a whale shark, her closest friend and lifelong companion. Together, they roam the vast seas, gliding through coral forests and drifting peacefully beneath the waves.
+
+For years, their world remained untouched.
+
+But as human pollution spread through the ocean, darkness began to seep into the depths. The whale shark, dwelling within an ancient underwater cave, was slowly poisoned by the contaminated waters. The corruption twisted its body and clouded its mind. Consumed by agony, it thrashed violently against the cave walls, shaking the ocean with its suffering.
+
+When Aqua hears her friend's desperate cries echoing through the deep, she embarks on a journey into the heart of the corrupted cave. There, she must purify the spreading pollution, heal the whale shark, and restore the harmony that once united them.
 
 ### Process
 
-**Research**  
-Referenced ocean ecology narratives, side-scroller readability principles, and pollution visual metaphors (murk, coral loss, unnatural growth). Defined core player fantasy: “small spirit vs. large damaged ecosystem.”  
-→ Suggested image: `images[0]` (AW_Map)
+**Flowchart of Game Mechanism**
 
-**Tasks**  
-Narrative outline and level design documentation; 2D animation system setup; animation integration for player and selected interactables; coordination with programmers on trigger volumes and boss phase timing.
+**Character & Animaiton Design**  
+animation development workflows including AI-enhanced image generation through Midjourney, polished in Photoshop and animated in After Effects through plugins like autosway and 2D Spline.
 
-**How**  
-Blocked levels on paper → digital map → Unity greybox. Hooked animator parameters to gameplay events (damage, pickup, scene gates). Iterated attack/hurt cycles from playtest feedback.  
-→ Suggested images: `images[2]` (AW_Animation), gameplay screenshots `images[3–7]`
+Aqua Skills
+
+Shot: 
+
+(1) Hold the left mouse button to charge the light orb.
+
+(2) Move the mouse to determine the firing direction.
+
+(3) Release the mouse button to launch the light orb.
+
+Dash:
+
+Press the Spacebar to perform a dash (with a simple cooldown).
+
+Compress:
+
+Press T to compress the body, reducing the Sea Spirit’s size.
+
+
+
+**Map & Level Design**  
+Level 1: Current and Bubble Zone
+
+When the player enters a current zone, strong water flow pushes them away from their original movement path.
+
+Level 2: None-Oxygen Zone
+
+Players should use light orbs to illuminate the corals to gain enough oxygen to survive. Once the player leaves the lightened oral area, the oxygen level will decrease.
+
+Level 3: Rock Zone
+
+If a player is hit by a falling rock, their health will decrease; if their health reaches zero, the player dies.
+
+Level 4: Deepest Zone
+
+Here is where the Boss lives, which is also a none-oxygen area unless all the corals in the cave are lightened. Players need to first lighten all the corals, then using skills to battle with the boss until it is purified.
+
+
 
 **Output**  
-Playable vertical slice: explorable polluted cave, rescue arc for the whale-shark, and animated combat/interaction supporting the eco-fable tone.  
-→ Video: `videoUrl` / portfolio PDF `moreDetails`
+
 
 ### Result & Impact
 
-Delivered as a complete team game build with a coherent arc from descent to restoration. Strengthened my pipeline for **narrative-driven level design + 2D animation systems** in Unity, later reused in other RPG-style prototypes.  
-→ `[NEEDS YOUR INPUT]` Course name, year, grade, festival/playtest attendance, download/store link if any.
+Delivered a complete team-developed game prototype featuring a clear narrative arc, immersive environmental storytelling, and a polished player experience.
+
+Expanded my expertise in Unity-based level design and animation implementation while establishing a reusable AI-assisted art pipeline using Midjourney, Photoshop, and After Effects to accelerate concept development and production workflows. 
+
 
 ---
 

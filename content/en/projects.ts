@@ -28,6 +28,8 @@ import type {
   ProcessTaskGroup,
   ProcessTaskRow,
   ProcessTasksOutlineItem,
+  ProcessVideoTriptychLayout,
+  WhatIsItSubsection,
 } from "../manifests/_schema/workDetailBlocks";
 
 export type {
@@ -39,6 +41,8 @@ export type {
   ProcessTaskGroup,
   ProcessTaskRow,
   ProcessTasksOutlineItem,
+  ProcessVideoTriptychLayout,
+  WhatIsItSubsection,
 };
 
 export type DetailBullet = {
@@ -51,6 +55,11 @@ export type DetailBullet = {
   processTriptych?: ProcessTriptychLayout;
   processThreePanelRow?: ProcessThreePanelRow;
   processRenderQuad?: ProcessRenderQuadLayout;
+  flowchartImage?: string;
+  /** Display width as a fraction of the row (e.g. 0.5 = half width, centered). */
+  flowchartImageScale?: number;
+  taskSections?: ProcessTaskGroup[];
+  integrationImages?: readonly string[];
   animationCategories?: AnimationCategory[];
   carouselSlides?: CarouselSlide[];
   shaderSections?: ShaderSection[];
@@ -117,6 +126,12 @@ export type ProjectStorySection = {
   ideaText: string;
 };
 
+/** Aqua's Will — replaces What & Why with stacked image + copy subsections. */
+export type ProjectWhatIsItSection = {
+  heading: string;
+  subsections: WhatIsItSubsection[];
+};
+
 export interface Project {
   id: string;
   name: string;
@@ -134,6 +149,7 @@ export interface Project {
   layout?: ProjectDetailLayout;
   detail?: ProjectDetailContent;
   storySection?: ProjectStorySection;
+  whatIsItSection?: ProjectWhatIsItSection;
 }
 
 export const interactiveInstallation: Project[] = [
