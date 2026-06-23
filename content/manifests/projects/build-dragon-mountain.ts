@@ -85,11 +85,22 @@ function resolveTaskImage(
   return taskImageFallbacks[key]?.[language] ?? local;
 }
 
+function isLocalizedCopy(value: unknown): value is { en: string; zh: string } {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "en" in value &&
+    "zh" in value &&
+    typeof (value as { en: unknown }).en === "string" &&
+    typeof (value as { zh: unknown }).zh === "string"
+  );
+}
+
 function buildResearchSections(language: Language): ProcessResearchSubsection[] {
   return dragonMountainResearchCopy.map((section) => ({
     title: pick(language, section.title),
     titleSubtitle:
-      "titleSubtitle" in section && section.titleSubtitle
+      "titleSubtitle" in section && isLocalizedCopy(section.titleSubtitle)
         ? pick(language, section.titleSubtitle)
         : undefined,
     text: pickList(language, section.text),
@@ -138,7 +149,7 @@ function buildTasksOutline(language: Language): ProcessTasksOutlineItem[] {
   return dragonMountainTasksOutlineCopy.map((item) => ({
     title: pick(language, item.title),
     image: resolveDragonMountainAsset(item.imageKey),
-    ...(item.subItems
+    ...("subItems" in item && item.subItems
       ? { subItems: pickList(language, item.subItems) }
       : {}),
   }));

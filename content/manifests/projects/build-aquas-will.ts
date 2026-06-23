@@ -30,12 +30,18 @@ function resolveKeys(keys: readonly AquasWillAssetKey[]): string[] {
   return keys.map((key) => resolveAquasWillAsset(key));
 }
 
+type AquasWillPipelineWithTasks = Extract<
+  (typeof aquasWillDetailCopy.process.pipeline)[number],
+  { taskSections: readonly unknown[] }
+>;
+type AquasWillTaskSections = NonNullable<
+  AquasWillPipelineWithTasks["taskSections"]
+>;
+
 function buildTaskSections(
   language: Language,
-  sections: (typeof aquasWillDetailCopy.process.pipeline)[number]["taskSections"],
-): ProcessTaskGroup[] | undefined {
-  if (!sections) return undefined;
-
+  sections: AquasWillTaskSections,
+): ProcessTaskGroup[] {
   return sections.map((section) => {
     const base: ProcessTaskGroup = {
       title: pick(language, section.title),
@@ -47,12 +53,6 @@ function buildTaskSections(
 
     if ("layout" in section && section.layout === "twinImagesHeightAligned" && "imageKeys" in section) {
       base.layout = "twinImagesHeightAligned";
-      base.images = resolveKeys(section.imageKeys);
-      return base;
-    }
-
-    if ("layout" in section && section.layout === "twinImages" && "imageKeys" in section) {
-      base.layout = "twinImages";
       base.images = resolveKeys(section.imageKeys);
       return base;
     }
@@ -75,18 +75,6 @@ function buildTaskSections(
           right: pick(language, section.levelHeader.right),
         };
       }
-      return base;
-    }
-
-    if (
-      "layout" in section &&
-      section.layout === "imageTextSplit" &&
-      "imageKey" in section &&
-      "text" in section
-    ) {
-      base.layout = "imageTextSplit";
-      base.image = resolveAquasWillAsset(section.imageKey);
-      base.text = pick(language, section.text);
       return base;
     }
 

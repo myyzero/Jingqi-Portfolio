@@ -207,8 +207,8 @@ export const aquasWillManifest: ProjectManifestEntry = {
       zh: "关卡与动画设计",
     },
     type: {
-      en: "Team Project (Leader)",
-      zh: "团队项目（负责人）",
+      en: "Team Project",
+      zh: "团队项目",
     },
     tools: { en: "Unity, Midjourney, Adobe CS", zh: "Unity, Midjourney, Adobe CS" },
     details: { en: "2D RPG", zh: "2D RPG" },

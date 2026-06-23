@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import {
@@ -69,6 +69,14 @@ function buildIndexItems(language: Language): WorkIndexItem[] {
   });
 
   return items;
+}
+
+function getItemsForType(
+  items: WorkIndexItem[],
+  type: WorkType,
+): WorkIndexItem[] {
+  if (type === "all") return items;
+  return items.filter((i) => i.type === type);
 }
 
 function InfoLabels({
@@ -190,18 +198,48 @@ export function WorksIndex({ language }: { language: Language }) {
   const allItems = useMemo(() => buildIndexItems(language), [language]);
 
   const [selectedType, setSelectedType] = useState<WorkType>("all");
-  const filteredItems = useMemo(() => {
-    if (selectedType === "all") return allItems;
-    return allItems.filter((i) => i.type === selectedType);
-  }, [allItems, selectedType]);
+  const filteredItems = useMemo(
+    () => getItemsForType(allItems, selectedType),
+    [allItems, selectedType],
+  );
+
+  const [hoveredType, setHoveredType] = useState<WorkType | null>(null);
+  const pinnedSelectedIdRef = useRef<string | null>(null);
+
+  const displayItems = useMemo(
+    () => getItemsForType(allItems, hoveredType ?? selectedType),
+    [allItems, hoveredType, selectedType],
+  );
 
   const [selectedId, setSelectedId] = useState<string | null>(() => {
     return filteredItems[0]?.id ?? null;
   });
 
   const selectedItem = useMemo(() => {
-    return filteredItems.find((i) => i.id === selectedId) ?? filteredItems[0] ?? null;
-  }, [filteredItems, selectedId]);
+    return (
+      allItems.find((i) => i.id === selectedId) ??
+      displayItems[0] ??
+      filteredItems[0] ??
+      null
+    );
+  }, [allItems, selectedId, displayItems, filteredItems]);
+
+  const handleCategoryHover = (type: WorkType) => {
+    if (hoveredType === null) {
+      pinnedSelectedIdRef.current = selectedId;
+    }
+    setHoveredType(type);
+    setSelectedId(getItemsForType(allItems, type)[0]?.id ?? null);
+  };
+
+  const handleCategoryHoverEnd = () => {
+    setHoveredType(null);
+    const restoreId = pinnedSelectedIdRef.current;
+    pinnedSelectedIdRef.current = null;
+    if (restoreId !== null) {
+      setSelectedId(restoreId);
+    }
+  };
 
   React.useEffect(() => {
     const exists = filteredItems.some((i) => i.id === selectedId);
@@ -242,18 +280,29 @@ export function WorksIndex({ language }: { language: Language }) {
             )}
           </div>
 
-          <div className="col-span-3">
+          <div
+            className="col-span-3"
+            onMouseLeave={handleCategoryHoverEnd}
+          >
             <div className="aspect-video flex flex-col gap-2">
               {types.map((t) => {
                 const isSelected = selectedType === t;
+                const isHovered = hoveredType === t;
                 return (
                   <button
                     key={t}
-                    onClick={() => setSelectedType(t)}
+                    onClick={() => {
+                      setHoveredType(null);
+                      pinnedSelectedIdRef.current = null;
+                      setSelectedType(t);
+                    }}
+                    onMouseEnter={() => handleCategoryHover(t)}
                     className={`flex flex-1 items-center w-full text-left px-3 py-2 rounded-sm tracking-wide uppercase text-xs transition-colors ${
                       isSelected
                         ? "bg-[#f8fdff]/60 text-[#567C8D] font-bold"
-                        : "text-[#6b6b6b] font-semibold hover:bg-[#f8fdff]/60 hover:text-[#567C8D] hover:font-bold"
+                        : isHovered
+                          ? "bg-[#f8fdff]/40 text-[#567C8D] font-semibold"
+                          : "text-[#6b6b6b] font-semibold hover:bg-[#f8fdff]/60 hover:text-[#567C8D] hover:font-bold"
                     }`}
                   >
                     {getWorksTypeLabel(t, language)}
@@ -265,7 +314,7 @@ export function WorksIndex({ language }: { language: Language }) {
 
           <div className="col-span-3 max-h-[70vh] overflow-y-auto pr-2">
             <div className="space-y-4">
-              {filteredItems.map((item) => {
+              {displayItems.map((item) => {
                 const isSelected = item.id === selectedItem?.id;
                 return (
                   <Link

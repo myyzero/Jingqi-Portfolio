@@ -215,18 +215,66 @@ export const popupMuseumCopy = {
       ],
       carouselSlides: [
         {
-          title: "Seychellophryne Frog",
+          title: {
+            en: "Seychellophryne Frog",
+            zh: "塞舌尔蛙 / Seychellophryne Frog",
+          } satisfies LocalizedCopy,
           image: local("dioSeychellophryneFrog"),
         },
-        { title: "Cowfish", image: local("dioCowfish") },
-        { title: "Carved ebony vessel", image: local("dioVessel") },
-        { title: "Pottery 'tulip beaker'", image: local("dioPottery") },
-        { title: "Limestone Frog", image: local("dioLimestoneFrog") },
-        { title: "Pipistrellus", image: local("dioPipi") },
-        { title: "Female Figurine", image: local("dioFemaleFigurine") },
-        { title: "Sandstone Lion", image: local("dioSandstoneLion") },
-        { title: "Sea Sponge", image: local("dioSeasponge") },
-        { title: "Amoured Fish", image: local("dioAmouredfish") },
+        {
+          title: { en: "Cowfish", zh: "箱鲀 / Cowfish" } satisfies LocalizedCopy,
+          image: local("dioCowfish"),
+        },
+        {
+          title: {
+            en: "Carved ebony vessel",
+            zh: "乌木雕刻器皿 / Carved ebony vessel",
+          } satisfies LocalizedCopy,
+          image: local("dioVessel"),
+        },
+        {
+          title: {
+            en: "Pottery 'tulip beaker'",
+            zh: "郁金香形陶器 / Pottery 'tulip beaker'",
+          } satisfies LocalizedCopy,
+          image: local("dioPottery"),
+        },
+        {
+          title: {
+            en: "Limestone Frog",
+            zh: "石灰岩蛙 / Limestone Frog",
+          } satisfies LocalizedCopy,
+          image: local("dioLimestoneFrog"),
+        },
+        {
+          title: { en: "Pipistrellus", zh: "蝙蝠 / Pipistrellus" } satisfies LocalizedCopy,
+          image: local("dioPipi"),
+        },
+        {
+          title: {
+            en: "Female Figurine",
+            zh: "女性塑像 / Female Figurine",
+          } satisfies LocalizedCopy,
+          image: local("dioFemaleFigurine"),
+        },
+        {
+          title: {
+            en: "Sandstone Lion",
+            zh: "砂岩狮 / Sandstone Lion",
+          } satisfies LocalizedCopy,
+          image: local("dioSandstoneLion"),
+        },
+        {
+          title: { en: "Sea Sponge", zh: "海绵 / Sea Sponge" } satisfies LocalizedCopy,
+          image: local("dioSeasponge"),
+        },
+        {
+          title: {
+            en: "Amoured Fish",
+            zh: "装甲鱼 / Amoured Fish",
+          } satisfies LocalizedCopy,
+          image: local("dioAmouredfish"),
+        },
       ],
     },
     animation: {
@@ -291,7 +339,10 @@ export const popupMuseumCopy = {
       } satisfies LocalizedCopy,
       logicImage: local("logicUi"),
       storyboardImage: local("storyboardUx"),
-      video: remote("https://youtu.be/9tGo0ZzQf9o"),
+      video: {
+        en: remote("https://youtu.be/9tGo0ZzQf9o"),
+        zh: local("uiAni"),
+      },
     },
     tools: {
       title: {

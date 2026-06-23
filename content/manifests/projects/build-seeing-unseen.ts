@@ -90,7 +90,9 @@ function buildResearchSections(language: Language): ProcessResearchSubsection[] 
           : undefined,
     })),
     images:
-      "imageKeys" in section && section.imageKeys
+      "imageKeys" in section &&
+      Array.isArray(section.imageKeys) &&
+      section.imageKeys.length > 0
         ? section.imageKeys.map((key) => resolveSeeingUnseenAsset(key))
         : [],
     imageLayout: section.imageLayout,

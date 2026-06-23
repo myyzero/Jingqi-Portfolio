@@ -43,12 +43,12 @@ const infoOverrides: Record<string, { en: WorksInfoOverride; zh: WorksInfoOverri
     },
     "aquas-will": {
       en: {
-        infoType: "Team Project (Leader)",
+        infoType: "Team Project",
         infoRole: "Level and Animation Design",
         infoTools: "Unity, Midjourney, Adobe CS",
       },
       zh: {
-        infoType: "团队项目（负责人）",
+        infoType: "团队项目",
         infoRole: "关卡与动画设计",
         infoTools: "Unity, Midjourney, Adobe CS",
       },

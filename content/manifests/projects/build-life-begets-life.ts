@@ -111,11 +111,24 @@ function buildDetail(language: Language): ProjectDetailContent {
           };
         }
 
-        return {
-          ...base,
-          image: resolveLifeBegetsLifeAsset(item.heroKey),
-          stepImages: resolveKeys(item.stepKeys),
-        };
+        if (
+          "heroKey" in item &&
+          "stepKeys" in item &&
+          typeof item.heroKey === "string" &&
+          Array.isArray(item.stepKeys)
+        ) {
+          return {
+            ...base,
+            image: resolveLifeBegetsLifeAsset(
+              item.heroKey as Parameters<typeof resolveLifeBegetsLifeAsset>[0],
+            ),
+            stepImages: resolveKeys(
+              item.stepKeys as Parameters<typeof resolveKeys>[0],
+            ),
+          };
+        }
+
+        return base;
       }),
     },
     resultImpact: pick(language, lifeBegetsLifeDetailCopy.resultImpact),

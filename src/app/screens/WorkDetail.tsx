@@ -2398,17 +2398,18 @@ function UiUxDesignShowcase({
 }
 
 const TOOL_LABEL_LINE =
-  /^(Aim|How|Effect|目标|方式|效果):\s?(.*)$/u;
+  /^(Aim|How|Effect|目标|方式|效果)([:：])\s?(.*)$/u;
 
 function ToolDevelopmentLine({ item }: { item: string }) {
   const match = item.match(TOOL_LABEL_LINE);
   if (!match) return <>{item}</>;
 
-  const [, label, body] = match;
+  const [, label, separator, body] = match;
   return (
     <>
       <span className="underline decoration-[#2F4156] underline-offset-2">
-        {label}:
+        {label}
+        {separator}
       </span>
       {body ? ` ${body}` : null}
     </>
@@ -2425,7 +2426,7 @@ function ToolDevelopmentText({ items }: { items: string[] }) {
             key={item}
             className={
               isHeading
-                ? "font-semibold text-[#2F4156] mt-4 first:mt-0 list-none"
+                ? "font-normal text-[#6b6b6b] mt-4 first:mt-0 list-none"
                 : "list-disc pl-5 marker:text-[#CBD9E6]"
             }
           >

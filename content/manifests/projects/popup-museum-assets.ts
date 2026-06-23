@@ -35,6 +35,7 @@ import shaderToon from "../../../materials/popup-museum/process/toonshader_graph
 import aniToonShader from "../../../materials/popup-museum/process/toonshader_ani.mp4";
 import logicUi from "../../../materials/popup-museum/process/ui_logic.png";
 import storyboardUx from "../../../materials/popup-museum/process/ui_storyboard.png";
+import uiAni from "../../../materials/popup-museum/process/ui_ani.mp4";
 import toolShader1 from "../../../materials/popup-museum/process/tool_shader_1.png";
 import toolShader2 from "../../../materials/popup-museum/process/tool_shader_2.png";
 import toolTri1 from "../../../materials/popup-museum/process/tool_tri_1.png";
@@ -86,6 +87,7 @@ export const popupMuseumAssetRegistry = {
   aniToonShader,
   logicUi,
   storyboardUx,
+  uiAni,
   toolShader1,
   toolShader2,
   toolTri1,

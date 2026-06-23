@@ -12,9 +12,9 @@ export const seeingUnseenWhatWhyCopy = {
       'Research Question: How can people become aware of sensory stimuli that have been normalised and overlooked in urban environments?',
     ],
     zh: [
-      "Urban sensory adaptation causes people to become desensitised to everyday environmental stimuli.",
-      "Continuous exposure to noise and visual overload can negatively impact wellbeing despite often going unnoticed.",
-      'Research Question: How can people become aware of sensory stimuli that have been normalised and overlooked in urban environments?',
+      "城市感官适应使人们对外界日常刺激逐渐失敏。",
+      "持续暴露在噪音与视觉过载中，即便常被忽视，也可能损害身心健康。",
+      "研究问题：如何让人们意识到城市环境中已被常态化、被忽略的感受刺激？",
     ],
   } satisfies LocalizedStringList,
   insight: {
@@ -23,8 +23,8 @@ export const seeingUnseenWhatWhyCopy = {
       "Real-time feedback can help people recognise both environmental conditions and changes in their own sensory responsiveness.",
     ],
     zh: [
-      "Awareness is the first step toward reclaiming sensory agency.",
-      "Real-time feedback can help people recognise both environmental conditions and changes in their own sensory responsiveness.",
+      "觉察是重拾感官主动权的第一步。",
+      "实时反馈可帮助人们同时认识环境状况与自身感官响应的变化。",
     ],
   } satisfies LocalizedStringList,
   approach: {
@@ -35,10 +35,10 @@ export const seeingUnseenWhatWhyCopy = {
       "Development of visual and haptic feedback mechanisms to externalise sensory information.",
     ],
     zh: [
-      "Literature review on sensory perception and urban sensory discipline.",
-      "Environmental data collection and analysis.",
-      "Wearable system design and hardware prototyping.",
-      "Development of visual and haptic feedback mechanisms to externalise sensory information.",
+      "感官感知与城市感官规训相关文献综述。",
+      "环境数据采集与分析。",
+      "可穿戴系统设计与硬件原型开发。",
+      "开发视觉与触觉反馈机制，将感官信息外化。",
     ],
   } satisfies LocalizedStringList,
 } as const;
@@ -47,23 +47,23 @@ export const seeingUnseenResearchCopy = [
   {
     title: {
       en: "1. Field Research: Understanding Urban Environmental Perception",
-      zh: "1. Field Research: Understanding Urban Environmental Perception",
+      zh: "1. 实地调研：理解城市环境感知",
     } satisfies LocalizedCopy,
     intro: {
       en: "To investigate how people perceive urban environments in everyday life, field studies were conducted across a range of locations in London, including residential areas, commercial districts, public squares, and urban green spaces.",
-      zh: "To investigate how people perceive urban environments in everyday life, field studies were conducted across a range of locations in London, including residential areas, commercial districts, public squares, and urban green spaces.",
+      zh: "为探究人们在日常生活中如何感知城市环境，我们在伦敦多处地点开展实地研究，包括住宅区、商业区、公共广场与城市绿地。",
     } satisfies LocalizedCopy,
     rowGroups: [
       {
         heading: {
           en: "Research Activities",
-          zh: "Research Activities",
+          zh: "调研活动",
         } satisfies LocalizedCopy,
         rows: [
           {
             text: {
               en: "Site observations and environmental documentation through photography and audio recording.",
-              zh: "Site observations and environmental documentation through photography and audio recording.",
+              zh: "通过摄影与录音进行现场观察与环境记录。",
             } satisfies LocalizedCopy,
             imageKey: "researchSite1" as const satisfies SeeingUnseenAssetKey,
             layout: "split" as const,
@@ -71,7 +71,7 @@ export const seeingUnseenResearchCopy = [
           {
             text: {
               en: "Intercept interviews with passers-by regarding their perceptions of sound and colour in the surrounding environment.",
-              zh: "Intercept interviews with passers-by regarding their perceptions of sound and colour in the surrounding environment.",
+              zh: "对路人进行拦截访谈，了解其对周围环境中声音与色彩的感知。",
             } satisfies LocalizedCopy,
             imageKeys: [
               "interview1",
@@ -86,7 +86,7 @@ export const seeingUnseenResearchCopy = [
       {
         heading: {
           en: "Key Findings",
-          zh: "Key Findings",
+          zh: "主要发现",
         } satisfies LocalizedCopy,
         groupLayout: "cards" as const,
         rows: [
@@ -126,17 +126,17 @@ export const seeingUnseenResearchCopy = [
   {
     title: {
       en: "2. Online Survey: Factors Influencing Environmental Experience",
-      zh: "2. Online Survey: Factors Influencing Environmental Experience",
+      zh: "2. 在线问卷：影响环境体验的因素",
     } satisfies LocalizedCopy,
     intro: {
       en: "To further explore public perceptions at a larger scale, an online questionnaire was distributed to evaluate how people experience urban soundscapes and visual environments.",
-      zh: "To further explore public perceptions at a larger scale, an online questionnaire was distributed to evaluate how people experience urban soundscapes and visual environments.",
+      zh: "为进一步在大样本上探索公众感知，我们发放在线问卷，评估人们如何体验城市声景与视觉环境。",
     } satisfies LocalizedCopy,
     rowGroups: [
       {
         heading: {
           en: "Survey Overview",
-          zh: "Survey Overview",
+          zh: "问卷概览",
         } satisfies LocalizedCopy,
         items: {
           en: [
@@ -145,9 +145,9 @@ export const seeingUnseenResearchCopy = [
             "Focus Areas: Environmental comfort; Perceived pleasantness; Soundscape appropriateness; Satisfaction with environmental conditions; Preferences toward different sound and colour characteristics",
           ],
           zh: [
-            "Sample Size: N = 256",
-            "Method: Online questionnaire",
-            "Focus Areas: Environmental comfort; Perceived pleasantness; Soundscape appropriateness; Satisfaction with environmental conditions; Preferences toward different sound and colour characteristics",
+            "样本量：N = 256",
+            "方法：在线问卷",
+            "关注维度：环境舒适度；感知愉悦度；声景适宜性；对环境条件的满意度；对不同声音与色彩特征的偏好",
           ],
         } satisfies LocalizedStringList,
         sharedImageKey: "onlineSurvey" as const satisfies SeeingUnseenAssetKey,
@@ -157,17 +157,17 @@ export const seeingUnseenResearchCopy = [
       {
         heading: {
           en: "How to describe sound and colour perception",
-          zh: "How to describe sound and colour perception",
+          zh: "如何描述声音与色彩感知",
         } satisfies LocalizedCopy,
         rows: [
           {
             label: {
               en: "SOUND",
-              zh: "SOUND",
+              zh: "声音",
             } satisfies LocalizedCopy,
             text: {
               en: "We selected Acoustic Comfort and Pleasantness as the research target, with Average RMS Amplitude as an objective sound measure, Average Chromaticity Difference to represent color variation, Soundscape Appropriateness to reflect consistency, and nine types of sound sources as the potential factors influencing acoustic comfort.",
-              zh: "We selected Acoustic Comfort and Pleasantness as the research target, with Average RMS Amplitude as an objective sound measure, Average Chromaticity Difference to represent color variation, Soundscape Appropriateness to reflect consistency, and nine types of sound sources as the potential factors influencing acoustic comfort.",
+              zh: "我们选择声学舒适度（Acoustic Comfort）与愉悦度（Pleasantness）作为研究目标，以平均 RMS 振幅作为客观声音指标，平均色度差（ACD）表示色彩变化，声景适宜性（Soundscape Appropriateness）反映一致性，并以九类声源作为可能影响声学舒适度的因素。",
             } satisfies LocalizedCopy,
             imageKey: "surveySound" as const satisfies SeeingUnseenAssetKey,
             layout: "split" as const,
@@ -175,11 +175,11 @@ export const seeingUnseenResearchCopy = [
           {
             label: {
               en: "COLOUR",
-              zh: "COLOUR",
+              zh: "色彩",
             } satisfies LocalizedCopy,
             text: {
               en: "We use Average Chromaticity Difference to describe the colour complexity of the environment.\n\nVarying degrees of chromatic differences in the environment may trigger different levels of physiological discomfort, potentially posing risks to human health (Penacchio et al., 2021).\n\nThe Average Chromaticity Difference of each scene image are calculated in Matlab2019.",
-              zh: "We use Average Chromaticity Difference to describe the colour complexity of the environment.\n\nVarying degrees of chromatic differences in the environment may trigger different levels of physiological discomfort, potentially posing risks to human health (Penacchio et al., 2021).\n\nThe Average Chromaticity Difference of each scene image are calculated in Matlab2019.",
+              zh: "我们使用平均色度差（Average Chromaticity Difference）描述环境的色彩复杂度。\n\n环境中不同程度的色度差异可能引发不同程度的生理不适，潜在构成健康风险（Penacchio 等，2021）。\n\n各场景图像的平均色度差在 Matlab 2019 中计算。",
             } satisfies LocalizedCopy,
             imageKey: "surveyAcd" as const satisfies SeeingUnseenAssetKey,
             layout: "split" as const,
@@ -189,19 +189,19 @@ export const seeingUnseenResearchCopy = [
       {
         heading: {
           en: "Key Findings",
-          zh: "Key Findings",
+          zh: "主要发现",
         } satisfies LocalizedCopy,
         groupLayout: "labelOnly" as const,
       },
       {
         heading: {
           en: "Perception difference",
-          zh: "Perception difference",
+          zh: "感知差异",
         } satisfies LocalizedCopy,
         groupLayout: "textTwinImages" as const,
         prose: {
           en: "The questionnaire results showed that individuals exhibited significant differences in their perceptions of the same environment, making it difficult to use a single objective variable as a unified standard to evaluate their environmental experiences.",
-          zh: "The questionnaire results showed that individuals exhibited significant differences in their perceptions of the same environment, making it difficult to use a single objective variable as a unified standard to evaluate their environmental experiences.",
+          zh: "问卷结果显示，个体对同一环境的感知存在显著差异，难以用单一客观变量作为统一标准评估其环境体验。",
         } satisfies LocalizedCopy,
         imageKeys: [
           "finding1",
@@ -211,13 +211,13 @@ export const seeingUnseenResearchCopy = [
       {
         heading: {
           en: "New evaluation system",
-          zh: "New evaluation system",
+          zh: "新评估体系",
         } satisfies LocalizedCopy,
         rows: [
           {
             text: {
               en: "We used the previously proposed indicators of soundscape perception as latent variables and conducted a linear regression analysis to examine their effects on acoustic comfort.\n\nThe variables that showed significant influence were included in a linear regression equation, through which the statistical value of acoustic comfort could be predicted.",
-              zh: "We used the previously proposed indicators of soundscape perception as latent variables and conducted a linear regression analysis to examine their effects on acoustic comfort.\n\nThe variables that showed significant influence were included in a linear regression equation, through which the statistical value of acoustic comfort could be predicted.",
+              zh: "我们将此前提出的声景感知指标作为潜变量，进行线性回归分析其对声学舒适度的影响。显著影响的变量纳入线性回归方程，从而预测声学舒适度的统计值。",
             } satisfies LocalizedCopy,
             imageKey: "finding3" as const satisfies SeeingUnseenAssetKey,
             layout: "split" as const,
@@ -225,7 +225,7 @@ export const seeingUnseenResearchCopy = [
           {
             text: {
               en: "When selecting influencing factors, we added construction noise which showed significant differences in the questionnaire results, as a new variable.\n\nNext, we aim to simplify the model and conduct further analysis from a local perspective to obtain more detailed conclusions.",
-              zh: "When selecting influencing factors, we added construction noise which showed significant differences in the questionnaire results, as a new variable.\n\nNext, we aim to simplify the model and conduct further analysis from a local perspective to obtain more detailed conclusions.",
+              zh: "在选择影响因素时，我们将问卷中差异显著的建筑噪声作为新变量。下一步将简化模型，并从本地视角进一步分析以获得更细化的结论。",
             } satisfies LocalizedCopy,
             imageKey: "finding4" as const satisfies SeeingUnseenAssetKey,
             layout: "split" as const,
@@ -235,7 +235,7 @@ export const seeingUnseenResearchCopy = [
       {
         heading: {
           en: "Summary",
-          zh: "Summary",
+          zh: "总结",
         } satisfies LocalizedCopy,
         groupLayout: "summary" as const,
         sharedImageKey: "surveyModelling" as const satisfies SeeingUnseenAssetKey,
@@ -246,7 +246,7 @@ export const seeingUnseenResearchCopy = [
   {
     title: {
       en: "3. Data Analysis - Linear Process",
-      zh: "3. Data Analysis - Linear Process",
+      zh: "3. 数据分析 · 线性过程",
     } satisfies LocalizedCopy,
     rowGroups: [
       {
@@ -254,7 +254,7 @@ export const seeingUnseenResearchCopy = [
           {
             text: {
               en: "We simplified the previously obtained model equation, focusing on the variables that influence people's sense of pleasantness.\n\nThe resulting linear regression model includes four factors—RMS, ACD, Wind, and Airplane—and can be used to predict the perceived pleasantness of urban-disciplined groups in a given environment.",
-              zh: "We simplified the previously obtained model equation, focusing on the variables that influence people's sense of pleasantness.\n\nThe resulting linear regression model includes four factors—RMS, ACD, Wind, and Airplane—and can be used to predict the perceived pleasantness of urban-disciplined groups in a given environment.",
+              zh: "我们简化了此前获得的模型方程，聚焦影响人们愉悦感知的变量。\n\n最终线性回归模型包含 RMS、ACD、风与飞机四个因素，可用于预测给定环境中城市规训群体的感知愉悦度。",
             } satisfies LocalizedCopy,
             imageKey: "linear" as const satisfies SeeingUnseenAssetKey,
             imageScale: 0.75,
@@ -276,14 +276,14 @@ export const seeingUnseenTasksCopy = {
   userJourney: {
     title: {
       en: "User journey",
-      zh: "User journey",
+      zh: "用户旅程",
     } satisfies LocalizedCopy,
     imageKey: "userJourney" as const satisfies SeeingUnseenAssetKey,
   },
   hardwareDevelopment: {
     title: {
       en: "Hardware system development",
-      zh: "Hardware system development",
+      zh: "硬件系统开发",
     } satisfies LocalizedCopy,
     layout: "verticalTriple" as const,
     imageKeys: ["hard1", "hard2", "hard3"] as const satisfies readonly SeeingUnseenAssetKey[],

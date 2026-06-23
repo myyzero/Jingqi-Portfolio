@@ -47,6 +47,18 @@ function resolveList(
 
 function buildShaderSections(lang: Language): ShaderSection[] {
   const { shader } = popupMuseumCopy.process;
+  const captions =
+    lang === "zh"
+      ? {
+          shaderGraph: "着色器节点图",
+          output: "输出效果",
+          logicDiagram: "逻辑示意图",
+        }
+      : {
+          shaderGraph: "Shader graph",
+          output: "Output",
+          logicDiagram: "Logic diagram",
+        };
   return [
     {
       title: lang === "zh" ? "溶解 Shader" : "Dissolve Shader",
@@ -54,12 +66,12 @@ function buildShaderSections(lang: Language): ShaderSection[] {
       description: pick(lang, shader.dissolveDescription),
       media: [
         {
-          caption: "Shader graph",
+          caption: captions.shaderGraph,
           image: resolvePopupMuseumAsset("shaderDissolveGraph"),
           aspect: "1920/1080",
         },
         {
-          caption: "Output",
+          caption: captions.output,
           image: resolvePopupMuseumAsset("shaderDissolveOutput"),
           aspect: "1920/1080",
           kind: "video",
@@ -72,17 +84,17 @@ function buildShaderSections(lang: Language): ShaderSection[] {
       description: pick(lang, shader.toonDescription),
       media: [
         {
-          caption: "Logic diagram",
+          caption: captions.logicDiagram,
           image: resolvePopupMuseumAsset("logicToon"),
           aspect: "960/1080",
         },
         {
-          caption: "Shader graph",
+          caption: captions.shaderGraph,
           image: resolvePopupMuseumAsset("shaderToon"),
           aspect: "1920/1080",
         },
         {
-          caption: "Output",
+          caption: captions.output,
           image: resolvePopupMuseumAsset("aniToonShader"),
           aspect: "1920/1080",
           kind: "video",
@@ -100,12 +112,12 @@ function buildToolRows(lang: Language): ToolDevelopmentRow[] {
   }));
 }
 
-function buildUiUx(): UiUxMediaPair {
+function buildUiUx(lang: Language): UiUxMediaPair {
   const { uiUx } = popupMuseumCopy.process;
   return {
     logicImage: resolve(uiUx.logicImage),
     storyboardImage: resolve(uiUx.storyboardImage),
-    video: resolve(uiUx.video),
+    video: resolve(uiUx.video[lang]),
   };
 }
 
@@ -118,10 +130,10 @@ function buildAnimationCategories(lang: Language): AnimationCategory[] {
   }));
 }
 
-function buildCarouselSlides(): CarouselSlide[] {
+function buildCarouselSlides(lang: Language): CarouselSlide[] {
   const { modelling } = popupMuseumCopy.process;
   return modelling.carouselSlides.map((slide) => ({
-    title: slide.title,
+    title: pick(lang, slide.title),
     image: resolve(slide.image),
   }));
 }
@@ -161,7 +173,7 @@ export function buildPopupMuseumProject(language: Language): Project {
           text: pick(language, process.modelling.text),
           stepImages: resolveMediaList(process.modelling.stepImages, assets),
           stepImageShape: "roundedSquare",
-          carouselSlides: buildCarouselSlides(),
+          carouselSlides: buildCarouselSlides(language),
         },
         {
           title: pick(language, process.animation.title),
@@ -176,7 +188,7 @@ export function buildPopupMuseumProject(language: Language): Project {
         {
           title: pick(language, process.uiUx.title),
           text: "",
-          uiUxMedia: buildUiUx(),
+          uiUxMedia: buildUiUx(language),
         },
         {
           title: pick(language, process.tools.title),
