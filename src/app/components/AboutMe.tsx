@@ -36,15 +36,20 @@ export function AboutMe({ language }: { language: Language }) {
             <h3 className="mb-2 text-sm md:text-base text-[#6086ad] font-medium">
               {content.summaryTitle}
             </h3>
-            <p
-              className="text-[#a1c0df] tracking-wide leading-relaxed"
-              style={{
-                fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
-                fontWeight: 400,
-              }}
-            >
-              {content.summaryText}
-            </p>
+            <div className="space-y-4">
+              {content.summaryText.split("\n\n").filter(Boolean).map((para) => (
+                <p
+                  key={para.slice(0, 32)}
+                  className="text-[#a1c0df] tracking-wide leading-relaxed"
+                  style={{
+                    fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
+                    fontWeight: 400,
+                  }}
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
           </div>
 
           <div>

@@ -5,12 +5,24 @@ const aboutMeFields = {
   heading: { en: "About Me", zh: "关于我" } satisfies LocalizedCopy,
   summaryTitle: { en: "Summary", zh: "个人简介" } satisfies LocalizedCopy,
   summaryText: {
-    en: "Interaction Designer and Technical Artist with a background in immersive environments, interactive and animation system development, multi-sensory storytelling and game design. Experienced in 3D modelling and asset integration, animation and gaming, spatial storytelling and art installation.",
+    en:
+      "I make physical-digital interventions that translate the intangible into something a body can meet, " +
+      "where painting, memory, perception, and environmental data become things you can walk through, touch, and respond to." +
+      "\n\n" +
+      "My work spans navigable 3D worlds reconstructed from traditional landscape painting, " +
+      "museum installations that turn untouchable artefacts into tactile encounters, " +
+      "and sensor-driven wearables that translate hidden environmental signals into visible, audible, " +
+      "and haptic feedback. I move fluently between real-time engines (Unity, UE5), " +
+      "physical computing (Raspberry Pi / Arduino, sensors), and AI-assisted tooling, " +
+      "and the work I care about most is the moment when a concept resonates with people.",
     zh: "具备交互装置设计与开发，沉浸式空间体验，游戏设计及三维动画方面相关经验。有 Unreal Engine / Unity 项目协作与引擎侧资源落地经验，擅长与不同职能团队高效协作。",
   } satisfies LocalizedCopy,
   skillsTitle: { en: "Skills", zh: "核心技能" } satisfies LocalizedCopy,
   skillsText: {
-    en: "Engines & Tech: Unreal Engine, Unity, Interaction and Animation System, Version Control\nDesign Tools: Maya, Cinema 4D, Adobe Creative Suite\nLanguage: C, C#, Matlab\nHardware: Arduino, Raspberry Pi",
+    en: "Engines & 3D Creation: Unreal Engine (Blueprint), Unity (C#), Maya & Cinema 4D (modelling and animation), Git, Unity Version Control\n" +
+    "Visual Design & Prototyping: Adobe Creative Suite (Photoshop, Illustrator, InDesign, Premiere Pro, After Effects, Audition), Figma, TouchDesigner\n" +
+    "Embedded & Sensing: Arduino & Raspberry Pi piplines, Audio and colour capture, Motor and haptic output\n" +
+    "AI-assisted tooling: Midjourney (ideation), Figma Make (prototypes), Cursor (production scripts in Python and C# like Maya QC checkes, Unity Editor tools, and document-translation pipelines)",
     zh: "引擎 | 技术： Unreal Engine 5，Unity 6，动画系统，风格化材质，交互功能开发\n设计工具 | 软件： Maya, Cinema 4D, Adobe Creative Suite\n语言 | 编程： C, C#, Matlab\n硬件 | 开发： Arduino, Raspberry Pi",
   } satisfies LocalizedCopy,
 };
