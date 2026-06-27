@@ -340,7 +340,7 @@ export const popupMuseumCopy = {
       logicImage: local("logicUi"),
       storyboardImage: local("storyboardUx"),
       video: {
-        en: remote("https://youtu.be/9tGo0ZzQf9o"),
+        en: local("uiAni"),
         zh: local("uiAni"),
       },
     },

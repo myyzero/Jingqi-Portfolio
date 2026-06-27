@@ -236,6 +236,8 @@ type ProcessStepData = {
   image: string;
   /** When true, image keeps intrinsic aspect ratio (no 16:9 crop). */
   preserveImageAspect?: boolean;
+  /** Pop-up Museum: rounded-2xl on the right-column step image. */
+  roundedSideMedia?: boolean;
   stepImages?: string[];
   processTriptych?: ProcessTriptychLayout;
   processThreePanelRow?: ProcessThreePanelRow;
@@ -667,7 +669,7 @@ function AnimationDesignShowcase({
                 <LoopVideo
                   src={row.rect}
                   label={`${rectangles?.title ?? "Rectangle"} ${rowIndex + 1}`}
-                  className="overflow-hidden shrink-0"
+                  className="rounded-2xl overflow-hidden shrink-0"
                   style={
                     rowHeight > 0
                       ? { width: rectWidth, height: rowHeight }
@@ -679,7 +681,7 @@ function AnimationDesignShowcase({
                     key={sqIndex}
                     src={src}
                     label={`${gridCategory?.title ?? "Square"} ${rowIndex * 2 + sqIndex + 1}`}
-                    className="overflow-hidden shrink-0"
+                    className="rounded-2xl overflow-hidden shrink-0"
                     style={
                       rowHeight > 0
                         ? { width: rowHeight, height: rowHeight }
@@ -2316,7 +2318,7 @@ function ShaderMediaCell({
   return (
     <div className="w-full min-w-0 self-start">
       <div
-        className="relative w-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
+        className="relative w-full overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
         style={{ aspectRatio: ratio }}
       >
         {kind === "video" ? (
@@ -2371,21 +2373,21 @@ function UiUxDesignShowcase({
       ) : null}
 
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)] gap-6 lg:gap-8 items-stretch">
-        <div className="relative flex min-h-[min(85vw,320px)] lg:min-h-0 lg:h-full items-center justify-center overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
+        <div className="relative flex min-h-[min(85vw,320px)] lg:min-h-0 lg:h-full items-center justify-center overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
           <ImageWithFallback
             src={media.logicImage}
             alt="UI logic diagram"
             className="absolute inset-0 w-full h-full object-contain object-center p-2"
           />
         </div>
-        <div className="relative flex min-h-[min(85vw,320px)] lg:min-h-0 lg:h-full items-center justify-center overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
+        <div className="relative flex min-h-[min(85vw,320px)] lg:min-h-0 lg:h-full items-center justify-center overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
           <ImageWithFallback
             src={media.storyboardImage}
             alt="UI storyboard"
             className="absolute inset-0 w-full h-full object-contain object-center p-2"
           />
         </div>
-        <div className="relative w-full self-start aspect-video overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
+        <div className="relative w-full self-start aspect-video overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
           <LoopVideo
             src={media.video}
             label="UI animation"
@@ -2482,7 +2484,7 @@ function ToonShaderBlock({ section }: { section: ShaderSection }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:grid-rows-[auto_minmax(0,1fr)] gap-6 lg:gap-8 items-stretch">
       <div className="lg:row-span-2 flex w-full min-h-0 lg:h-full">
-        <div className="relative flex-1 w-full min-h-[min(85vw,420px)] lg:min-h-0 lg:h-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
+        <div className="relative flex-1 w-full min-h-[min(85vw,420px)] lg:min-h-0 lg:h-full overflow-hidden rounded-2xl bg-[#f2f7fa]/90 border border-[#e5e5e5]/60">
           <ImageWithFallback
             src={logic.image}
             alt={logic.caption}
@@ -2681,8 +2683,10 @@ function ProcessStepRow({
           <div
             className={
               step.preserveImageAspect
-                ? "lg:col-span-3 overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60"
-                : "lg:col-span-3 aspect-video bg-[#f2f7fa]/90 overflow-hidden"
+                ? `lg:col-span-3 overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5]/60${step.roundedSideMedia ? " rounded-2xl" : ""}`
+                : step.roundedSideMedia
+                  ? "lg:col-span-3 aspect-video bg-[#f2f7fa]/90 overflow-hidden border border-[#e5e5e5]/60 rounded-2xl"
+                  : "lg:col-span-3 aspect-video bg-[#f2f7fa]/90 overflow-hidden"
             }
           >
             <ImageWithFallback
@@ -3028,6 +3032,7 @@ function WorkDetailTemplate({
             project.id === "popup-museum" ||
             project.id === "life-begets-life" ||
             project.id === "aquas-will",
+          roundedSideMedia: project.id === "popup-museum",
         },
         {
           stage:
@@ -3037,6 +3042,7 @@ function WorkDetailTemplate({
           flowchartImage: detail.process.tasksFlowchart,
           tasksOutline: detail.process.tasksOutline,
           taskSections: detail.process.tasksSections,
+          roundedSideMedia: project.id === "popup-museum",
         },
         {
           stage:

@@ -109,85 +109,82 @@ export function Landing({ language, onLanguageChange }: LandingProps) {
         }}
       />
 
-      {/* Hero — screen center; moving tagline image does not affect this block */}
+      {/* Content — single column, vertically centered as one group */}
       <motion.div
-        className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 max-w-4xl mx-auto w-full left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-        >
-          <motion.h1
-            className="mb-4 tracking-tight text-[#6086ad]"
-            style={{
-              fontSize: "clamp(2.85rem, 7vw, 5.5rem)",
-              lineHeight: 1.2,
-              fontWeight: 700,
-            }}
-          >
-            {content.name}
-          </motion.h1>
-
-          <motion.p
-            className="text-[#a1c0df] tracking-wide"
-            style={{
-              fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
-              fontWeight: 400,
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 1 }}
-          >
-            {content.subtitle}
-          </motion.p>
-
-          <motion.div
-            className="mt-8 flex items-center justify-center gap-2 text-xs tracking-widest uppercase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.8 }}
-          >
-            <button
-              onClick={() => onLanguageChange("en")}
-              className={
-                language === "en"
-                  ? "text-[#a1c0df]"
-                  : "text-[#a1c0df]/50 hover:text-[#a1c0df] transition-colors duration-300"
-              }
-            >
-              EN
-            </button>
-            <span className="text-[#a1c0df]">|</span>
-            <button
-              onClick={() => onLanguageChange("zh")}
-              className={
-                language === "zh"
-                  ? "text-[#a1c0df]"
-                  : "text-[#a1c0df]/50 hover:text-[#a1c0df] transition-colors duration-300"
-              }
-            >
-              中文
-            </button>
-          </motion.div>
-      </motion.div>
-
-      {/* Tagline image — only adjust bottom-* / max-w-* here */}
-      <motion.div
-        className="absolute left-0 right-0 z-10 flex justify-center px-6 bottom-[22%] md:bottom-[24%]"
-        initial={{ opacity: 0, y: 12 }}
+        className="relative z-10 flex min-h-screen w-full max-w-4xl mx-auto flex-col items-center justify-center gap-8 px-6 text-center"
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 1 }}
+        transition={{ duration: 1.2, delay: 0.3 }}
       >
-        <img
-          src={momentTagline}
-          alt="I care about the MOMENT when a concept RESONATES with PEOPLE."
-          className="w-full max-w-4xl h-auto mix-blend-screen select-none"
-          draggable={false}
-        />
-      </motion.div>
+        <motion.h1
+          className="tracking-tight text-[#6086ad]"
+          style={{
+            fontSize: "clamp(2.85rem, 7vw, 5.5rem)",
+            lineHeight: 1.2,
+            fontWeight: 700,
+          }}
+        >
+          {content.name}
+        </motion.h1>
 
-      {/* Scroll hint — fixed at bottom */}
-      <motion.div
-        className="absolute bottom-8 left-0 right-0 z-10 flex items-center justify-center gap-2"
+        <motion.p
+          className="text-[#a1c0df] tracking-wide"
+          style={{
+            fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
+            fontWeight: 400,
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 1 }}
+        >
+          {content.subtitle}
+        </motion.p>
+
+        <motion.div
+          className="flex items-center justify-center gap-2 text-xs tracking-widest uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.8 }}
+        >
+          <button
+            onClick={() => onLanguageChange("en")}
+            className={
+              language === "en"
+                ? "text-[#a1c0df]"
+                : "text-[#a1c0df]/50 hover:text-[#a1c0df] transition-colors duration-300"
+            }
+          >
+            EN
+          </button>
+          <span className="text-[#a1c0df]">|</span>
+          <button
+            onClick={() => onLanguageChange("zh")}
+            className={
+              language === "zh"
+                ? "text-[#a1c0df]"
+                : "text-[#a1c0df]/50 hover:text-[#a1c0df] transition-colors duration-300"
+            }
+          >
+            中文
+          </button>
+        </motion.div>
+
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 1 }}
+        >
+          <img
+            src={momentTagline}
+            alt="I care about the MOMENT when a concept RESONATES with PEOPLE."
+            className="mx-auto w-full max-w-4xl h-auto mix-blend-screen select-none"
+            draggable={false}
+          />
+        </motion.div>
+
+        <motion.div
+          className="flex items-center justify-center gap-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.6, duration: 1 }}
@@ -207,6 +204,7 @@ export function Landing({ language, onLanguageChange }: LandingProps) {
           <span className="text-sm text-[#a1c0df] tracking-wide">
             {content.scrollLabel}
           </span>
+        </motion.div>
       </motion.div>
     </section>
   );
