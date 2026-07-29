@@ -58,7 +58,7 @@ export function AboutMe({ language }: { language: Language }) {
                 const value = rest.join(":");
                 return (
                   <p key={line} className="leading-relaxed">
-                    <span className="text-lg md:text-xl text-black font-bold">
+                    <span className="text-base text-black font-bold">
                       {label}
                       {skillLabelSeparator}
                     </span>

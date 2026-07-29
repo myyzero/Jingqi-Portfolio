@@ -13,11 +13,11 @@ const aboutMeFields = {
   } satisfies LocalizedCopy,
   skillsTitle: { en: "Skills", zh: "核心技能" } satisfies LocalizedCopy,
   skillsText: {
-    en: "Engines & 3D Creation: Unreal Engine (Blueprint), Unity (C#), Maya & Cinema 4D (modelling and animation), Git, Unity Version Control\n" +
-    "Visual Design & Prototyping: Adobe Creative Suite (Photoshop, Illustrator, InDesign, Premiere Pro, After Effects, Audition), Figma, TouchDesigner\n" +
-    "Embedded & Sensing: Arduino & Raspberry Pi piplines, Audio and colour capture, Motor and haptic output\n" +
-    "AI-assisted tooling: Midjourney (ideation), Figma Make (prototypes), Cursor (production scripts in Python and C# like Maya QC checkes, Unity Editor tools, and document-translation pipelines)",
-    zh: "引擎 | 技术： Unreal Engine 5，Unity 6，动画系统，风格化材质，交互功能开发\n设计工具 | 软件： Maya, Cinema 4D, Adobe Creative Suite\n语言 | 编程： C, C#, Matlab\n硬件 | 开发： Arduino, Raspberry Pi",
+    en: "Engines & 3D Creation: Familiar with Unreal Engine, Unity, Maya, Cinema 4D, Git, Unity Version Control.\n" +
+    "Visual Design & Prototype: Fluent in Adobe Creative Suite, Familiar with Figma.\n" +
+    "Embedded & Sensing: Experience with Arduino & Raspberry Pi.\n" +
+    "AI-assisted tooling: Experience with Midjourney, ComfyUI(image/model creating workflows), Cursor (production scripts in Python and C#).",
+    zh: "引擎 | 技术： Unreal Engine，Unity\n设计工具 | 软件： Maya, Cinema 4D, Adobe Creative Suite\n语言 | 编程： C, C#, MATLAB\n硬件 | 开发： Arduino, Raspberry Pi",
   } satisfies LocalizedCopy,
 };
 
