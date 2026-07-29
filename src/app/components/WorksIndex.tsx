@@ -1,40 +1,65 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import {
   getAllWorksContent,
-  getWorksInfoOverride,
+  getProjectsForToolTag,
   getWorksPageLabels,
+  getWorksToolTags,
   getWorksTypeLabel,
+  isWorksToolTagFilterable,
   worksCatalog,
+  worksDisplayOrder,
   type Language,
-  type WorksFilterType,
+  type WorksCategory,
+  type WorksToolTag,
+  type WorksToolTagId,
 } from "../../../content";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-
-type WorkType = WorksFilterType;
 
 type WorkIndexItem = {
   id: string;
   name: string;
   keyword: string;
-  type: Exclude<WorkType, "all">;
+  type: WorksCategory;
   previewImage: string;
-  infoType: string;
-  infoRole: string;
-  infoTools: string;
-  infoSummary: string;
+  toolTags: WorksToolTag[];
 };
+
+type WorkSize = "sm" | "lg" | "full";
+
+type WorkRowSlot = { id: string; size: WorkSize };
+
+type WorkRow = {
+  left: WorkRowSlot;
+  right?: WorkRowSlot;
+};
+
+/** Default Works layout: category order + asymmetric sizes (≈1/3 : 2/3 alternating). */
+const DEFAULT_WORK_ROWS: WorkRow[] = [
+  {
+    left: { id: "seeing-unseen", size: "sm" },
+    right: { id: "popup-museum", size: "lg" },
+  },
+  {
+    left: { id: "dragon-mountain", size: "lg" },
+    right: { id: "aquas-will", size: "sm" },
+  },
+  {
+    left: { id: "montage", size: "sm" },
+    right: { id: "life-begets-life", size: "lg" },
+  },
+];
+
+const TAG_EASE = [0.22, 1, 0.36, 1] as const;
 
 function buildIndexItems(language: Language): WorkIndexItem[] {
   const all = getAllWorksContent(language);
 
-  const items = Object.entries(worksCatalog)
+  return Object.entries(worksCatalog)
     .map(([id, category]) => {
       const project = all.find((p) => p.id === id);
       if (!project) return null;
-
-      const override = getWorksInfoOverride(id, language);
 
       return {
         id: project.id,
@@ -42,373 +67,279 @@ function buildIndexItems(language: Language): WorkIndexItem[] {
         keyword: project.keyword,
         type: category,
         previewImage: project.previewImage,
-        infoType: override?.infoType ?? project.type,
-        infoRole: override?.infoRole ?? project.role,
-        infoTools: override?.infoTools ?? project.tools ?? "",
-        infoSummary: project.summary,
+        toolTags: getWorksToolTags(project.id),
       };
     })
     .filter((item): item is WorkIndexItem => item !== null);
-
-  const displayOrder = [
-    "popup-museum",
-    "dragon-mountain",
-    "life-begets-life",
-    "seeing-unseen",
-    "aquas-will",
-    "montage",
-  ];
-
-  items.sort((a, b) => {
-    const ai = displayOrder.indexOf(a.id);
-    const bi = displayOrder.indexOf(b.id);
-    if (ai !== -1 && bi !== -1) return ai - bi;
-    if (ai !== -1) return -1;
-    if (bi !== -1) return 1;
-    return a.name.localeCompare(b.name, language === "zh" ? "zh" : "en");
-  });
-
-  return items;
 }
 
-function getItemsForType(
-  items: WorkIndexItem[],
-  type: WorkType,
-): WorkIndexItem[] {
-  if (type === "all") return items;
-  return items.filter((i) => i.type === type);
+/** Reflow project ids into asymmetric rows (sm|lg, lg|sm, …). */
+function buildAsymmetricRows(
+  ids: string[],
+  toolTag?: WorksToolTagId | null,
+): WorkRow[] {
+  // Unity / C#: Pop-up Museum large, Aqua's Will small
+  if (
+    (toolTag === "Unity" || toolTag === "C#") &&
+    ids[0] === "popup-museum" &&
+    ids[1] === "aquas-will"
+  ) {
+    return [
+      {
+        left: { id: "popup-museum", size: "lg" },
+        right: { id: "aquas-will", size: "sm" },
+      },
+    ];
+  }
+
+  const rows: WorkRow[] = [];
+  for (let i = 0; i < ids.length; i += 2) {
+    const rowIndex = Math.floor(i / 2);
+    const firstIsSm = rowIndex % 2 === 0;
+    const leftSize: WorkSize = firstIsSm ? "sm" : "lg";
+    const rightSize: WorkSize = firstIsSm ? "lg" : "sm";
+    const leftId = ids[i];
+    const rightId = ids[i + 1];
+
+    if (!rightId) {
+      rows.push({ left: { id: leftId, size: "full" } });
+    } else {
+      rows.push({
+        left: { id: leftId, size: leftSize },
+        right: { id: rightId, size: rightSize },
+      });
+    }
+  }
+  return rows;
 }
 
-function InfoLabels({
-  labels,
-  item,
-}: {
-  labels: ReturnType<typeof getWorksPageLabels>;
-  item: WorkIndexItem;
-}) {
-  return (
-    <>
-      <div className="grid grid-cols-3 gap-4 text-xs leading-relaxed">
-        <div className="text-[#6b6b6b]">
-          <span className="tracking-widest uppercase font-bold text-[#2F4156]">
-            {labels.type}
-          </span>
-          <span className="text-[#1a1a1a]">: {item.infoType}</span>
-        </div>
-        <div className="text-[#6b6b6b]">
-          <span className="tracking-widest uppercase font-bold text-[#2F4156]">
-            {labels.role}
-          </span>
-          <span className="text-[#1a1a1a]">: {item.infoRole}</span>
-        </div>
-        <div className="text-[#6b6b6b]">
-          <span className="tracking-widest uppercase font-bold text-[#2F4156]">
-            {labels.tools}
-          </span>
-          <span className="text-[#1a1a1a]">: {item.infoTools}</span>
-        </div>
-      </div>
-      <div className="text-xs text-[#6b6b6b] leading-relaxed">
-        <span className="tracking-widest uppercase font-bold text-[#2F4156]">
-          {labels.summary}
-        </span>
-        <span className="text-[#1a1a1a]">: {item.infoSummary}</span>
-      </div>
-    </>
-  );
+function sizeColClass(size: WorkSize) {
+  if (size === "full") return "md:col-span-12";
+  return size === "sm" ? "md:col-span-4" : "md:col-span-8";
 }
 
-function WorkPreviewThumbnail({
+function WorkCard({
   item,
   language,
-  imageClassName = "w-full h-full object-cover aspect-video",
+  size,
+  showTagAlways = false,
+  onToolTagClick,
 }: {
   item: WorkIndexItem;
   language: Language;
-  imageClassName?: string;
+  size: WorkSize;
+  /** Mobile / no-hover: keep category tag visible. */
+  showTagAlways?: boolean;
+  onToolTagClick: (tag: WorksToolTagId) => void;
 }) {
-  return (
-    <Link
-      to={`/${language}/works/${item.id}`}
-      className="block rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#567C8D]/40"
-      aria-label={item.name}
-    >
-      <div className="overflow-hidden rounded-lg bg-[#fafafa]">
-        <motion.div
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 1.03 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-        >
-          {item.previewImage ? (
-            <ImageWithFallback
-              src={item.previewImage}
-              alt={item.name}
-              className={imageClassName}
-            />
-          ) : (
-            <div className="w-full aspect-video bg-[#1a1a1a]" />
-          )}
-        </motion.div>
-      </div>
-    </Link>
-  );
-}
+  const categoryLabel = getWorksTypeLabel(item.type, language);
+  const [imageHovered, setImageHovered] = useState(false);
+  const tagVisible = showTagAlways || imageHovered;
+  const detailTo = `/${language}/works/${item.id}`;
 
-function InfoLabelsMobile({
-  labels,
-  item,
-}: {
-  labels: ReturnType<typeof getWorksPageLabels>;
-  item: WorkIndexItem;
-}) {
   return (
-    <>
-      <div className="grid grid-cols-1 gap-2 text-xs leading-relaxed">
-        <div className="text-[#6b6b6b]">
-          <span className="tracking-widest uppercase font-bold text-[#2F4156]">
-            {labels.type}
-          </span>
-          <span className="text-[#1a1a1a]">: {item.infoType}</span>
+    <div
+      className={sizeColClass(size)}
+      onMouseEnter={() => setImageHovered(true)}
+      onMouseLeave={() => setImageHovered(false)}
+    >
+      <Link
+        to={detailTo}
+        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#567C8D]/40"
+        aria-label={item.name}
+      >
+        <div className="overflow-hidden bg-[#fafafa] aspect-[1921/1080] rounded-xl">
+          <motion.div
+            className="h-full w-full"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 1.02 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+          >
+            {item.previewImage ? (
+              <ImageWithFallback
+                src={item.previewImage}
+                alt={item.name}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="h-full w-full bg-[#1a1a1a]" />
+            )}
+          </motion.div>
         </div>
-        <div className="text-[#6b6b6b]">
-          <span className="tracking-widest uppercase font-bold text-[#2F4156]">
-            {labels.role}
-          </span>
-          <span className="text-[#1a1a1a]">: {item.infoRole}</span>
-        </div>
-        <div className="text-[#6b6b6b]">
-          <span className="tracking-widest uppercase font-bold text-[#2F4156]">
-            {labels.tools}
-          </span>
-          <span className="text-[#1a1a1a]">: {item.infoTools}</span>
-        </div>
+      </Link>
+
+      <div className="mt-3 flex items-start justify-between gap-3">
+        <Link to={detailTo} className="min-w-0 flex-1 space-y-1.5 block">
+          <h3 className="text-lg md:text-xl font-bold text-[#1a1a1a] leading-snug">
+            {item.name}
+          </h3>
+          <p className="text-base text-[#6b6b6b] leading-relaxed">
+            {item.keyword}
+          </p>
+          <div className="min-h-[1.5rem] overflow-hidden">
+            <motion.span
+              className="inline-block mt-1 px-2 py-0.5 rounded-sm bg-[#e8e8e8] text-[11px] text-[#3a3a3a]"
+              initial={false}
+              animate={
+                tagVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }
+              }
+              transition={{ duration: 0.35, ease: TAG_EASE }}
+              aria-hidden={!tagVisible}
+            >
+              {categoryLabel}
+            </motion.span>
+          </div>
+        </Link>
+
+        {item.toolTags.length > 0 && (
+          <div
+            className="flex flex-wrap justify-end content-start gap-1 max-w-[55%] shrink-0"
+            aria-hidden={!tagVisible}
+          >
+            {item.toolTags.map((tag) => {
+              const filterable = isWorksToolTagFilterable(tag.label);
+              return (
+                <motion.button
+                  key={tag.label}
+                  type="button"
+                  className={`inline-block px-2 py-0.5 rounded-sm text-[11px] text-black origin-center ${
+                    filterable ? "cursor-pointer" : "cursor-default"
+                  }`}
+                  style={{ backgroundColor: tag.color }}
+                  initial={false}
+                  animate={
+                    tagVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }
+                  }
+                  whileHover={filterable ? { scale: 1.1 } : undefined}
+                  whileTap={filterable ? { scale: 1.05 } : undefined}
+                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  disabled={!filterable}
+                  onClick={() => {
+                    if (!filterable) return;
+                    onToolTagClick(tag.label);
+                  }}
+                >
+                  {tag.label}
+                </motion.button>
+              );
+            })}
+          </div>
+        )}
       </div>
-      <div className="text-xs text-[#6b6b6b] leading-relaxed">
-        <span className="tracking-widest uppercase font-bold text-[#2F4156]">
-          {labels.summary}
-        </span>
-        <span className="text-[#1a1a1a]">: {item.infoSummary}</span>
-      </div>
-    </>
+    </div>
   );
 }
 
 export function WorksIndex({ language }: { language: Language }) {
   const labels = getWorksPageLabels(language);
+  const [activeToolTag, setActiveToolTag] = useState<WorksToolTagId | null>(
+    null,
+  );
+
   const allItems = useMemo(() => buildIndexItems(language), [language]);
+  const byId = useMemo(() => {
+    const map = new Map<string, WorkIndexItem>();
+    for (const item of allItems) map.set(item.id, item);
+    return map;
+  }, [allItems]);
 
-  const [selectedType, setSelectedType] = useState<WorkType>("all");
-  const filteredItems = useMemo(
-    () => getItemsForType(allItems, selectedType),
-    [allItems, selectedType],
-  );
-
-  const [hoveredType, setHoveredType] = useState<WorkType | null>(null);
-  const pinnedSelectedIdRef = useRef<string | null>(null);
-
-  const displayItems = useMemo(
-    () => getItemsForType(allItems, hoveredType ?? selectedType),
-    [allItems, hoveredType, selectedType],
-  );
-
-  const [selectedId, setSelectedId] = useState<string | null>(() => {
-    return filteredItems[0]?.id ?? null;
-  });
-
-  const selectedItem = useMemo(() => {
-    return (
-      allItems.find((i) => i.id === selectedId) ??
-      displayItems[0] ??
-      filteredItems[0] ??
-      null
+  const displayRows = useMemo(() => {
+    if (!activeToolTag) return DEFAULT_WORK_ROWS;
+    const ids = getProjectsForToolTag(activeToolTag).filter((id) =>
+      byId.has(id),
     );
-  }, [allItems, selectedId, displayItems, filteredItems]);
+    return buildAsymmetricRows(ids, activeToolTag);
+  }, [activeToolTag, byId]);
 
-  const handleCategoryHover = (type: WorkType) => {
-    if (hoveredType === null) {
-      pinnedSelectedIdRef.current = selectedId;
-    }
-    setHoveredType(type);
-    setSelectedId(getItemsForType(allItems, type)[0]?.id ?? null);
-  };
+  const mobileItems = useMemo(() => {
+    const ids = activeToolTag
+      ? getProjectsForToolTag(activeToolTag)
+      : [...worksDisplayOrder];
+    return ids
+      .map((id) => byId.get(id))
+      .filter((item): item is WorkIndexItem => item != null);
+  }, [activeToolTag, byId]);
 
-  const handleCategoryHoverEnd = () => {
-    setHoveredType(null);
-    const restoreId = pinnedSelectedIdRef.current;
-    pinnedSelectedIdRef.current = null;
-    if (restoreId !== null) {
-      setSelectedId(restoreId);
-    }
-  };
-
-  React.useEffect(() => {
-    const exists = filteredItems.some((i) => i.id === selectedId);
-    if (!exists) setSelectedId(filteredItems[0]?.id ?? null);
-  }, [filteredItems, selectedId]);
-
-  const types: WorkType[] = [
-    "all",
-    "interaction-design",
-    "game-digital-experience",
-    "animation-film",
-  ];
+  const heading = activeToolTag ?? labels.heading;
 
   return (
     <section id="works" className="min-h-screen px-6 py-28">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          className="mb-14 text-[#CBD9E6] tracking-widest uppercase text-sm"
+          className="mb-14 flex flex-wrap items-baseline gap-x-6 gap-y-2"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          {labels.heading}
+          <h2 className="text-[#6086ad] tracking-widest uppercase text-2xl md:text-3xl font-bold">
+            {heading}
+          </h2>
+          {activeToolTag && (
+            <button
+              type="button"
+              onClick={() => setActiveToolTag(null)}
+              className="text-[#6086ad]/80 hover:text-[#6086ad] tracking-widest uppercase text-sm md:text-base font-semibold transition-colors"
+            >
+              {labels.allWorks}
+            </button>
+          )}
         </motion.div>
 
-        {/* Desktop layout */}
-        <div className="hidden md:grid grid-cols-12 gap-8 items-start">
-          <div className="col-span-6">
-            {selectedItem && (
-              <WorkPreviewThumbnail item={selectedItem} language={language} />
-            )}
+        {/* Desktop: asymmetric rows */}
+        <div className="hidden md:flex flex-col gap-14">
+          {displayRows.map((row) => {
+            const left = byId.get(row.left.id);
+            const right = row.right ? byId.get(row.right.id) : null;
+            if (!left) return null;
 
-            {selectedItem && (
-              <div className="mt-4 space-y-3 max-w-full">
-                <InfoLabels labels={labels} item={selectedItem} />
-              </div>
-            )}
-          </div>
-
-          <div
-            className="col-span-3"
-            onMouseLeave={handleCategoryHoverEnd}
-          >
-            <div className="aspect-video flex flex-col gap-2">
-              {types.map((t) => {
-                const isSelected = selectedType === t;
-                const isHovered = hoveredType === t;
-                return (
-                  <button
-                    key={t}
-                    onClick={() => {
-                      setHoveredType(null);
-                      pinnedSelectedIdRef.current = null;
-                      setSelectedType(t);
-                    }}
-                    onMouseEnter={() => handleCategoryHover(t)}
-                    className={`flex flex-1 items-center w-full text-left px-3 py-2 rounded-sm tracking-wide uppercase text-xs transition-colors ${
-                      isSelected
-                        ? "bg-[#f8fdff]/60 text-[#567C8D] font-bold"
-                        : isHovered
-                          ? "bg-[#f8fdff]/40 text-[#567C8D] font-semibold"
-                          : "text-[#6b6b6b] font-semibold hover:bg-[#f8fdff]/60 hover:text-[#567C8D] hover:font-bold"
-                    }`}
-                  >
-                    {getWorksTypeLabel(t, language)}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="col-span-3 max-h-[70vh] overflow-y-auto pr-2">
-            <div className="space-y-4">
-              {displayItems.map((item) => {
-                const isSelected = item.id === selectedItem?.id;
-                return (
-                  <Link
-                    key={item.id}
-                    to={`/${language}/works/${item.id}`}
-                    onMouseEnter={() => setSelectedId(item.id)}
-                    onFocus={() => setSelectedId(item.id)}
-                    className={`block px-3 py-2 rounded-sm transition-colors ${
-                      isSelected ? "bg-[#f8fdff]/60" : "hover:bg-[#f8fdff]/60"
-                    }`}
-                  >
-                    <div className="text-xs text-[#6b6b6b] tracking-wide">
-                      {item.keyword}
-                    </div>
-                    <div
-                      className={`text-sm ${isSelected ? "text-[#567C8D]" : "text-[#1a1a1a]"}`}
-                    >
-                      {item.name}
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
+            return (
+              <motion.div
+                key={`${row.left.id}-${row.right?.id ?? "solo"}`}
+                className="grid grid-cols-12 gap-6 items-start"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <WorkCard
+                  item={left}
+                  language={language}
+                  size={row.left.size}
+                  onToolTagClick={setActiveToolTag}
+                />
+                {right && row.right && (
+                  <WorkCard
+                    item={right}
+                    language={language}
+                    size={row.right.size}
+                    onToolTagClick={setActiveToolTag}
+                  />
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Mobile layout */}
-        <div className="md:hidden space-y-6">
-          {selectedItem && (
-            <WorkPreviewThumbnail
-              item={selectedItem}
-              language={language}
-              imageClassName="w-full object-cover aspect-video"
-            />
-          )}
-
-          {selectedItem && (
-            <div className="space-y-3">
-              <InfoLabelsMobile labels={labels} item={selectedItem} />
-            </div>
-          )}
-
-          <div className="grid grid-cols-2 gap-4 items-start">
-            <div className="flex flex-col gap-2 min-h-[200px]">
-              {types.map((t) => {
-                const isSelected = selectedType === t;
-                return (
-                  <button
-                    key={t}
-                    onClick={() => setSelectedType(t)}
-                    className={`flex flex-1 items-center w-full text-left px-2 py-2 rounded-sm tracking-wide uppercase text-[11px] leading-tight transition-colors ${
-                      isSelected
-                        ? "bg-[#f8fdff]/60 text-[#567C8D] font-bold"
-                        : "text-[#6b6b6b] font-semibold hover:bg-[#f8fdff]/60 hover:text-[#567C8D] hover:font-bold"
-                    }`}
-                  >
-                    {getWorksTypeLabel(t, language)}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="max-h-[45vh] overflow-y-auto pr-1">
-              <div className="space-y-3">
-                {filteredItems.map((item) => {
-                  const isSelected = item.id === selectedItem?.id;
-                  return (
-                    <Link
-                      key={item.id}
-                      to={`/${language}/works/${item.id}`}
-                      onClick={(e) => {
-                        if (!isSelected) {
-                          e.preventDefault();
-                          setSelectedId(item.id);
-                        }
-                      }}
-                      className={`block px-2 py-2 rounded-sm transition-colors ${
-                        isSelected ? "bg-[#f8fdff]/60" : "hover:bg-[#f8fdff]/60"
-                      }`}
-                    >
-                      <div className="text-[10px] text-[#6b6b6b] tracking-wide">
-                        {item.keyword}
-                      </div>
-                      <div
-                        className={`text-xs ${isSelected ? "text-[#567C8D]" : "text-[#1a1a1a]"}`}
-                      >
-                        {item.name}
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+        {/* Mobile: single column, same reading order */}
+        <div className="md:hidden flex flex-col gap-10">
+          {mobileItems.map((item) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+            >
+              <WorkCard
+                item={item}
+                language={language}
+                size="lg"
+                showTagAlways
+                onToolTagClick={setActiveToolTag}
+              />
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

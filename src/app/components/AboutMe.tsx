@@ -18,7 +18,7 @@ export function AboutMe({ language }: { language: Language }) {
         transition={{ duration: 0.8 }}
       >
         <motion.div
-          className="mb-8 text-[#6086ad] tracking-widest uppercase text-sm font-medium"
+          className="mb-8 text-[#6086ad] tracking-widest uppercase text-2xl md:text-3xl font-bold"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
@@ -32,19 +32,15 @@ export function AboutMe({ language }: { language: Language }) {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ delay: 0.3, duration: 0.7 }}
         >
-          <div>
-            <h3 className="mb-2 text-sm md:text-base text-[#6086ad] font-medium">
+          <div className="rounded-2xl bg-white/20 px-6 py-6 md:px-8 md:py-8">
+            <h3 className="mb-2 text-lg md:text-xl text-black font-bold">
               {content.summaryTitle}
             </h3>
             <div className="space-y-4">
               {content.summaryText.split("\n\n").filter(Boolean).map((para) => (
                 <p
                   key={para.slice(0, 32)}
-                  className="text-[#a1c0df] tracking-wide leading-relaxed"
-                  style={{
-                    fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
-                    fontWeight: 400,
-                  }}
+                  className="text-base text-[#6b6b6b] tracking-wide leading-relaxed"
                 >
                   {para}
                 </p>
@@ -52,8 +48,8 @@ export function AboutMe({ language }: { language: Language }) {
             </div>
           </div>
 
-          <div>
-            <h3 className="mb-2 text-sm md:text-base text-[#6086ad] font-medium">
+          <div className="rounded-2xl bg-white/20 px-6 py-6 md:px-8 md:py-8">
+            <h3 className="mb-2 text-lg md:text-xl text-black font-bold">
               {content.skillsTitle}
             </h3>
             <div className="space-y-2">
@@ -62,17 +58,11 @@ export function AboutMe({ language }: { language: Language }) {
                 const value = rest.join(":");
                 return (
                   <p key={line} className="leading-relaxed">
-                    <span className="text-sm md:text-base text-[#6086ad] font-medium">
+                    <span className="text-lg md:text-xl text-black font-bold">
                       {label}
                       {skillLabelSeparator}
                     </span>
-                    <span
-                      className="text-[#a1c0df] tracking-wide"
-                      style={{
-                        fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)",
-                        fontWeight: 400,
-                      }}
-                    >
+                    <span className="text-base text-[#6b6b6b] tracking-wide">
                       {value}
                     </span>
                   </p>

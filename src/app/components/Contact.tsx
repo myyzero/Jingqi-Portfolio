@@ -21,7 +21,7 @@ export function Contact({ language }: { language: Language }) {
         transition={{ duration: 0.8 }}
       >
         <motion.div
-          className="mb-12 text-[#a8c5d8] tracking-widest uppercase text-sm"
+          className="mb-12 text-[#6086ad] tracking-widest uppercase text-2xl md:text-3xl font-bold"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}

@@ -42,7 +42,12 @@ export {
   getWorksPageLabels,
   getWorksTypeLabel,
   getWorksInfoOverride,
+  getWorksToolTags,
+  getProjectsForToolTag,
+  isWorksToolTagFilterable,
   worksCatalog,
+  worksDisplayOrder,
+  worksToolTagColors,
   resolveMedia,
   resolveMediaOptional,
   buildMaterialRegistry,
@@ -59,6 +64,8 @@ export type {
   SiteLabels,
   HowBlockLayout,
   WorksCategory,
+  WorksToolTag,
+  WorksToolTagId,
 } from "./manifests";
 
 export function getProjectContent(language: Language) {

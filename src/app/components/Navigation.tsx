@@ -16,7 +16,7 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
       setScrolled(window.scrollY > 100);
 
       // Determine active section
-      const sections = ["landing", "about-me", "works", "contact"];
+      const sections = ["landing", "works", "about-me", "contact"];
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {

@@ -6,15 +6,9 @@ const aboutMeFields = {
   summaryTitle: { en: "Summary", zh: "个人简介" } satisfies LocalizedCopy,
   summaryText: {
     en:
-      "I make physical-digital interventions that translate the intangible into something a body can meet, " +
-      "where painting, memory, perception, and environmental data become things you can walk through, touch, and respond to." +
-      "\n\n" +
-      "My work spans navigable 3D worlds reconstructed from traditional landscape painting, " +
-      "museum installations that turn untouchable artefacts into tactile encounters, " +
-      "and sensor-driven wearables that translate hidden environmental signals into visible, audible, " +
-      "and haptic feedback. I move fluently between real-time engines (Unity, UE5), " +
-      "physical computing (Raspberry Pi / Arduino, sensors), and AI-assisted tooling, " +
-      "and the work I care about most is the moment when a concept resonates with people.",
+      "I make physical-digital interventions that translate the intangible into something a body can meet, touch, and respond to. " +
+      "My work spans game and animation, museum installation, and sensor-driven wearables. " +
+      "The work I care about most is the moment when a concept resonates with people.",
     zh: "具备交互装置设计与开发，沉浸式空间体验，游戏设计及三维动画方面相关经验。有 Unreal Engine / Unity 项目协作与引擎侧资源落地经验，擅长与不同职能团队高效协作。",
   } satisfies LocalizedCopy,
   skillsTitle: { en: "Skills", zh: "核心技能" } satisfies LocalizedCopy,

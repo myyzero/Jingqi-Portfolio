@@ -4,10 +4,14 @@ import { getAboutContent } from "./site/about";
 import { getAboutMeContent } from "./site/about-me";
 import { getContactContent } from "./site/contact";
 import {
+  getProjectsForToolTag,
   getWorksInfoOverride,
   getWorksPageLabels,
+  getWorksToolTags,
   getWorksTypeLabel,
+  isWorksToolTagFilterable,
   worksCatalog,
+  worksDisplayOrder,
 } from "./site/works-index";
 import type { Language, SiteLabels, WorkDetailLabels } from "./_schema/types";
 
@@ -68,7 +72,11 @@ export type {
 } from "./_schema/projectManifest";
 export type { MinimalProjectId } from "./projects/registry";
 export { siteLabelsManifest } from "./site/labels";
-export { worksCatalog } from "./site/works-index";
+export type {
+  WorksToolTag,
+  WorksToolTagId,
+} from "./site/works-index";
+export { worksCatalog, worksDisplayOrder, worksToolTagColors } from "./site/works-index";
 
 export function getSiteLabels(language: Language): SiteLabels {
   return siteLabelsManifest[language];
@@ -90,4 +98,7 @@ export {
   getWorksPageLabels,
   getWorksTypeLabel,
   getWorksInfoOverride,
+  getWorksToolTags,
+  getProjectsForToolTag,
+  isWorksToolTagFilterable,
 };

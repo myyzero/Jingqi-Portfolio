@@ -39,6 +39,7 @@ export type WorksFilterType =
 
 export type WorksPageLabels = {
   heading: string;
+  allWorks: string;
   type: string;
   role: string;
   tools: string;
