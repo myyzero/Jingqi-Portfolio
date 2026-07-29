@@ -145,7 +145,7 @@ const worksToolTagsByProject: Record<string, WorksToolTagId[]> = {
   ],
   "popup-museum": ["Unity", "Maya", "C4D", "C#", "PR", "AU"],
   "dragon-mountain": ["UE", "Blueprint", "Maya", "PR", "CapCut"],
-  "aquas-will": ["Unity", "C#", "PR", "Midjourney"],
+  "aquas-will": ["Unity", "C#", "PR", "AE", "Midjourney"],
   "life-begets-life": ["C4D", "Redshift"],
   montage: ["PR", "AU"],
 };

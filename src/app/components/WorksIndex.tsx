@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import {
@@ -16,7 +16,7 @@ import {
   type WorksToolTagId,
 } from "../../../content";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-
+import { withAutoScrollBehavior } from "../utils/scrollBehavior";
 type WorkIndexItem = {
   id: string;
   name: string;
@@ -52,7 +52,16 @@ const DEFAULT_WORK_ROWS: WorkRow[] = [
 ];
 
 const TAG_EASE = [0.22, 1, 0.36, 1] as const;
+const NAV_OFFSET = 96;
 
+function scrollToWorksFilterHeading(headingEl: HTMLElement | null) {
+  if (!headingEl) return;
+  const top =
+    headingEl.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+  withAutoScrollBehavior(() => {
+    window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+  });
+}
 function buildIndexItems(language: Language): WorkIndexItem[] {
   const all = getAllWorksContent(language);
 
@@ -214,11 +223,12 @@ function WorkCard({
                   whileTap={filterable ? { scale: 1.05 } : undefined}
                   transition={{ duration: 0.22, ease: "easeOut" }}
                   disabled={!filterable}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     if (!filterable) return;
+                    (e.currentTarget as HTMLButtonElement).blur();
                     onToolTagClick(tag.label);
-                  }}
-                >
+                  }}                >
                   {tag.label}
                 </motion.button>
               );
@@ -235,6 +245,7 @@ export function WorksIndex({ language }: { language: Language }) {
   const [activeToolTag, setActiveToolTag] = useState<WorksToolTagId | null>(
     null,
   );
+  const worksHeadingRef = useRef<HTMLDivElement>(null);
 
   const allItems = useMemo(() => buildIndexItems(language), [language]);
   const byId = useMemo(() => {
@@ -262,17 +273,33 @@ export function WorksIndex({ language }: { language: Language }) {
 
   const heading = activeToolTag ?? labels.heading;
 
+  useEffect(() => {
+    if (!activeToolTag) return;
+    let cancelled = false;
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!cancelled) scrollToWorksFilterHeading(worksHeadingRef.current);
+      });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(id);
+    };
+  }, [activeToolTag]);
+
   return (
-    <section id="works" className="min-h-screen px-6 py-28">
-      <div className="max-w-7xl mx-auto">
+    <section id="works" className="min-h-screen scroll-mt-24 px-6 py-28">      <div className="max-w-7xl mx-auto">
         <motion.div
-          className="mb-14 flex flex-wrap items-baseline gap-x-6 gap-y-2"
-          initial={{ opacity: 0 }}
+          ref={worksHeadingRef}
+          className="mb-14 flex flex-wrap items-baseline gap-x-6 gap-y-2 scroll-mt-[96px]"          initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-[#6086ad] tracking-widest uppercase text-2xl md:text-3xl font-bold">
+          <h2
+            id="works-filter-heading"
+            className="text-[#6086ad] tracking-widest uppercase text-2xl md:text-3xl font-bold"
+          >
             {heading}
           </h2>
           {activeToolTag && (
