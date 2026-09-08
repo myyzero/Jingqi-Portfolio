@@ -3171,23 +3171,6 @@ function WorkDetailTemplate({
           <p className="text-[#6b6b6b] leading-relaxed text-lg whitespace-pre-line">
             {project.summary}
           </p>
-
-          {/* More details */}
-          {project.moreDetails && !project.moreDetails.startsWith("TODO") && (
-            <div className="mt-10 pt-8 border-t border-[#e5e5e5]">
-              <div className="text-[#6b6b6b] mb-2 text-sm tracking-wider uppercase">
-                {labels.moreDetails}
-              </div>
-              <a
-                href={project.moreDetails}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#397fdf] hover:underline"
-              >
-                {labels.pdfCta}
-              </a>
-            </div>
-          )}
         </div>
       </section>
 

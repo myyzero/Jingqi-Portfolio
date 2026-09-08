@@ -288,7 +288,8 @@ export function WorksIndex({ language }: { language: Language }) {
   }, [activeToolTag]);
 
   return (
-    <section id="works" className="min-h-screen scroll-mt-24 px-6 py-28">      <div className="max-w-7xl mx-auto">
+    <section id="works" className="min-h-screen scroll-mt-24 py-28">
+      <div className="page-shell">
         <motion.div
           ref={worksHeadingRef}
           className="mb-14 flex flex-wrap items-baseline gap-x-6 gap-y-2 scroll-mt-[96px]"          initial={{ opacity: 0 }}

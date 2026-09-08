@@ -16,7 +16,7 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
       setScrolled(window.scrollY > 100);
 
       // Determine active section
-      const sections = ["landing", "works", "about-me", "contact"];
+      const sections = ["landing", "about-me", "works", "contact"];
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -44,12 +44,12 @@ export function Navigation({ language, onLanguageChange }: NavigationProps) {
 
   return (
     <motion.nav
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-6"
+      className="fixed top-0 left-0 right-0 z-50 py-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: scrolled ? 1 : 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="page-shell flex items-center justify-between">
         <button
           onClick={() => scrollToSection("landing")}
           className="text-[#1a1a1a] tracking-wider text-sm hover:text-[#a8c5d8] transition-colors duration-300"

@@ -119,6 +119,22 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Fluid page shells — grow with viewport, capped for very wide screens */
+@utility page-shell {
+  margin-inline: auto;
+  width: min(100% - 3rem, 90rem);
+}
+
+@utility page-shell-hero {
+  margin-inline: auto;
+  width: min(100% - 3rem, 64rem);
+}
+
+@utility page-shell-narrow {
+  margin-inline: auto;
+  width: min(100% - 3rem, 48rem);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

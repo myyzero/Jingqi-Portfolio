@@ -7,8 +7,8 @@ import type { SiteLabelsManifest } from "../_schema/types";
 export const siteLabelsManifest: SiteLabelsManifest = {
   en: {
     nav: [
-      { id: "works", label: "Works" },
       { id: "about-me", label: "About Me" },
+      { id: "works", label: "Works" },
       { id: "contact", label: "Contact" },
     ],
     workDetail: {
@@ -54,8 +54,8 @@ export const siteLabelsManifest: SiteLabelsManifest = {
   },
   zh: {
     nav: [
-      { id: "works", label: "作品" },
       { id: "about-me", label: "关于我" },
+      { id: "works", label: "作品" },
       { id: "contact", label: "联系" },
     ],
     workDetail: {

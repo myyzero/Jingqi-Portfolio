@@ -16,8 +16,9 @@ const aboutMeFields = {
     en: "Engines & 3D Creation: Familiar with Unreal Engine, Unity, Maya, Cinema 4D, Git, Unity Version Control.\n" +
     "Visual Design & Prototype: Fluent in Adobe Creative Suite, Familiar with Figma.\n" +
     "Embedded & Sensing: Experience with Arduino & Raspberry Pi.\n" +
-    "AI-assisted tooling: Experience with Midjourney, ComfyUI(image/model creating workflows), Cursor (production scripts in Python and C#).",
-    zh: "引擎 | 技术： Unreal Engine，Unity\n设计工具 | 软件： Maya, Cinema 4D, Adobe Creative Suite\n语言 | 编程： C, C#, MATLAB\n硬件 | 开发： Arduino, Raspberry Pi",
+    "AI-assisted tooling: Experience with Midjourney, ComfyUI(image/model creating workflows), Cursor (production scripts in Python and C#).\n" +
+    "Programming: C#, Python, MATLAB, Unreal Engine Blueprints, Unity HLSL.",
+    zh: "引擎 | 技术： Unreal Engine，Unity\n设计工具 | 软件： Maya, Cinema 4D, Adobe Creative Suite\n语言 | 编程： C#, Python, MATLAB, Unreal Engine Blueprints, Unity HLSL\n硬件 | 开发： Arduino, Raspberry Pi",
   } satisfies LocalizedCopy,
 };
 

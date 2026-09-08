@@ -111,7 +111,7 @@ export function Landing({ language, onLanguageChange }: LandingProps) {
 
       {/* Content — single column, vertically centered as one group */}
       <motion.div
-        className="relative z-10 flex min-h-screen w-full max-w-4xl mx-auto flex-col items-center justify-center gap-8 px-6 text-center"
+        className="page-shell-hero relative z-10 flex min-h-screen flex-col items-center justify-center gap-8 text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.3 }}
@@ -178,7 +178,7 @@ export function Landing({ language, onLanguageChange }: LandingProps) {
           <img
             src={momentTagline}
             alt="I care about the MOMENT when a concept RESONATES with PEOPLE."
-            className="mx-auto w-full max-w-4xl h-auto mix-blend-screen select-none"
+            className="mx-auto w-full h-auto mix-blend-screen select-none"
             draggable={false}
           />
         </motion.div>

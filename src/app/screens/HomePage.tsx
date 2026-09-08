@@ -65,8 +65,8 @@ export function HomePage() {
     >
       <Navigation language={language} onLanguageChange={onLanguageChange} />
       <Landing language={language} onLanguageChange={onLanguageChange} />
-      <WorksIndex language={language} />
       <AboutMe language={language} />
+      <WorksIndex language={language} />
       <Contact language={language} />
     </div>
   );
