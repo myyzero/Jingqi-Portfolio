@@ -215,7 +215,7 @@ type WhatWhyItem = {
 function WhatWhyText({ text }: { text: string | string[] }) {
   if (Array.isArray(text)) {
     return (
-      <ul className="w-full text-left text-sm lg:text-base text-[#6b6b6b] leading-relaxed space-y-2.5 list-disc pl-5 marker:text-[#CBD9E6]">
+      <ul className="w-fit max-w-full text-left text-sm text-[#6b6b6b] leading-snug space-y-2.5 list-disc pl-5 marker:text-[#CBD9E6]">
         {text.map((item) => (
           <li key={item}>{item}</li>
         ))}
@@ -224,7 +224,7 @@ function WhatWhyText({ text }: { text: string | string[] }) {
   }
 
   return (
-    <p className="w-full text-left text-sm lg:text-base text-[#6b6b6b] leading-relaxed whitespace-pre-line">
+    <p className="w-fit max-w-full text-left text-sm text-[#6b6b6b] leading-snug whitespace-pre-line">
       {text}
     </p>
   );
@@ -2178,7 +2178,7 @@ function WhatWhySection({
 
         {/* Desktop: rounded bar + circles centered on top edge */}
         <div className="hidden md:block pt-40">
-          <div className="rounded-3xl bg-[#f2f7fa]/90 px-12 lg:px-24 pb-24 pt-0 overflow-visible min-h-[320px]">
+          <div className="rounded-3xl bg-[#f2f7fa]/90 px-12 lg:px-14 pb-24 pt-0 overflow-visible min-h-[320px]">
             <div
               className={`grid gap-10 lg:gap-20 w-full ${
                 items.length === 2
@@ -2189,7 +2189,7 @@ function WhatWhySection({
               {items.map((item) => (
                 <div
                   key={item.title}
-                  className="flex flex-col items-center px-3 lg:px-6"
+                  className="flex flex-col items-center px-2 lg:px-3"
                 >
                   <div className="w-80 h-80 shrink-0 -mt-40 rounded-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm z-10">
                     <ImageWithFallback
@@ -2198,10 +2198,12 @@ function WhatWhySection({
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h4 className="mt-6 mb-5 text-xs tracking-widest uppercase font-bold text-[#2F4156]">
-                    {item.title}
-                  </h4>
-                  <WhatWhyText text={item.text} />
+                  <div className="mt-6 w-fit max-w-full mx-auto flex flex-col items-center">
+                    <h4 className="mb-5 text-xs tracking-widest uppercase font-bold text-[#2F4156] text-center">
+                      {item.title}
+                    </h4>
+                    <WhatWhyText text={item.text} />
+                  </div>
                 </div>
               ))}
             </div>
@@ -2219,10 +2221,12 @@ function WhatWhySection({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h4 className="text-xs tracking-widest uppercase font-bold text-[#2F4156] mb-3">
-                {item.title}
-              </h4>
-              <WhatWhyText text={item.text} />
+              <div className="w-fit max-w-full mx-auto flex flex-col items-center">
+                <h4 className="text-xs tracking-widest uppercase font-bold text-[#2F4156] mb-3 text-center">
+                  {item.title}
+                </h4>
+                <WhatWhyText text={item.text} />
+              </div>
             </div>
           ))}
         </div>
@@ -2246,12 +2250,12 @@ function ApproachItemsSection({
         <SectionHeading>{heading}</SectionHeading>
 
         <div className="hidden md:block pt-40">
-          <div className="rounded-3xl bg-[#f2f7fa]/90 px-12 lg:px-24 pb-24 pt-0 overflow-visible min-h-[320px]">
+          <div className="rounded-3xl bg-[#f2f7fa]/90 px-12 lg:px-14 pb-24 pt-0 overflow-visible min-h-[320px]">
             <div className="grid grid-cols-3 gap-10 lg:gap-20 w-full">
               {items.map((item) => (
                 <div
                   key={item.title}
-                  className="flex flex-col items-center px-3 lg:px-6"
+                  className="flex flex-col items-center px-2 lg:px-3"
                 >
                   <div className="w-80 h-80 shrink-0 -mt-40 rounded-full overflow-hidden bg-[#f2f7fa]/90 border border-[#e5e5e5] shadow-sm z-10">
                     <ImageWithFallback
@@ -2260,10 +2264,12 @@ function ApproachItemsSection({
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h4 className="mt-6 mb-5 text-xs tracking-widest uppercase font-bold text-[#2F4156]">
-                    {item.title}
-                  </h4>
-                  <WhatWhyText text={item.text} />
+                  <div className="mt-6 w-fit max-w-full mx-auto flex flex-col items-center">
+                    <h4 className="mb-5 text-xs tracking-widest uppercase font-bold text-[#2F4156] text-center">
+                      {item.title}
+                    </h4>
+                    <WhatWhyText text={item.text} />
+                  </div>
                 </div>
               ))}
             </div>
@@ -2280,10 +2286,12 @@ function ApproachItemsSection({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h4 className="text-xs tracking-widest uppercase font-bold text-[#2F4156] mb-3">
-                {item.title}
-              </h4>
-              <WhatWhyText text={item.text} />
+              <div className="w-fit max-w-full mx-auto flex flex-col items-center">
+                <h4 className="text-xs tracking-widest uppercase font-bold text-[#2F4156] mb-3 text-center">
+                  {item.title}
+                </h4>
+                <WhatWhyText text={item.text} />
+              </div>
             </div>
           ))}
         </div>
@@ -3174,39 +3182,6 @@ function WorkDetailTemplate({
         </div>
       </section>
 
-      {project.whatIsItSection ? (
-        <WhatIsItSection {...project.whatIsItSection} />
-      ) : project.storySection ? (
-        <StorySection {...project.storySection} />
-      ) : (
-        <WhatWhySection heading={labels.whatWhy} items={whatWhyItems} />
-      )}
-
-      {approachItems && approachItems.length > 0 && (
-        <ApproachItemsSection
-          heading={labels.approach}
-          items={approachItems}
-          placeholderImage={imagePlaceholder}
-        />
-      )}
-
-      {/* Process */}
-      <section className="px-6 py-20">
-        <div className="max-w-7xl mx-auto">
-          <SectionHeading>{labels.process}</SectionHeading>
-          <div className="grid grid-cols-1 gap-16">
-            {process.map((step, idx) => (
-              <ProcessStepRow
-                key={step.stage}
-                step={step}
-                idx={idx}
-                totalSteps={process.length}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Result & Impact */}
       <section className="px-6 py-20">
         <div className="max-w-7xl mx-auto">
@@ -3278,6 +3253,39 @@ function WorkDetailTemplate({
                 )}
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {project.whatIsItSection ? (
+        <WhatIsItSection {...project.whatIsItSection} />
+      ) : project.storySection ? (
+        <StorySection {...project.storySection} />
+      ) : (
+        <WhatWhySection heading={labels.whatWhy} items={whatWhyItems} />
+      )}
+
+      {approachItems && approachItems.length > 0 && (
+        <ApproachItemsSection
+          heading={labels.approach}
+          items={approachItems}
+          placeholderImage={imagePlaceholder}
+        />
+      )}
+
+      {/* Process */}
+      <section className="px-6 py-20">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeading>{labels.process}</SectionHeading>
+          <div className="grid grid-cols-1 gap-16">
+            {process.map((step, idx) => (
+              <ProcessStepRow
+                key={step.stage}
+                step={step}
+                idx={idx}
+                totalSteps={process.length}
+              />
+            ))}
           </div>
         </div>
       </section>

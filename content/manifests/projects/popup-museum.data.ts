@@ -112,22 +112,22 @@ export const popupMuseumCopy = {
   whatWhy: {
     problem: {
       en: [
-        "Museum collections are often protected behind glass, which limits tactile engagement, especially for younger audiences who expect playful, responsive media.",
-        "The project aimed to create a pop-up, body-led encounter with selected artefacts without compromising conservation rules, using replicas and digital layers instead of handling originals.",
+        "Glass Barriers & Limited Tactile Engagement.",
+        "Mismatch with Youth Expectations for Interactive Media.",
       ],
       zh: [
-        "博物馆藏品通常被玻璃隔绝，触觉参与有限，尤其难以满足期待互动媒体的年轻观众。",
-        "项目希望在不动用真品的前提下，用复制品与数字层创造身体主导的临时展陈体验。",
+        "玻璃屏障限制触觉互动。",
+        "传统展陈不符合年轻受众对交互媒体的期待。",
       ],
     } satisfies LocalizedStringList,
     insight: {
       en: [
-        "Visitors responded more strongly to touchable artefact replicas and ways to learn through games with stylised and animated introductions.",
-        "A toon-shaded, story-driven visual language made the artefacts feel alive and approachable.",
+        "High Engagement with Tactile Replicas & Gamified Intros.",
+        "Toon-Shaded Storytelling Makes Artefacts Approachable.",
       ],
       zh: [
-        "观众对可触摸的文物复制品与游戏化、风格化动画介绍反应更强烈。",
-        "统一的三渲二、故事驱动视觉语言让文物显得生动而亲切。",
+        "触摸复制品与游戏化引导能带来更强互动。",
+        "三渲二的风格化材质与故事化叙事让文物“活起来”。",
       ],
     } satisfies LocalizedStringList,
   },

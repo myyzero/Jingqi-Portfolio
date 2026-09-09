@@ -7,32 +7,30 @@ import heroVideoZh from "../../../materials/seeing-unseen/HV_STU.mp4";
 export const seeingUnseenWhatWhyCopy = {
   problem: {
     en: [
-      "Urban sensory adaptation causes people to become desensitised to everyday environmental stimuli.",
-      "Continuous exposure to noise and visual overload can negatively impact wellbeing despite often going unnoticed.",
-      'Research Question: How can people become aware of sensory stimuli that have been normalised and overlooked in urban environments?',
+      "Sensory Desensitisation.",
+      "Hidden Sensory Overload.",
     ],
     zh: [
-      "城市感官适应使人们对外界日常刺激逐渐失敏。",
-      "持续暴露在噪音与视觉过载中，即便常被忽视，也可能损害身心健康。",
-      "研究问题：如何让人们意识到城市环境中已被常态化、被忽略的感受刺激？",
+      "城市感官麻木。",
+      "隐藏感官过载。",
     ],
   } satisfies LocalizedStringList,
   insight: {
     en: [
-      "Awareness is the first step toward reclaiming sensory agency.",
-      "Real-time feedback can help people recognise both environmental conditions and changes in their own sensory responsiveness.",
+      "Awareness as the Gateway to Sensory Agency.",
+      "Real-Time Feedback for Self & Environmental Perception.",
     ],
     zh: [
-      "觉察是重拾感官主动权的第一步。",
+      "意识到问题是重拾感官主动权的第一步。",
       "实时反馈可帮助人们同时认识环境状况与自身感官响应的变化。",
     ],
   } satisfies LocalizedStringList,
   approach: {
     en: [
-      "Literature review on sensory perception and urban sensory discipline.",
-      "Environmental data collection and analysis.",
-      "Wearable system design and hardware prototyping.",
-      "Development of visual and haptic feedback mechanisms to externalise sensory information.",
+      "Literature Review on Sensory Perception.",
+      "Environmental Data Collection & Analysis.",
+      "Wearable Design & Hardware Prototyping.",
+      "Visual & Haptic Feedback Mechanisms.",
     ],
     zh: [
       "感官感知与城市感官规训相关文献综述。",

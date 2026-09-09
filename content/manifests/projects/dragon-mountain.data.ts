@@ -7,36 +7,36 @@ import heroVideoZh from "../../../materials/dragon-mountain/HV_DM.mp4";
 export const dragonMountainWhatWhyCopy = {
   problem: {
     en: [
-      "Visitors often spend limited time engaging with paintings, reducing opportunities for deeper cultural understanding.",
-      "Traditional Chinese paintings contain rich artistic and cultural value that static displays fail to fully communicate.",
-      "Conventional exhibition formats struggle to attract sustained audience attention.",
+      "Limited Dwell Time & Shallow Cultural Engagement.",
+      "Static Displays Failing Traditional Artwork Value.",
+      "Low Audience Retention in Conventional Formats.",
     ],
     zh: [
-      "观众往往只在画作前驻足片刻，难以获得更深层的文化理解。",
-      "中国传统绘画蕴含丰富的艺术与文化价值，静态展陈难以充分传达。",
-      "传统展览形式难以长期吸引并保持观众注意力。",
+      "停留时间短导致文化理解浅显",
+      "静态展示难以传递传统画作的丰富内涵。",
+      "传统展陈形式难以持久吸引观众注意力。",
     ],
   } satisfies LocalizedStringList,
   insight: {
     en: [
-      "Interactive experiences can foster deeper engagement with traditional artworks and cultural heritage.",
-      "Digital technologies can make traditional culture more accessible, immersive, and memorable.",
+      "Interactive Experiences Foster Deeper Appreciation.",
+      "Digital Tech Enhances Accessibility & Engagement.",
     ],
     zh: [
-      "互动体验能加深观众对传统艺术与文化遗产的参与感。",
-      "数字技术可让传统文化更易接近、更具沉浸感、更令人难忘。",
+      "互动体验能深化对传统文化遗存的理解。",
+      "数字技术提升文化传承的易懂性与沉浸感。",
     ],
   } satisfies LocalizedStringList,
   approach: {
     en: [
-      "Researched the symbolism, narratives, and artistic intentions within Autumn Colors Across Rivers and Mountains.",
-      "Transformed the 2D painting into an interactive 3D environment using Unreal Engine, integrating animation, sound, and real-time interaction.",
-      "Enabled visitors to explore the artwork from within, uncovering cultural narratives through immersive and gamified experiences.",
+      "Symbolism & Narrative Research in Artwork.",
+      "3D Unreal Engine Interactive Environment.",
+      "Immersive Gamified Cultural Exploration.",
     ],
     zh: [
-      "研究《江山秋色图》中的象征、叙事与艺术意图。",
-      "使用虚幻引擎将二维画作转化为互动三维环境，整合动画、声音与实时交互。",
-      "让观众从画内穿行探索，通过沉浸式、游戏化体验揭示文化叙事。",
+      "《江山秋色图》的画作意象、叙事与艺术意图研究",
+      "基于虚幻引擎构建 3D 交互场景。",
+      "沉浸式游戏化文化探索体验。",
     ],
   } satisfies LocalizedStringList,
 } as const;
