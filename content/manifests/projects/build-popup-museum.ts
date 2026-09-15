@@ -167,6 +167,7 @@ export function buildPopupMuseumProject(language: Language): Project {
     process: {
       research: pick(language, process.research),
       tasks: pick(language, process.tasks),
+      hideResearchStep: true,
       howItems: [
         {
           title: pick(language, process.modelling.title),

@@ -5,7 +5,6 @@ import type { Project, ProjectDetailContent } from "../../en/projects";
 import {
   aquasWillDetailCopy,
   aquasWillManifest,
-  aquasWillWhatIsItCopy,
 } from "./aquas-will.data";
 import {
   resolveAquasWillAsset,
@@ -162,14 +161,6 @@ export function buildAquasWillProject(language: Language): Project {
     ...project,
     previewImage: resolveAquasWillAsset("cover"),
     images: [resolveAquasWillAsset("cover")],
-    whatIsItSection: {
-      heading: pick(language, aquasWillWhatIsItCopy.heading),
-      subsections: aquasWillWhatIsItCopy.subsections.map((subsection) => ({
-        title: pick(language, subsection.title),
-        image: resolveAquasWillAsset(subsection.imageKey),
-        text: pick(language, subsection.text),
-      })),
-    },
     detail,
   };
 }

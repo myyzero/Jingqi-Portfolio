@@ -98,6 +98,8 @@ export type ProjectDetailContent = {
     tasksOutline?: ProcessTasksOutlineItem[];
     /** Override default process step labels (e.g. Tasks → TASKS). */
     stepLabels?: { tasks?: string; how?: string; output?: string };
+    /** When true, omit the Research process step. */
+    hideResearchStep?: boolean;
     /** When true, omit the Integration / Output process step. */
     hideOutputStep?: boolean;
   };

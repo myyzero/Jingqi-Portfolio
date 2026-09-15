@@ -24,11 +24,7 @@ import type {
   ProcessTasksOutlineItem,
   ProcessVideoTriptychLayout,
 } from "../../../content/manifests/_schema/workDetailBlocks";
-import pageBackground from "../../../materials/background_1.png";
 import { BilibiliEmbedIframe } from "../utils/bilibiliEmbed";
-
-/** White wash over background_1 — lower than Landing (75%) so texture shows through more */
-const WORK_PAGE_BG_OVERLAY = "rgba(255, 255, 255, 0.6)";
 
 /** Card / media panel surface on project detail pages */
 const CARD_SURFACE_CLASS = "bg-[#f2f7fa]/90";
@@ -130,15 +126,8 @@ export function WorkDetail() {
     <motion.div
       key={`${language}-${projectId ?? "unknown"}`}
       className={`min-h-screen ${
-        isFullscreenVideo ? "bg-black" : "bg-cover bg-center bg-fixed bg-no-repeat"
+        isFullscreenVideo ? "bg-black" : "bg-white"
       }`}
-      style={
-        isFullscreenVideo
-          ? undefined
-          : {
-              backgroundImage: `linear-gradient(${WORK_PAGE_BG_OVERLAY}, ${WORK_PAGE_BG_OVERLAY}), url(${pageBackground})`,
-            }
-      }
       initial={{ opacity: 0 }}
       animate={{ opacity: isLeaving ? 0 : 1 }}
       transition={{ duration: 0.25 }}
@@ -3006,6 +2995,16 @@ function WorkDetailTemplate({
     image: item.image ?? getImg(2 + i),
   }));
 
+  const showWhatWhySection =
+    !project.whatIsItSection &&
+    !project.storySection &&
+    whatWhyItems.some((item) => {
+      const parts = Array.isArray(item.text) ? item.text : [item.text];
+      return parts.some(
+        (text) => text.trim().length > 0 && !/^Placeholder\b/i.test(text.trim()),
+      );
+    });
+
   const process: ProcessStepData[] =
     detail?.process.layout === "pipeline" && detail.process.pipeline?.length
       ? detail.process.pipeline.map((item) => ({
@@ -3031,17 +3030,21 @@ function WorkDetailTemplate({
         }))
       : detail
       ? [
-        {
-          stage: labels.processSteps.research,
-          text: detail.process.research,
-          image: detail.processImages?.research ?? getImg(0),
-          researchSections: detail.process.researchSections,
-          preserveImageAspect:
-            project.id === "popup-museum" ||
-            project.id === "life-begets-life" ||
-            project.id === "aquas-will",
-          roundedSideMedia: project.id === "popup-museum",
-        },
+        ...(detail.process.hideResearchStep
+          ? []
+          : [
+              {
+                stage: labels.processSteps.research,
+                text: detail.process.research,
+                image: detail.processImages?.research ?? getImg(0),
+                researchSections: detail.process.researchSections,
+                preserveImageAspect:
+                  project.id === "popup-museum" ||
+                  project.id === "life-begets-life" ||
+                  project.id === "aquas-will",
+                roundedSideMedia: project.id === "popup-museum",
+              },
+            ]),
         {
           stage:
             detail.process.stepLabels?.tasks ?? labels.processSteps.tasks,
@@ -3086,7 +3089,7 @@ function WorkDetailTemplate({
               },
             ]),
       ]
-    : [
+      : [
         {
           stage: labels.processSteps.research,
           text: labels.processTexts.research,
@@ -3261,9 +3264,9 @@ function WorkDetailTemplate({
         <WhatIsItSection {...project.whatIsItSection} />
       ) : project.storySection ? (
         <StorySection {...project.storySection} />
-      ) : (
+      ) : showWhatWhySection ? (
         <WhatWhySection heading={labels.whatWhy} items={whatWhyItems} />
-      )}
+      ) : null}
 
       {approachItems && approachItems.length > 0 && (
         <ApproachItemsSection

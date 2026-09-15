@@ -12,7 +12,6 @@ export const worksCatalog: Record<string, WorksCategory> = {
   "dragon-mountain": "game-digital-experience",
   "aquas-will": "game-digital-experience",
   "life-begets-life": "animation-film",
-  montage: "animation-film",
 };
 
 const infoOverrides: Record<string, { en: WorksInfoOverride; zh: WorksInfoOverride }> =
@@ -147,16 +146,14 @@ const worksToolTagsByProject: Record<string, WorksToolTagId[]> = {
   "dragon-mountain": ["UE", "Blueprint", "Maya", "PR", "CapCut"],
   "aquas-will": ["Unity", "C#", "PR", "AE", "Midjourney"],
   "life-begets-life": ["C4D", "Redshift"],
-  montage: ["PR", "AU"],
 };
 
 /** Reading order used by Works index (and filtered reflow). */
 export const worksDisplayOrder = [
-  "seeing-unseen",
   "popup-museum",
+  "seeing-unseen",
   "dragon-mountain",
   "aquas-will",
-  "montage",
   "life-begets-life",
 ] as const;
 

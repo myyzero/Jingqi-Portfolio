@@ -44,24 +44,6 @@ export const dragonMountainWhatWhyCopy = {
 export const dragonMountainResearchCopy = [
   {
     title: {
-      en: "Theory Study",
-      zh: "理论研读",
-    } satisfies LocalizedCopy,
-    text: {
-      en: [
-        "Investigated Wang Yuanqi's Theory of the Dragon Vein, which emphasizes the interconnected flow and structure underlying Chinese landscape paintings.",
-        "Identified how spatial relationships between mountains, rivers, trees, architecture, and figures guide visual navigation and narrative progression.",
-      ],
-      zh: [
-        "研究王原祁的龙脉论，强调中国山水画内在的连贯流动与结构。",
-        "梳理山峦、河流、树木、建筑与人物之间的空间关系，如何引导视觉动线与叙事推进。",
-      ],
-    } satisfies LocalizedStringList,
-    imageKeys: ["theory1", "theory2"] as const satisfies readonly DragonMountainAssetKey[],
-    imageLayout: "rows" as const,
-  },
-  {
-    title: {
       en: "Painting Analysis",
       zh: "画作分析",
     } satisfies LocalizedCopy,

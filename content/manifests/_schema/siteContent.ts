@@ -1,6 +1,7 @@
 export interface LandingContent {
   name: string;
   subtitle: string;
+  tagline: string;
   scrollLabel: string;
 }
 

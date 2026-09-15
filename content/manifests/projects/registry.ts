@@ -13,7 +13,6 @@ import { buildLifeBegetsLifeProject } from "./build-life-begets-life";
 import { lifeBegetsLifeManifest } from "./life-begets-life.data";
 import { buildAquasWillProject } from "./build-aquas-will";
 import { aquasWillManifest } from "./aquas-will.data";
-import { montageManifest } from "./montage.data";
 
 export const projectManifestRegistry = {
   "seeing-unseen": seeingUnseenManifest,
@@ -23,7 +22,6 @@ export const projectManifestRegistry = {
   "emotional-trap": emotionalTrapManifest,
   "aquas-will": aquasWillManifest,
   "life-begets-life": lifeBegetsLifeManifest,
-  montage: montageManifest,
 } as const satisfies Record<string, ProjectManifestEntry>;
 
 export type MinimalProjectId = keyof typeof projectManifestRegistry;
@@ -53,8 +51,5 @@ export function buildImmersiveGaming(language: Language): Project[] {
 }
 
 export function buildAnimationFilm(language: Language): Project[] {
-  return [
-    buildLifeBegetsLifeProject(language),
-    buildProject("montage", language),
-  ];
+  return [buildLifeBegetsLifeProject(language)];
 }

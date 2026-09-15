@@ -17,6 +17,7 @@ import {
 } from "../../../content";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { withAutoScrollBehavior } from "../utils/scrollBehavior";
+
 type WorkIndexItem = {
   id: string;
   name: string;
@@ -25,31 +26,6 @@ type WorkIndexItem = {
   previewImage: string;
   toolTags: WorksToolTag[];
 };
-
-type WorkSize = "sm" | "lg" | "full";
-
-type WorkRowSlot = { id: string; size: WorkSize };
-
-type WorkRow = {
-  left: WorkRowSlot;
-  right?: WorkRowSlot;
-};
-
-/** Default Works layout: category order + asymmetric sizes (≈1/3 : 2/3 alternating). */
-const DEFAULT_WORK_ROWS: WorkRow[] = [
-  {
-    left: { id: "seeing-unseen", size: "sm" },
-    right: { id: "popup-museum", size: "lg" },
-  },
-  {
-    left: { id: "dragon-mountain", size: "lg" },
-    right: { id: "aquas-will", size: "sm" },
-  },
-  {
-    left: { id: "montage", size: "sm" },
-    right: { id: "life-begets-life", size: "lg" },
-  },
-];
 
 const TAG_EASE = [0.22, 1, 0.36, 1] as const;
 const NAV_OFFSET = 96;
@@ -62,6 +38,7 @@ function scrollToWorksFilterHeading(headingEl: HTMLElement | null) {
     window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
   });
 }
+
 function buildIndexItems(language: Language): WorkIndexItem[] {
   const all = getAllWorksContent(language);
 
@@ -82,61 +59,14 @@ function buildIndexItems(language: Language): WorkIndexItem[] {
     .filter((item): item is WorkIndexItem => item !== null);
 }
 
-/** Reflow project ids into asymmetric rows (sm|lg, lg|sm, …). */
-function buildAsymmetricRows(
-  ids: string[],
-  toolTag?: WorksToolTagId | null,
-): WorkRow[] {
-  // Unity / C#: Pop-up Museum large, Aqua's Will small
-  if (
-    (toolTag === "Unity" || toolTag === "C#") &&
-    ids[0] === "popup-museum" &&
-    ids[1] === "aquas-will"
-  ) {
-    return [
-      {
-        left: { id: "popup-museum", size: "lg" },
-        right: { id: "aquas-will", size: "sm" },
-      },
-    ];
-  }
-
-  const rows: WorkRow[] = [];
-  for (let i = 0; i < ids.length; i += 2) {
-    const rowIndex = Math.floor(i / 2);
-    const firstIsSm = rowIndex % 2 === 0;
-    const leftSize: WorkSize = firstIsSm ? "sm" : "lg";
-    const rightSize: WorkSize = firstIsSm ? "lg" : "sm";
-    const leftId = ids[i];
-    const rightId = ids[i + 1];
-
-    if (!rightId) {
-      rows.push({ left: { id: leftId, size: "full" } });
-    } else {
-      rows.push({
-        left: { id: leftId, size: leftSize },
-        right: { id: rightId, size: rightSize },
-      });
-    }
-  }
-  return rows;
-}
-
-function sizeColClass(size: WorkSize) {
-  if (size === "full") return "md:col-span-12";
-  return size === "sm" ? "md:col-span-4" : "md:col-span-8";
-}
-
 function WorkCard({
   item,
   language,
-  size,
   showTagAlways = false,
   onToolTagClick,
 }: {
   item: WorkIndexItem;
   language: Language;
-  size: WorkSize;
   /** Mobile / no-hover: keep category tag visible. */
   showTagAlways?: boolean;
   onToolTagClick: (tag: WorksToolTagId) => void;
@@ -148,7 +78,6 @@ function WorkCard({
 
   return (
     <div
-      className={sizeColClass(size)}
       onMouseEnter={() => setImageHovered(true)}
       onMouseLeave={() => setImageHovered(false)}
     >
@@ -157,7 +86,7 @@ function WorkCard({
         className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#567C8D]/40"
         aria-label={item.name}
       >
-        <div className="overflow-hidden bg-[#fafafa] aspect-[1921/1080] rounded-xl">
+        <div className="overflow-hidden bg-[#fafafa] aspect-[1921/1080]">
           <motion.div
             className="h-full w-full"
             whileHover={{ scale: 1.03 }}
@@ -228,7 +157,8 @@ function WorkCard({
                     if (!filterable) return;
                     (e.currentTarget as HTMLButtonElement).blur();
                     onToolTagClick(tag.label);
-                  }}                >
+                  }}
+                >
                   {tag.label}
                 </motion.button>
               );
@@ -254,15 +184,7 @@ export function WorksIndex({ language }: { language: Language }) {
     return map;
   }, [allItems]);
 
-  const displayRows = useMemo(() => {
-    if (!activeToolTag) return DEFAULT_WORK_ROWS;
-    const ids = getProjectsForToolTag(activeToolTag).filter((id) =>
-      byId.has(id),
-    );
-    return buildAsymmetricRows(ids, activeToolTag);
-  }, [activeToolTag, byId]);
-
-  const mobileItems = useMemo(() => {
+  const displayItems = useMemo(() => {
     const ids = activeToolTag
       ? getProjectsForToolTag(activeToolTag)
       : [...worksDisplayOrder];
@@ -292,7 +214,8 @@ export function WorksIndex({ language }: { language: Language }) {
       <div className="page-shell">
         <motion.div
           ref={worksHeadingRef}
-          className="mb-14 flex flex-wrap items-baseline gap-x-6 gap-y-2 scroll-mt-[96px]"          initial={{ opacity: 0 }}
+          className="mb-14 flex flex-wrap items-baseline gap-x-6 gap-y-2 scroll-mt-[96px]"
+          initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
@@ -314,44 +237,28 @@ export function WorksIndex({ language }: { language: Language }) {
           )}
         </motion.div>
 
-        {/* Desktop: asymmetric rows */}
-        <div className="hidden md:flex flex-col gap-14">
-          {displayRows.map((row) => {
-            const left = byId.get(row.left.id);
-            const right = row.right ? byId.get(row.right.id) : null;
-            if (!left) return null;
-
-            return (
-              <motion.div
-                key={`${row.left.id}-${row.right?.id ?? "solo"}`}
-                className="grid grid-cols-12 gap-6 items-start"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-              >
-                <WorkCard
-                  item={left}
-                  language={language}
-                  size={row.left.size}
-                  onToolTagClick={setActiveToolTag}
-                />
-                {right && row.right && (
-                  <WorkCard
-                    item={right}
-                    language={language}
-                    size={row.right.size}
-                    onToolTagClick={setActiveToolTag}
-                  />
-                )}
-              </motion.div>
-            );
-          })}
+        {/* Desktop: equal 2-column grid (3 rows × 2 cols for six works) */}
+        <div className="hidden md:grid md:grid-cols-2 gap-x-6 gap-y-14">
+          {displayItems.map((item) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <WorkCard
+                item={item}
+                language={language}
+                onToolTagClick={setActiveToolTag}
+              />
+            </motion.div>
+          ))}
         </div>
 
         {/* Mobile: single column, same reading order */}
         <div className="md:hidden flex flex-col gap-10">
-          {mobileItems.map((item) => (
+          {displayItems.map((item) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
@@ -362,7 +269,6 @@ export function WorksIndex({ language }: { language: Language }) {
               <WorkCard
                 item={item}
                 language={language}
-                size="lg"
                 showTagAlways
                 onToolTagClick={setActiveToolTag}
               />

@@ -48,16 +48,6 @@ export const aquasWillDetailCopy = {
     output: { en: "", zh: "" },
     pipeline: [
       {
-        key: "flowchart" as const,
-        title: {
-          en: "Flowchart of Gameplay",
-          zh: "玩法流程图",
-        },
-        text: { en: "", zh: "" },
-        flowchartKey: "mechanism" as const,
-        flowchartScale: 0.5 as const,
-      },
-      {
         key: "character" as const,
         title: {
           en: "Character & Animation Design",
